@@ -46,10 +46,12 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_11
 
     dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
         compileOnly('org.projectlombok:lombok')
+        implementation 'com.h2database:h2'
         compile('org.springframework.boot:spring-boot-starter-jdbc')
         testCompile('org.springframework.boot:spring-boot-starter-test')
-        runtime('mysql:mysql-connector-java')
+//        runtime('mysql:mysql-connector-java')
     }
 
     clean {
@@ -59,37 +61,37 @@ subprojects {
 
 project(':market-common') {
     dependencies {
-        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//        compile('org.springframework.boot:spring-boot-starter-data-jpa')
     }
 }
 
 project(':market-order') {
     dependencies {
         compile project(':market-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
+//        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
 project(':market-product') {
     dependencies {
         compile project(':market-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
+//        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
 project(':market-search') {
     dependencies {
         compile project(':market-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
+//        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
 project(':market-shop') {
     dependencies {
         compile project(':market-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
+//        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
 project(':market-user') {
     dependencies {
         compile project(':market-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
+//        compile('org.springframework.boot:spring-boot-starter-web')
     }
 }
