@@ -1,2 +1,40 @@
+spring:
+  # db 설정
+#  datasource:
+#    hikari:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      jdbc-url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+#      username:
+#      password:
+#    url:
+#    driver-class-name:
+#    username: root
+#    password: 1
+
+  # jpa 설정
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate :
+        format_sql : true
+    database: mysql
+
+  # mail 설정
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+app:
+  host: http://localhost:8084
 server:
   port: 8085
