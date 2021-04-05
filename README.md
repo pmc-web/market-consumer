@@ -19,7 +19,7 @@ PMC(Project Makes Coding Skill Up)
 
 ## 기획
 
-[기획 문서](https://www.notion.so/399b215d46a549a39a106945057abe18)
+[기획 문서]()
 
 ---
 
