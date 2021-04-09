@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -33,4 +34,9 @@ public class Order {
     @Column
     private OrderStatus status;
 
+    @Column
+    private LocalDateTime regDate;
+
+    @Column
+    private LocalDateTime updateDate;
 }
