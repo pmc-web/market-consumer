@@ -12,14 +12,14 @@ spring:
 #    password: 1
 
   # jpa 설정
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate :
-        format_sql : true
-    database: mysql
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate :
+#        format_sql : true
+#    database: mysql
 
   # mail 설정
   mail:
