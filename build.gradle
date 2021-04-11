@@ -69,6 +69,7 @@ project(':market-order') {
     // order 모듈에만 필요한 라이브러리 명시
     dependencies {
         compile project(':market-common')
+        compile project(':market-product')
     }
 }
 project(':market-product') {
