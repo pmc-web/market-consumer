@@ -33,8 +33,14 @@ public class User {
     private String nickname;
 
     @Column
+    private UserRole userRole;
+
+    @Column
     private UserStatus userStatus;
 
     @Column
     private LocalDateTime regDate;
+
+    @Column
+    private LocalDateTime updateDate;
 }
