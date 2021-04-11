@@ -3,18 +3,17 @@ package com.pmc.market.entity;
 import lombok.Getter;
 
 @Getter
-public enum  UserStatus {
+public enum UserStatus {
+    WAIT(0, "대기 상태"),
+    ACTIVE(1, "활성화 상태"),
+    PAUSE(2, "일시정지 상태"),
+    STOP(3, "정지 상태");
 
-    MANAGER("관리자", 0),
-    BUYER("구매자", 1),
-    SELLER("판매자", 2);
+    private Integer id;
+    private String title;
 
-    private String userStatus;
-    private int userLevel;
-
-    UserStatus(String userStatus, int userLevel){
-        this.userStatus = userStatus;
-        this.userLevel = userLevel;
+    UserStatus(Integer id, String title){
+        this.id = id;
+        this.title = title;
     }
-
 }
