@@ -1,20 +1,20 @@
 spring:
   # db 설정
-#  datasource:
+  datasource:
 #    hikari:
 #      driver-class-name: com.mysql.jdbc.Driver
-#      jdbc-url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
-#      username:
-#      password:
-#    url:
-#    driver-class-name:
-#    username: root
-#    password: 1
+#      jdbc-url: jdbc:mysql://localhost:3306/market_consumer?serverTimezone=UTC&characterEncoding=UTF-8
+#      username: root
+#      password: dksthddl
+    url: jdbc:mysql://localhost:3306/market_consumer?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: dksthddl
 
   # jpa 설정
 #  jpa:
 #    hibernate:
-#      ddl-auto: update
+#      ddl-auto: create
 #    show-sql: true
 #    properties:
 #      hibernate :
