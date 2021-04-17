@@ -38,7 +38,7 @@ public class User {
     private Role role;
 
     @Column(name = "status")
-    private UserStatus userStatus;
+    private Status status;
 
     @Column
     private LocalDateTime regDate;
@@ -47,13 +47,18 @@ public class User {
     private LocalDateTime updateDate;
 
     @Builder
-    public User(String nickname, String email, Role role){
+    public User(String nickname, String email, Role role, Status status){
         this.nickname = nickname;
         this.email = email;
         this.role = role;
+        this.status = status;
     }
 
     public User update(String nickname){
         this.nickname = nickname;
+        return this;
+    }
+    public String getRoleKey(){
+        return this.role.getKey();
     }
 }
