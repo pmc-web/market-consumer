@@ -1,6 +1,7 @@
 package com.pmc.market.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,8 +33,9 @@ public class User {
     @Column
     private String nickname;
 
-    @Column(name = "role")
-    private UserRole userRole;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     @Column(name = "status")
     private UserStatus userStatus;
@@ -43,4 +45,15 @@ public class User {
 
     @Column
     private LocalDateTime updateDate;
+
+    @Builder
+    public User(String nickname, String email, Role role){
+        this.nickname = nickname;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User update(String nickname){
+        this.nickname = nickname;
+    }
 }
