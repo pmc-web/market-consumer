@@ -12,22 +12,24 @@ import java.util.Map;
 public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
-    private String nickname;
+    private String name;
     private String email;
+    private String picture;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes,
-                           String nameAttributeKey, String nickname,
-                           String email) {
+                           String nameAttributeKey, String name,
+                           String email, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
-        this.nickname = nickname;
+        this.name = name;
         this.email = email;
+        this.picture = picture;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        if("naver".equals(registrationId)) {
-            return ofNaver("id", attributes);
+        if("kakao".equals(registrationId)) {
+            return ofKakao("id", attributes);
         }
 
         return ofGoogle(userNameAttributeName, attributes);
@@ -36,19 +38,20 @@ public class OAuthAttributes {
     private static OAuthAttributes ofGoogle(String userNameAttributeName,
                                             Map<String, Object> attributes) {
         return OAuthAttributes.builder()
-                .nickname((String) attributes.get("nickname"))
+                .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
 
-    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuthAttributes.builder()
-                .nickname((String) response.get("nickname"))
+                .name((String) response.get("name"))
                 .email((String) response.get("email"))
+                .picture((String) attributes.get("picture"))
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -56,7 +59,7 @@ public class OAuthAttributes {
 
     public User toEntity() {
         return User.builder()
-                .nickname(nickname)
+                .name(name)
                 .email(email)
                 .role(Role.BUYER)
                 .status(Status.ACTIVE)

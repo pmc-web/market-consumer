@@ -31,7 +31,7 @@ public class User {
     private String address;
 
     @Column
-    private String nickname;
+    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -40,6 +40,8 @@ public class User {
     @Column(name = "status")
     private Status status;
 
+    private String picture;
+
     @Column
     private LocalDateTime regDate;
 
@@ -47,15 +49,17 @@ public class User {
     private LocalDateTime updateDate;
 
     @Builder
-    public User(String nickname, String email, Role role, Status status){
-        this.nickname = nickname;
+    public User(String name, String email, Role role, Status status, String picture){
+        this.name = name;
         this.email = email;
         this.role = role;
         this.status = status;
+        this.picture = picture;
     }
 
-    public User update(String nickname){
-        this.nickname = nickname;
+    public User update(String name, String picture){
+        this.name = name;
+        this.picture = picture;
         return this;
     }
     public String getRoleKey(){
