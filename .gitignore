@@ -37,7 +37,3 @@ out/
 .vscode/
 /build.gradle
 logs/
-market-user/src/main/java/com/pmc/market/config/
-market-user/src/main/java/com/pmc/market/controller/
-market-user/src/main/java/com/pmc/market/domain/
-market-user/src/main/java/com/pmc/market/repository/
