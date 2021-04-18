@@ -1,23 +1,21 @@
 package com.pmc.market.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShopImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ImageType type;
 

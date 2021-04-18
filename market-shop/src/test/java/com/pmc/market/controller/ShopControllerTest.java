@@ -1,8 +1,12 @@
 package com.pmc.market.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
+import com.pmc.market.dto.ShopDto;
 import com.pmc.market.entity.Shop;
+import com.pmc.market.model.ShopInput;
 import com.pmc.market.service.ShopService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,6 +73,33 @@ public class ShopControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(2)))
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @DisplayName("makeShop() 테스트")
+    @Test
+    void 쇼핑몰_등록() throws Exception {
+        ShopInput shop = ShopInput.builder()
+                .name("쇼핑몰1")
+                .telephone("010-0000-0000")
+                .businessName("쇼핑몰1")
+                .fullDescription("쇼핑몰 설명")
+                .owner("주인")
+                .shortDescription("악세사리 쇼핑몰")
+                .period(1) // 유지기간 1년
+                .businessNumber("00-000-000")
+                .build();
+//        doThrow(new Exception()).when(shopService).makeShop(shopDto);
+//        shopService.makeShop(shop);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops")
+                .content(objectMapper.writeValueAsString(shop))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
