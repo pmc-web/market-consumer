@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService productService;
+    private ProductService productService;
 
-    @GetMapping("/list")
+    @GetMapping("")
     public ResponseEntity<?> getAllShops(){
         return ResponseEntity.ok(ResponseMessage.success(productService.findAll()));
     }
