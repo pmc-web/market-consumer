@@ -1,10 +1,10 @@
 package com.pmc.market.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public enum Role {
 
     MANAGER("ROLE_MANAGER","관리자"),
@@ -13,4 +13,5 @@ public enum Role {
 
     private final String key;
     private final String title;
+
 }

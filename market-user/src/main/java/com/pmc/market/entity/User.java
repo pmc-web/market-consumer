@@ -1,5 +1,6 @@
 package com.pmc.market.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,12 +35,14 @@ public class User {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
+    @NotNull
     private Role role;
 
-    @Column(name = "status")
+    @Column
     private Status status;
 
+    @Column
     private String picture;
 
     @Column

@@ -1,11 +1,10 @@
 package com.pmc.market.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public enum Status {
     WAIT("ROLE_WAIT", "대기 상태"),
     ACTIVE("ROLE_ACTIVE", "활성화 상태"),
