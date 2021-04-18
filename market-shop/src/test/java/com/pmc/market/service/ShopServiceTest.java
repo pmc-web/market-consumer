@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})
-class ShopServiceTDD {
+class ShopServiceTest {
 
     @Autowired
     private ShopRepository shopRepository;
