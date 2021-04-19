@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,13 +51,12 @@ class ProductControllerTest {
                 .amount(20)
                 .description("두번쨰상품명")
                 .build());
-        when(ProductService.findAll()).thenReturn(products);
+        when(productService.findAll()).thenReturn(products);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(2)))
                 .andDo(print());
-        )
     }
 }
