@@ -1,5 +1,6 @@
 package com.pmc.market.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.dto.ShopDto;
@@ -24,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +37,7 @@ public class ShopControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
     @MockBean
     private ShopService shopService;
 
@@ -76,7 +77,6 @@ public class ShopControllerTest {
                 .andDo(print());
     }
 
-    @WithMockUser
     @DisplayName("makeShop() 테스트")
     @Test
     void 쇼핑몰_등록() throws Exception {
@@ -90,8 +90,7 @@ public class ShopControllerTest {
                 .period(1) // 유지기간 1년
                 .businessNumber("00-000-000")
                 .build();
-//        doThrow(new Exception()).when(shopService).makeShop(shopDto);
-//        shopService.makeShop(shop);
+        doNothing().when(shopService).makeShop(shop);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -100,6 +99,29 @@ public class ShopControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("exception handler 테스트")
+    void 유효성체크() throws Exception {
+        ShopInput shop = ShopInput.builder()
+                .name("쇼핑몰1")
+                .telephone("010-0000-0000")
+                .businessName("쇼핑몰1")
+                .fullDescription("쇼핑몰 설명")
+                .owner("주인")
+                .shortDescription("악세사리 쇼핑몰")
+                .period(1) // 유지기간 1년
+                .businessNumber(null)
+                .build();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops")
+                .content(objectMapper.writeValueAsString(shop))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 }

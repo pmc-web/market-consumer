@@ -1,6 +1,7 @@
 package com.pmc.market.service;
 
 import com.pmc.market.entity.Shop;
+import com.pmc.market.exception.OnlyCanMakeShopOne;
 import com.pmc.market.model.ShopInput;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void makeShop(ShopInput shopInput) {
+        // TODO : 개인당 1개의 shop 만 생성 가능하도록
+//        if (shopRepository.findByOwner("user.getEmail()")) {
+//            throw new OnlyCanMakeShopOne("계정당 1개의 마켓만 만들 수 있습니다.");
+//        }
+
         shopRepository.save(Shop.builder()
                 .name(shopInput.getName())
                 .period(LocalDateTime.now().plusYears(shopInput.getPeriod()))
