@@ -1,12 +1,12 @@
 package com.pmc.market.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -20,6 +20,7 @@ public class User {
     private Long id;
 
     @Column
+    @NotNull
     private String email;
 
     @Column
@@ -32,6 +33,7 @@ public class User {
     private String address;
 
     @Column
+    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING)

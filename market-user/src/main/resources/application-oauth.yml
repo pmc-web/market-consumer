@@ -14,6 +14,7 @@ spring:
             client-id: 700d5a1ccfd740ee923796e42c90eba4
             client-secret: x5BzOQ8EcwFq3LRW9j8te899g4WVTDYa
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+#            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
             scope:
               - profile
             client-authentication-method: POST
