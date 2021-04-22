@@ -38,7 +38,7 @@
         org.springframework.web 하위 동작하는 디버그 로그를 콘솔, 파일에 출력
         지역적인 설정
     -->
-    <logger name="org.springframework.web" level="DEBUG">
+    <logger name="org.springframework.web" level="DEBUG" additivity="false">
         <appender-ref ref="Console" />
         <appender-ref ref="FILE" />
     </logger>

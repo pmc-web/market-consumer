@@ -20,7 +20,6 @@ public class User {
     private Long id;
 
     @Column
-    @NotNull
     private String email;
 
     @Column
@@ -33,12 +32,10 @@ public class User {
     private String address;
 
     @Column
-    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING)
     @Column
-    @NotNull
     private Role role;
 
     @Column
