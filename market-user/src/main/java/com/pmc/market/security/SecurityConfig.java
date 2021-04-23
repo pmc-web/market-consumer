@@ -24,9 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/").hasRole(Status.ACTIVE.name())
                 .anyRequest().authenticated()
                 .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .and()
                 // Oauth2 로그인 기능에 대한 여러 설정의 진입점
                 .oauth2Login()
                 .userInfoEndpoint()

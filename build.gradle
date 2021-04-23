@@ -49,6 +49,7 @@ subprojects {
         annotationProcessor ('org.projectlombok:lombok:1.18.12')
 
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'com.google.code.gson:gson'
 
         // 소셜기능 구현시 필요한 의존성
         compile('org.springframework.boot:spring-boot-starter-oauth2-client')
