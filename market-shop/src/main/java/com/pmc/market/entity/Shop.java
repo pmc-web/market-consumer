@@ -1,48 +1,46 @@
 package com.pmc.market.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column
+    @NotNull
     private String name;
 
-    @Column
+    @NotNull
     private LocalDateTime period;
 
-    @Column
+    @NotNull
     private String fullDescription;
 
-    @Column
+    @NotNull
     private String shortDescription;
 
-    @Column
+    @NotNull
     private LocalDateTime regDate;
 
-    @Column
+    @NotNull
     private String businessNumber;
 
-    @Column
+    @NotNull
     private String businessName;
 
-    @Column
+    @NotNull
     private String owner;
 
-    @Column
+    @NotNull
     private String telephone;
 
 //    @ManyToOne
