@@ -26,37 +26,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ProductApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ProductControllerTest {
+public class ProductControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @MockBean
     private ProductService productService;
 
     @Test
-    void 상품_목록_가져오기() throws Exception {
+    void 쇼핑몰_목록을_가져온다() throws Exception {
         List<Product> products = new ArrayList<>();
         products.add(Product.builder()
                 .id(1L)
-                .name("첫번째상품")
-                .price(100)
+                .name("귀걸이")
+                .price(1000)
                 .amount(10)
-                .description("첫번쨰상품명")
+                .description("귀걸이입니다.")
                 .build());
         products.add(Product.builder()
                 .id(2L)
-                .name("두번째상품")
-                .price(200)
+                .name("걸이")
+                .price(2000)
                 .amount(20)
-                .description("두번쨰상품명")
+                .description("목걸이입니다.")
                 .build());
-        when(productService.findAll()).thenReturn(products);
+        when(productService.findProducts()).thenReturn(products);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/products")
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/v2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(2)))
                 .andDo(print());
     }
+
 }
