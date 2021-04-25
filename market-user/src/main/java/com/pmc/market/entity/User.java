@@ -47,6 +47,7 @@ public class User{
     private Role role;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column
@@ -57,6 +58,9 @@ public class User{
 
     @Column
     private LocalDateTime updateDate;
+
+    @Column
+    private String authKey;
 
     @Builder
     public User(String name, String email, Role role, Status status, String picture){

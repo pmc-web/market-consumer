@@ -55,6 +55,11 @@ subprojects {
     clean {
         delete 'out'
     }
+
+    jar {
+        enabled = true
+    }
+
 }
 
 project(':market-common') {

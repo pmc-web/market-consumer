@@ -1,13 +1,12 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.entity.User;
-import com.pmc.market.entity.UserCreateRequestVo;
+import com.pmc.market.entity.UserCreateRequestDto;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,14 +22,14 @@ public class UserController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/sign-up")
-    public void signUp(@RequestBody @Valid UserCreateRequestVo userCreateRequestDto) {
+    public void signUp(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
         User user = userCreateRequestDto.toEntity(userCreateRequestDto);
         userService.signUp(user);
     }
 
     @ApiOperation(value = "유저 생성")
     @PostMapping
-    public void createUser(@RequestBody @Valid UserCreateRequestVo userCreateRequestDto) {
+    public void createUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
         User user = userCreateRequestDto.toEntity(userCreateRequestDto);
         userService.createUser(user);
     }

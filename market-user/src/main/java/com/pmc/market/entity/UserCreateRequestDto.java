@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserCreateRequestVo {
+public class UserCreateRequestDto {
     @NotNull(message="이메일을 입력하세요")
     @Email(message = "이메일 형식에 맞지 않습니다.")
     private String email;
@@ -23,7 +23,7 @@ public class UserCreateRequestVo {
             message = "8-16자의 영문 대소문자, 숫자, 특수문자 혼합")
    private String password;
 
-   public User toEntity(UserCreateRequestVo user) {
+   public User toEntity(UserCreateRequestDto user) {
        return User.builder()
                .role(Role.BUYER)
                .email(user.email)

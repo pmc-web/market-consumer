@@ -1,12 +1,11 @@
 package com.pmc.market.service;
 
+import com.pmc.market.error.exception.BusinessException;
+import com.pmc.market.error.exception.ErrorCode;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @Log4j2
@@ -62,10 +61,9 @@ public class MailSendService {
             sendMail.setFrom("email.admin.account","관리자");
             sendMail.setTo(email);
             sendMail.send();
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            throw new BusinessException(ErrorCode.EMAIL_SEND_ERROR);
         }
     }
 
@@ -84,10 +82,9 @@ public class MailSendService {
             sendMail.setFrom("email.admin.account","관리자");
             sendMail.setTo(email);
             sendMail.send();
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            throw new BusinessException(ErrorCode.EMAIL_SEND_ERROR);
         }
     }
 }
