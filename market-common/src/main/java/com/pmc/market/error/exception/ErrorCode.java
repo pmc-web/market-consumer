@@ -11,7 +11,10 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500, "C004", "서버에 요청 중 에러가 발생했습니다."),
     INVALID_TYPE_VALUE(400, "C005", "올바르지 않는 형식입니다."),
     HANDLE_ACCESS_DENIED(403, "C006", "해당 요청은 금지되어있습니다."),
-    DUPLICATE_ENTITY(409, "C007", "중복된 값이 있습니다.")
+    DUPLICATE_ENTITY(409, "C007", "중복된 값이 있습니다."),
+
+    // User
+    EMAIL_SEND_ERROR(500, "U001", "이메일 전송에 실패했습니다.")
     ;
 
     private final String code;
