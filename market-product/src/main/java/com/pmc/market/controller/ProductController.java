@@ -16,18 +16,18 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/v1")
+    @PostMapping("/save")
     public ResponseEntity<?> saveProduct(@RequestBody @Valid Product product){ // @RequestBody HTTP 요청몸체를 자바객체로 전달받음
         productService.saveProduct(product);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
-    @GetMapping("/v2")
+    @GetMapping("/findAll")
     public ResponseEntity<?> findProducts(){
         return ResponseEntity.ok(ResponseMessage.success(productService.findProducts()));
     }
 
-    @GetMapping("/v3")
+    @GetMapping("/findOne")
     public ResponseEntity<?> findOneProduct(Long productId){
         return ResponseEntity.ok(ResponseMessage.success(productService.findOneProduct(productId)));
     }

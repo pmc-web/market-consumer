@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +30,13 @@ class ProductServiceImplTest {
     public void 상품_등록() throws Exception {
         //given 이런게 주어졌을 때
         Product products = Product.builder()
-                .id(1L)
-                .name("귀걸이")
-                .price(1000)
-                .amount(10)
-                .description("귀걸이입니다.")
+                .id(2L)
+                .name("목걸이")
+                .price(2000)
+                .amount(20)
+                .description("목걸이입니다.")
                 .build();
+
 
         //when 이렇게 하면
         productRepository.save(products);
@@ -48,17 +50,12 @@ class ProductServiceImplTest {
     public void 상품_단건() throws Exception {
         //given 이런게 주어졌을 때
         Product products = Product.builder()
-                .id(2L)
-                .name("목걸이")
-                .price(1000)
-                .amount(10)
-                .description("목걸이")
+                .id(1L)
                 .build();
 
         //when 이렇게 하면
         Product result = productRepository.findOne(products.getId());
         em.flush();
-
         //then 이렇게 된다.
         assertEquals(products.getId(), result.getId());
     }
@@ -66,25 +63,10 @@ class ProductServiceImplTest {
     @Test
     public void 상품_복수건() throws Exception {
         //given 이런게 주어졌을 때
-        Product products = Product.builder()
-                .id(2L)
-                .name("목걸이")
-                .price(1000)
-                .amount(10)
-                .description("목걸이")
-                .build();
-        products.builder()
-                .id(3L)
-                .name("반지")
-                .price(5000)
-                .amount(20)
-                .description("반지입니다")
-                .build();
 
         //when 이렇게 하면
         List<Product> result = productRepository.findAll();
         em.flush();
-
         //then 이렇게 된다.
         assertEquals(2, result.size());
     }

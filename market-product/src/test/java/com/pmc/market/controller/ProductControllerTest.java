@@ -1,5 +1,6 @@
 package com.pmc.market.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ProductApplication;
 import com.pmc.market.entity.Product;
 import com.pmc.market.service.ProductService;
@@ -10,23 +11,24 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.Mockito.*;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {ProductApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class ProductControllerTest {
+@SpringBootTest(classes = {ProductApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class ProductControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -34,29 +36,27 @@ public class ProductControllerTest {
     private ProductService productService;
 
     @Test
-    void 쇼핑몰_목록을_가져온다() throws Exception {
-        List<Product> products = new ArrayList<>();
-        products.add(Product.builder()
+    public void 상품_등록() throws Exception {
+        //given 이런게 주어졌을 때
+        Product products = Product.builder()
                 .id(1L)
                 .name("귀걸이")
                 .price(1000)
                 .amount(10)
                 .description("귀걸이입니다.")
-                .build());
-        products.add(Product.builder()
-                .id(2L)
-                .name("걸이")
-                .price(2000)
-                .amount(20)
-                .description("목걸이입니다.")
-                .build());
-        when(productService.findProducts()).thenReturn(products);
+                .build();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/products/v2")
-                .contentType(MediaType.APPLICATION_JSON))
+        //when 이렇게 하면
+        doNothing().when(productService).saveProduct(products);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        //then 이렇게 된다.
+        mockMvc.perform(MockMvcRequestBuilders.post("/products/save")
+                .content(objectMapper.writeValueAsString(products))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data", hasSize(2)))
                 .andDo(print());
     }
-
 }
