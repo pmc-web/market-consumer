@@ -4,16 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class User {
+@Builder
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +46,7 @@ public class User {
     private Role role;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column
@@ -49,6 +57,9 @@ public class User {
 
     @Column
     private LocalDateTime updateDate;
+
+    @Column
+    private String authKey;
 
     @Builder
     public User(String name, String email, Role role, Status status, String picture){
@@ -67,4 +78,5 @@ public class User {
     public String getRoleKey(){
         return this.role.getKey();
     }
+
 }

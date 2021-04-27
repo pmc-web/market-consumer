@@ -1,25 +1,23 @@
 package com.pmc.market.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @NotNull
     private String mainCategory;
 
-    @Column
+    @NotNull
     private String subCategory;
 }

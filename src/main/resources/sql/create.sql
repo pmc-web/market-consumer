@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `market`.`user` (
   `status` VARCHAR(20) NULL DEFAULT NULL COMMENT '계정상태',
   `picture` VARCHAR(20) NULL DEFAULT NULL COMMENT '프로필이미지',
   `reg_date` DATE NOT NULL COMMENT '가입일자',
-  `update_date` DATE NOT NULL COMMENT '수정일자',
+  `update_date` DATE NULL COMMENT '수정일자',
+  `auth_key` VARCHAR(20) NULL COMMENT '인증 키',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
