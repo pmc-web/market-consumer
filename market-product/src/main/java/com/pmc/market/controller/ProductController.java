@@ -27,8 +27,8 @@ public class ProductController {
         return ResponseEntity.ok(ResponseMessage.success(productService.findProducts()));
     }
 
-    @GetMapping("/findOne")
-    public ResponseEntity<?> findOneProduct(Long productId){
-        return ResponseEntity.ok(ResponseMessage.success(productService.findOneProduct(productId)));
+    @GetMapping("/findOne/{id}")
+    public ResponseEntity<?> findOneProduct(@PathVariable Long id){
+        return ResponseEntity.ok(ResponseMessage.success(productService.findOneProduct(id)));
     }
 }
