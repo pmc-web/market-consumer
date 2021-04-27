@@ -6,40 +6,37 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter // todo : setter X
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 @Entity
-@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+//    @NotNull
     private String email;
 
-    @NotNull
-    private AuthProvider provider;
+//    @NotNull
+    private String prividerName;
 
-    @NotNull
-//    @JsonIgnore TODO : search
+//    @NotNull
     private String password;
 
-    @NotNull
     private String address;
 
-    @NotNull
+//    @NotNull
     private String name;
 
+//    @NotNull
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Role role;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -55,6 +52,7 @@ public class User {
     @Column
     private String authKey;
 
+//    @Builder
     public User(String name, String email, Role role, Status status, String picture) {
         this.name = name;
         this.email = email;
