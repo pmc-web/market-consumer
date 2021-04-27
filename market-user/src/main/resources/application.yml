@@ -1,32 +1,56 @@
 spring:
   # db 설정
   datasource:
-    hikari:
-      driver-class-name: com.mysql.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3306/market?serverTimezone=UTC&characterEncoding=UTF-8
-      username: market
-      password: market
-    username: market
-    password: market
-    url: jdbc:mysql://localhost:3306/market?serverTimezone=UTC&characterEncoding=UTF-8
-    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/market_consumer?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: dksthddl
 
   # jpa 설정
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate :
         format_sql : true
     database: mysql
+
+  # security
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: c1ba1f09ecd07ec2d41685d595cf8f15
+            client-secert: hZZUJawJxIHACvlIOG8yQFHWMUR9D2FB
+            redirect-uri: 'http://localhost:8086/login/oauth2/code/kakao'
+            authorization-grant-type: authorization_code
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-info-authentication-method: POST
+
   profiles:
     include: oauth
 app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+    oauth2:
+      # OAuth2 공급자로 성공적으로 인증 한 후 사용자에 대한 인증 토큰을 생성하고 토큰을
+      # 프론트 엔드 클라이언트가 /oauth2/authorize 요청에서 지정한 redirectUri입니다.
+      # 쿠키는 모바일 클라이언트에서 잘 작동하지 않기 때문에 사용하지 않습니다.
+      authorizedRedirectUris:
+        - http://localhost:8086/login/oauth2/code/kakao
+        - http://localhost:3000/oauth2/redirect
+
   host: http://localhost:8084
 server:
   port: 8086
 email:
   admin:
     account: certification0test@gmail.com
-    password: @@PASSWORD@@
+    password: PCMmanager!

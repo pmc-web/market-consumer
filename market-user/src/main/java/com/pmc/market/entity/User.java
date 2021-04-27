@@ -1,51 +1,45 @@
 package com.pmc.market.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 @Entity
 @Builder
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotNull
     private String email;
 
-    @Column
-    private String social;
+    @NotNull
+    private AuthProvider provider;
 
-    @Column
+    @NotNull
+//    @JsonIgnore TODO : search
     private String password;
 
-    @Column
+    @NotNull
     private String address;
 
-    @Column
+    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @NotNull
     private Role role;
 
-    @Column
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -61,8 +55,7 @@ public class User{
     @Column
     private String authKey;
 
-    @Builder
-    public User(String name, String email, Role role, Status status, String picture){
+    public User(String name, String email, Role role, Status status, String picture) {
         this.name = name;
         this.email = email;
         this.role = role;
@@ -70,12 +63,13 @@ public class User{
         this.picture = picture;
     }
 
-    public User update(String name, String picture){
+    public User update(String name, String picture) {
         this.name = name;
         this.picture = picture;
         return this;
     }
-    public String getRoleKey(){
+
+    public String getRoleKey() {
         return this.role.getKey();
     }
 
