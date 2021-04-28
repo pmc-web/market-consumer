@@ -1,8 +1,8 @@
 package com.pmc.market.security.auth.dto;
 
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.Status;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.Role;
+import com.pmc.market.model.entity.Status;
+import com.pmc.market.model.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 

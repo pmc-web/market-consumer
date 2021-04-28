@@ -1,12 +1,9 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.dto.ShopDto;
 import com.pmc.market.model.ResponseMessage;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.service.ShopService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

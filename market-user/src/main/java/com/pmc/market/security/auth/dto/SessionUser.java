@@ -1,6 +1,6 @@
 package com.pmc.market.security.auth.dto;
 
-import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.User;
 import lombok.Getter;
 
 import java.io.Serializable;

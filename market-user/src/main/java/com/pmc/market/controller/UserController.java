@@ -1,7 +1,7 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.User;
-import com.pmc.market.entity.UserCreateRequestDto;
+import com.pmc.market.model.entity.User;
+import com.pmc.market.model.entity.UserCreateRequestDto;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,6 +1,6 @@
 package com.pmc.market.security.auth;
 
-import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.User;
 import com.pmc.market.repository.UserRepository;
 import com.pmc.market.security.auth.dto.OAuthAttributes;
 import com.pmc.market.security.auth.dto.SessionUser;

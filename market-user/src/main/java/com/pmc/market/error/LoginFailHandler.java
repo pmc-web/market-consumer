@@ -1,6 +1,6 @@
 package com.pmc.market.error;
 
-import com.pmc.market.entity.Status;
+import com.pmc.market.model.entity.Status;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

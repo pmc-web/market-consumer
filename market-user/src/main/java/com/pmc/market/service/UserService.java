@@ -1,7 +1,7 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Status;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.Status;
+import com.pmc.market.model.entity.User;
 
 public interface UserService {
     User createUser(User user);

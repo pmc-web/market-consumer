@@ -1,8 +1,7 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Shop;
-import com.pmc.market.exception.OnlyCanMakeShopOne;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
