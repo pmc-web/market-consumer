@@ -20,19 +20,19 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotNull
     private String email;
 
-    @Column
+    @NotNull
     private String social;
 
-    @Column
+    @NotNull
     private String password;
 
     @Column
     private String address;
 
-    @Column
+    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING)
