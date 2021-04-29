@@ -1,22 +1,20 @@
 spring:
   # db 설정
-  # jdbc:h2:tcp://localhost/~/market
   datasource:
-    #      jdbc-url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
-    url: jdbc:h2:tcp://localhost/~/market
-    username: sa
-    password:
-    #      driver-class-name: com.mysql.jdbc.Driver
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/market-consumer?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1
 
   # jpa 설정
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
     properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+      hibernate :
+        format_sql : true
+    database: mysql
 
 server:
   port: 8083
