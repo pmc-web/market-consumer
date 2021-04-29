@@ -61,6 +61,10 @@ subprojects {
         delete 'out'
     }
 
+    bootJar {
+        enabled = false
+    }
+
     jar {
         enabled = true
     }

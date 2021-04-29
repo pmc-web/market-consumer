@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Setter // todo : setter X
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -22,25 +22,24 @@ public class User {
 //    @NotNull
     private String email;
 
-//    @NotNull
+    @Column
     private String prividerName;
 
-//    @NotNull
+    @Column
     private String password;
 
+    @Column
     private String address;
 
-//    @NotNull
+    @Column
     private String name;
 
-//    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column
     private String picture;
 
     @Column
@@ -51,24 +50,5 @@ public class User {
 
     @Column
     private String authKey;
-
-//    @Builder
-    public User(String name, String email, Role role, Status status, String picture) {
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.status = status;
-        this.picture = picture;
-    }
-
-    public User update(String name, String picture) {
-        this.name = name;
-        this.picture = picture;
-        return this;
-    }
-
-    public String getRoleKey() {
-        return this.role.getKey();
-    }
 
 }
