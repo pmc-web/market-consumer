@@ -2,7 +2,6 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.dto.ShopDto;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.service.ShopService;
