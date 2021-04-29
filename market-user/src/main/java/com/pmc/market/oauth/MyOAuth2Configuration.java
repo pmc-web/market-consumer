@@ -9,11 +9,6 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 
 import java.util.Collections;
 
-/**
- * Created by momentjin@gmail.com on 2019-12-21
- * Github : http://github.com/momentjin
- */
-
 @Configuration
 public class MyOAuth2Configuration {
 

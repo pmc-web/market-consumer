@@ -1,10 +1,11 @@
 package com.pmc.market.oauth;
 import com.pmc.market.entity.Role;
+import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.InvalidValueException;
 import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -13,17 +14,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-/**
- * Created by momentjin@gmail.com on 2019-12-11
- * Github : http://github.com/momentjin
- */
-
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void saveAuthorizedClient(OAuth2AuthorizedClient oAuth2AuthorizedClient, Authentication authentication) {
@@ -34,16 +32,23 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
         String id = oauth2User.getName();
         String name = oauth2User.getAttribute("name");
 
-        User user = User.builder()
-//                .id(Long.parseLong(id))
-                .name(name)
-                .prividerName(providerType)
-                .authKey(accessToken.getTokenValue())
-                .email(id)
-                .regDate(LocalDateTime.now())
-                .role(Role.BUYER)
-                .build();
-//                new Member(id, name, providerType, accessToken.getTokenValue());
+        Optional<User> optionalUser = userRepository.findByEmail(id);
+        User user;
+        if(optionalUser.isPresent()){
+            user = optionalUser.get();
+            log.info(" 로그인 ", user.getId());
+        }else {
+            user = User.builder()
+                    .name(name)
+                    .provider(providerType)
+                    .authKey(accessToken.getTokenValue())
+                    .email(id)
+                    .status(Status.WAIT)
+                    .regDate(LocalDateTime.now())
+                    .role(Role.BUYER)
+                    .build();
+            log.info("회원가입 ");
+        }
         userRepository.save(user);
     }
 

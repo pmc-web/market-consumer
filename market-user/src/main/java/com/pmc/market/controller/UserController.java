@@ -8,6 +8,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +24,13 @@ import javax.validation.Valid;
 public class UserController {
 
     final private UserService userService;
+
+    @ApiOperation(value = "oauth 로그인 사용자 정보")
+    @GetMapping("my")
+    public String getMyAuthenticationFromSession(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return oAuth2User.toString();
+    }
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/sign-up")

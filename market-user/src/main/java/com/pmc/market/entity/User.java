@@ -20,10 +20,11 @@ public class User {
     private Long id;
 
 //    @NotNull
+    @Column(name="email" , unique=true)
     private String email;
 
     @Column
-    private String prividerName;
+    private String provider;
 
     @Column
     private String password;
@@ -51,4 +52,14 @@ public class User {
     @Column
     private String authKey;
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
+    }
 }

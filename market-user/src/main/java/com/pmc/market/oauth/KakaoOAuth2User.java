@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-class KakaoOAuth2User implements OAuth2User {
+public class KakaoOAuth2User implements OAuth2User {
 
     private String id;
     private KakaoProperties properties;
