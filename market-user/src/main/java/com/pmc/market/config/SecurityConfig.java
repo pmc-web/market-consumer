@@ -27,6 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/").hasRole(Status.ACTIVE.name())
                 .anyRequest().authenticated()
                 .and()
+//                .formLogin()
+//                .usernameParameter("email")
+//                .passwordParameter("password")
+//                .loginPage("/login")
+//                .loginProcessingUrl("/doLogin")
+//                .defaultSuccessUrl("/afterLogin")
+//                .failureHandler(new LoginFailHandler())
+//                .permitAll()
+//                .and()
                 .logout()
                 .logoutSuccessUrl("/");
     }
@@ -34,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/**", "/configuration/ui", "/swagger-resources/**",
-                "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger**", "/users/sign-up");
+                "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger**", "/users/**");
     }
 
     @Bean

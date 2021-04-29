@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,27 +41,44 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void updateUserStatus(Status status, String userEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
-        User user = optionalUser.orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+    public User updateUserStatus(Status status, String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
         user.setStatus(status);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void updateUserAuth(String auth, String userEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
-        User user = optionalUser.orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
         user.setAuthKey(auth);
         userRepository.save(user);
     }
 
     @Override
-    public User selectUserByEmail(String userEmail) {
+    public User getUserByEmail(String userEmail) {
         Optional<User> optionalUser = userRepository.findByEmail(userEmail);
         User user = optionalUser.orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
         return user;
     }
+
+    @Override
+    public User getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        return user;
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> getUserList() {
+        List<User> users = userRepository.findAll();
+        return users;
+    }
+
 
 }

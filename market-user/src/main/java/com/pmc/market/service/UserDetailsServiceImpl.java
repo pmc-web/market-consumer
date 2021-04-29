@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        User user = userService.selectUserByEmail(username);
+        User user = userService.getUserByEmail(username);
         if (user == null)
             throw new UsernameNotFoundException("유저가 존재하지 않습니다.");
         if (Status.STOP.equals(user.getStatus())) throw new LoginFailException(Status.STOP.getKey());
