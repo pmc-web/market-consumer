@@ -4,12 +4,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
-/**
- * Created by momentjin@gmail.com on 2019-12-10
- * Github : http://github.com/momentjin
- */
 public enum CustomOAuthProvider {
-
     KAKAO {
         @Override
         public ClientRegistration.Builder getBuilder() {

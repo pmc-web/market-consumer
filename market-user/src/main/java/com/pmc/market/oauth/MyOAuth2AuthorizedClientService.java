@@ -29,7 +29,7 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
         OAuth2AccessToken accessToken = oAuth2AuthorizedClient.getAccessToken();
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-        String id = oauth2User.getName();
+        String id = oauth2User.getName(); // 1712535327
         String name = oauth2User.getAttribute("name");
 
         Optional<User> optionalUser = userRepository.findByEmail(id);

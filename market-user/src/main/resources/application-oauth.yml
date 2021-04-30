@@ -3,12 +3,6 @@ spring:
     oauth2:
       client:
         registration:
-          google:
-            client-id: AIzaSyBTx7iNUsUsnXdMkTPRaB8XHJUiVIRINy4
-            client-secret: epkv9tXwvUOZAUIDHALNfrhQ
-            scope:
-              - profile
-              - email
           kakao:
             authorization-grant-type: authorization_code
             client-id: c1ba1f09ecd07ec2d41685d595cf8f15
