@@ -4,6 +4,7 @@ import com.pmc.market.error.LoginFailHandler;
 import com.pmc.market.security.auth.CustomAuthenticationFilter;
 import com.pmc.market.security.auth.CustomAuthenticationProvider;
 import com.pmc.market.security.auth.CustomLoginSuccessHandler;
+import com.pmc.market.oauth.KakaoOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@RequiredArgsConstructor
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    private final CustomOAuth2UserService customOAuth2UserService;
@@ -28,11 +29,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 // 토큰을 활용하는 경우 모든 요청에 대해 접근이 가능하도록 함
                 .anyRequest().permitAll()
+//              .antMatchers("/", "/my", "/oauth2/**", "/login/**").permitAll()
                 .and()
                 // 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // form 기반의 로그인에 대해 비활성화 한다.
+                .oauth2Login()
+                .defaultSuccessUrl("/users/my")
+                .userInfoEndpoint()
+                .customUserType(KakaoOAuth2User.class, "kakao")
+                .and()
                 .formLogin()
                 .disable()
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -50,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
