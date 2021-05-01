@@ -45,7 +45,6 @@ subprojects {
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         runtime('mysql:mysql-connector-java')
-
         implementation ('org.springframework.boot:spring-boot-starter-validation')
         annotationProcessor ('org.projectlombok:lombok:1.18.12')
         // oauth
@@ -55,6 +54,7 @@ subprojects {
         runtime('io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1')
 
         testCompile('org.springframework.security:spring-security-test')
+        implementation 'org.springframework.boot:spring-boot-starter-security'
     }
 
     clean {
