@@ -35,14 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // form 기반의 로그인에 대해 비활성화 한다.
+                .formLogin()
+                .disable()
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
                 .defaultSuccessUrl("/users/my")
                 .userInfoEndpoint()
-                .customUserType(KakaoOAuth2User.class, "kakao")
-                .and()
-                .formLogin()
-                .disable()
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .customUserType(KakaoOAuth2User.class, "kakao");
     }
 
     @Override
