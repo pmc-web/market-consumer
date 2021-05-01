@@ -1,32 +1,30 @@
 package com.pmc.market.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotNull
     private String name;
 
-    @Column
+    @NotNull
     private Integer price;
 
-    @Column
+    @NotNull
     private Integer amount;
 
-    @Column
     private String description;
 
 }
