@@ -1,36 +1,30 @@
 package com.pmc.market.entity;
 
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@Entity
+
+@Getter
 @Builder
-public class User{
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Entity
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+//    @NotNull
+    @Column(name="email" , unique=true)
     private String email;
 
     @Column
-    private String social;
+    private String provider;
 
     @Column
     private String password;
@@ -42,15 +36,11 @@ public class User{
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column
-    @NotNull
     private Role role;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column
     private String picture;
 
     @Column
@@ -62,22 +52,14 @@ public class User{
     @Column
     private String authKey;
 
-    @Builder
-    public User(String name, String email, Role role, Status status, String picture){
-        this.name = name;
-        this.email = email;
-        this.role = role;
+    public void setStatus(Status status) {
         this.status = status;
-        this.picture = picture;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public User update(String name, String picture){
-        this.name = name;
-        this.picture = picture;
-        return this;
+    public void setAuthKey(String authKey) {
+        this.authKey = authKey;
     }
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
-
 }

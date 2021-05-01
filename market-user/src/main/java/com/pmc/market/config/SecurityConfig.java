@@ -1,6 +1,7 @@
 package com.pmc.market.config;
 
 import com.pmc.market.error.LoginFailHandler;
+import com.pmc.market.oauth.KakaoOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,24 +12,24 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-@RequiredArgsConstructor
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-//    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().headers().frameOptions().disable()
+        http
+                .csrf().disable().headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/shops/**").permitAll()
-//                .antMatchers("/").hasRole(Role.BUYER.name())
-//                .antMatchers("/").hasRole(Status.ACTIVE.name())
+                .antMatchers("/", "/my", "/oauth2/**", "/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .logout()
-                .logoutSuccessUrl("/");
+                .oauth2Login()
+                .defaultSuccessUrl("/users/my")
+                .userInfoEndpoint()
+                .customUserType(KakaoOAuth2User.class, "kakao")
+        ;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
