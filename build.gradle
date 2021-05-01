@@ -47,14 +47,28 @@ subprojects {
         runtime('mysql:mysql-connector-java')
         implementation ('org.springframework.boot:spring-boot-starter-validation')
         annotationProcessor ('org.projectlombok:lombok:1.18.12')
+        // oauth
         compile('org.springframework.boot:spring-boot-starter-oauth2-client')
-        testCompile('org.springframework.security:spring-security-test')
+        // jwt
+        compile('io.jsonwebtoken:jjwt-api:0.11.1')
+        runtime('io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1')
 
+        testCompile('org.springframework.security:spring-security-test')
+        implementation 'org.springframework.boot:spring-boot-starter-security'
     }
 
     clean {
         delete 'out'
     }
+
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+    }
+
 }
 
 project(':market-common') {
@@ -97,5 +111,8 @@ project(':market-user') {
     // user 모듈에만 필요한 라이브러리 명시
     dependencies {
         compile project(':market-common')
+        // email 인증
+        compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.5'
     }
 }

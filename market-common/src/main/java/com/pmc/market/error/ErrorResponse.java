@@ -35,6 +35,13 @@ public class ErrorResponse {
         this.errors = new ArrayList<>();
     }
 
+    private ErrorResponse(final ErrorCode code, final String message) {
+        this.message = message;
+        this.status = code.getStatus();
+        this.code = code.getCode();
+        this.errors = new ArrayList<>();
+    }
+
 
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
@@ -54,6 +61,9 @@ public class ErrorResponse {
         return new ErrorResponse(ErrorCode.INVALID_TYPE_VALUE, errors);
     }
 
+    public static ErrorResponse of(final ErrorCode code, final String message) {
+        return new ErrorResponse(code, message);
+    }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)

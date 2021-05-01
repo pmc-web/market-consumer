@@ -22,14 +22,15 @@ COMMENT = '자료';
 CREATE TABLE IF NOT EXISTS `market`.`user` (
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '유저 아이디',
   `email` VARCHAR(50) NOT NULL COMMENT '이메일',
-  `password` VARCHAR(255) NOT NULL COMMENT '패스워드',
+  `password` VARCHAR(255) NULL COMMENT '패스워드',
   `address` VARCHAR(255) NULL DEFAULT NULL COMMENT '주소',
   `name` VARCHAR(20) NULL DEFAULT NULL COMMENT '이름',
   `role` VARCHAR(20) NULL DEFAULT NULL COMMENT '권한',
   `status` VARCHAR(20) NULL DEFAULT NULL COMMENT '계정상태',
   `picture` VARCHAR(20) NULL DEFAULT NULL COMMENT '프로필이미지',
   `reg_date` DATE NOT NULL COMMENT '가입일자',
-  `update_date` DATE NOT NULL COMMENT '수정일자',
+  `update_date` DATE NULL COMMENT '수정일자',
+  `auth_key` VARCHAR(20) NULL COMMENT '인증 키',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

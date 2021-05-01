@@ -47,4 +47,15 @@ public class ResponseMessage {
                 .data(null)
                 .build();
     }
+
+    public static ResponseMessage created(Object data) {
+        return ResponseMessage.builder()
+                .header(ResponseMessageHeader.builder()
+                        .result(true)
+                        .resultCode("")
+                        .message("생성")
+                        .status(HttpStatus.CREATED.value()).build())
+                .data(null)
+                .build();
+    }
 }
