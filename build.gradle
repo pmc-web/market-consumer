@@ -49,7 +49,8 @@ subprojects {
         annotationProcessor ('org.projectlombok:lombok:1.18.12')
         compile('org.springframework.boot:spring-boot-starter-oauth2-client')
         testCompile('org.springframework.security:spring-security-test')
-
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation ('io.jsonwebtoken:jjwt:0.9.1')
     }
 
     clean {

@@ -1,5 +1,8 @@
 package com.pmc.market.entity;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,26 +11,27 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@RequiredArgsConstructor
+@Getter
 public class CustomUserDetails implements UserDetails {
 
-    private String email;
-    private String password;
-
-    private Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+    @Delegate
+    private final User user;
+    private final Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
+//    @Override
+//    public String getPassword() {
+//        return user.getPassword();
+//    }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return user.getEmail();
     }
 
     @Override

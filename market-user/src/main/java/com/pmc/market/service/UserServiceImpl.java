@@ -4,6 +4,7 @@ import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.error.exception.MarketUnivException;
 import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public User signUp(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) throw new MarketUnivException("동일한 이메일의 계정이 존재합니다.", ErrorCode.INVALID_INPUT_VALUE);
         user.setStatus(Status.WAIT);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User createdUser = userRepository.save(user);
