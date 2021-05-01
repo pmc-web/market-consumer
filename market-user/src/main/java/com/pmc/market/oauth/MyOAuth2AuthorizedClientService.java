@@ -54,13 +54,11 @@ public class MyOAuth2AuthorizedClientService implements OAuth2AuthorizedClientSe
 
     @Override
     public <T extends OAuth2AuthorizedClient> T loadAuthorizedClient(String s, String s1) {
-//        throw new NotImplementedException();
         throw new InvalidValueException(s);
     }
 
     @Override
     public void removeAuthorizedClient(String s, String s1) {
-//        throw new NotImplementedException();
     }
 
 }
