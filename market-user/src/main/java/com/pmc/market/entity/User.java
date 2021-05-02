@@ -51,6 +51,10 @@ public class User {
     @Column
     private String authKey;
 
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     public void setStatus(Status status) {
         this.status = status;
     }

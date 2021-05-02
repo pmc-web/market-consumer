@@ -1,4 +1,4 @@
-package com.pmc.market.oauth;
+package com.pmc.market.security.oauth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

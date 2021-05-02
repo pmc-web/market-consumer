@@ -1,5 +1,7 @@
-package com.pmc.market.entity;
+package com.pmc.market.model.dto;
 
+import com.pmc.market.entity.Role;
+import com.pmc.market.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

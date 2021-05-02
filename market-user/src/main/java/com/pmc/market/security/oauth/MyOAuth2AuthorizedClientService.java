@@ -1,4 +1,4 @@
-package com.pmc.market.oauth;
+package com.pmc.market.security.oauth;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;

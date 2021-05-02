@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class LoginFailHandler implements AuthenticationFailureHandler {
 
-    private String message;
+    private String message = "";
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         if (exception instanceof UsernameNotFoundException) {

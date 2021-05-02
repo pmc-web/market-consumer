@@ -1,17 +1,19 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.entity.UserCreateRequestDto;
-import com.pmc.market.entity.UserStatusUpdateRequestDto;
+import com.pmc.market.model.dto.ResponseTokenDto;
+import com.pmc.market.model.dto.UserCreateRequestDto;
+import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
 import com.pmc.market.model.ResponseMessage;
-import com.pmc.market.repository.UserRepository;
+import com.pmc.market.security.auth.TokenUtils;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,18 +38,29 @@ public class UserController {
         return oAuth2User.toString();
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam()
+    })
     @ApiOperation(value = "회원가입")
     @PostMapping("/sign-up")
-    public ResponseMessage signUp(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
+    public ResponseEntity<?> signUp(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
         User user = userCreateRequestDto.toEntity(userCreateRequestDto);
         User createdUser = userService.signUp(user);
-        return ResponseMessage.created(createdUser);
+        String token = TokenUtils.generateJwtToken(createdUser);
+        return ResponseEntity.ok().body(ResponseTokenDto.builder().token(token).build());
     }
 
+    @ApiOperation(value = "로그인")
+    @PostMapping("/login/check")
+    public void signIn(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
+
+    }
+
+    @ApiOperation(value = "유저 정보")
     @GetMapping("/{id}")
-    public ResponseMessage get(@PathVariable Long id) {
+    public ResponseEntity get(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        return ResponseMessage.success(user);
+        return ResponseEntity.ok().body(ResponseMessage.success(user));
     }
 
     @ApiOperation(value = "유저 삭제")
