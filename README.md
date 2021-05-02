@@ -25,7 +25,7 @@ PMC(Project Makes Coding Skill Up)
 
 ## 설계
 
-[ERD 설계 문서](https://okdolmin.tistory.com/46)
+[ERD 설계 문서]()
 
 ---
 
