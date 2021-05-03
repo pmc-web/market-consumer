@@ -40,7 +40,8 @@ public class MailSendService {
         // 6자리 난수 인증번호 생성
         String authKey = getKey(6);
         // 인증메일 보내기
-        sendAuthCodeTemplate(authKey, email);
+        sendAuthLinkTemplate(authKey, email);
+//        sendAuthCodeTemplate(authKey, email);
         return authKey;
     }
 
