@@ -5,11 +5,10 @@ import com.pmc.market.security.auth.CustomAuthenticationFilter;
 import com.pmc.market.security.auth.CustomAuthenticationProvider;
 import com.pmc.market.security.auth.CustomLoginSuccessHandler;
 //import com.pmc.market.security.auth.JwtTokenProvider;
-import com.pmc.market.security.oauth.KakaoOAuth2User;
+//import com.pmc.market.security.oauth.KakaoOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -26,13 +25,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private final JwtTokenProvider jwtTokenProvider;
-//    @Bean
-//    public AuthenticationManager authenticationManager () throws Exception {
-//        return super.authenticationManager();
-//    }
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
@@ -48,16 +40,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .disable()
                 .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .oauth2Login()
-                .defaultSuccessUrl("/users/my")
-                .userInfoEndpoint()
-                .customUserType(KakaoOAuth2User.class, "kakao");
+                ;
+//                .oauth2Login()
+//                .defaultSuccessUrl("/users/my")
+//                .userInfoEndpoint();
+//                .customUserType(KakaoOAuth2User.class, "kakao");
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/**", "/configuration/ui", "/swagger-resources/**",
-                "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger**");
+                "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger**", "/assets/**");
     }
 
     @Bean
@@ -95,4 +88,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider());
     }
+
 }
