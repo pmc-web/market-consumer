@@ -27,4 +27,4 @@ oauth2:
       client-secret: hZZUJawJxIHACvlIOG8yQFHWMUR9D2FB
       token-url: https://kauth.kakao.com/oauth/token
       callback-url: http://localhost:8086/auth/kakao/callback
-      user-info-url: http://kauth.kakao.com/v2/user/me
+      user-info-url: https://kapi.kakao.com/v2/user/scopes

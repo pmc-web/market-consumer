@@ -3,6 +3,8 @@ package com.pmc.market.security.oauth;
 import com.pmc.market.security.oauth.KakaoOAuth;
 import com.pmc.market.security.oauth.SocialLoginType;
 
+import java.util.Map;
+
 public interface SocialOAuth {
     /**
      * 각 Social Login 페이지로 Redirect 처리할 URL Build
@@ -16,7 +18,7 @@ public interface SocialOAuth {
      * @param code API Server 에서 받아온 code
      * @return API 서버로 부터 응답받은 Json 형태의 결과를 string으로 반
      */
-    String requestAccessToken(String code);
+    Map<String, Object> requestAccessToken(String code);
 
     default SocialLoginType type() {
         if (this instanceof KakaoOAuth) {

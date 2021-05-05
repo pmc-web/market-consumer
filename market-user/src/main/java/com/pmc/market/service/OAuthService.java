@@ -1,5 +1,6 @@
 package com.pmc.market.service;
 
+import com.pmc.market.security.oauth.KakaoOAuth;
 import com.pmc.market.security.oauth.SocialLoginType;
 import com.pmc.market.security.oauth.SocialOAuth;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +26,9 @@ public class OAuthService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public String requestAccessToken(SocialLoginType socialLoginType, String code) {
+    public Map<String, Object> requestAccessToken(SocialLoginType socialLoginType, String code) {
         SocialOAuth socialOAuth = this.findSocialOauthByType(socialLoginType);
         return socialOAuth.requestAccessToken(code);
     }

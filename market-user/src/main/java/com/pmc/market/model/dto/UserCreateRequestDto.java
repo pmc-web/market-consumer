@@ -1,6 +1,7 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.entity.Role;
+import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,9 @@ public class UserCreateRequestDto {
 
     public User toEntity(UserCreateRequestDto user) {
         return User.builder()
+                .name(user.toString().substring(46)) // TODO : 초기 name 설정
+                .status(Status.WAIT)
+                .provider("default")
                 .role(Role.BUYER)
                 .email(user.email)
                 .password(user.password)

@@ -14,7 +14,8 @@ public enum ErrorCode {
     DUPLICATE_ENTITY(409, "C007", "중복된 값이 있습니다."),
 
     // User
-    EMAIL_SEND_ERROR(500, "U001", "이메일 전송에 실패했습니다.")
+    EMAIL_SEND_ERROR(500, "U001", "이메일 전송에 실패했습니다."),
+    OAUTH_ERROR(500, "U002", "OAUTH 인증에 실패했습니다")
     ;
 
     private final String code;

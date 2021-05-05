@@ -1,20 +1,20 @@
 package com.pmc.market.security.oauth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmc.market.error.exception.KakaoException;
+import com.pmc.market.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,9 +40,8 @@ public class KakaoOAuth implements SocialOAuth {
     @Value("${oauth2.social.kakao.token-url:https://kauth.kakao.com/oauth/token}")
     private String KAKAO_TOKEN_BASE_URL;
 
-    @Value("${oauth2.social.kakao.user-info-url:https://kauth.kakao.com/v2/user/me}")
+    @Value("${oauth2.social.kakao.user-info-url:https://kapi.kakao.com/v2/user/scopes}")
     private String KAKAO_USER_INFO_URL;
-
 
     @Override
     public String getOauthRedirectURL() {
@@ -60,7 +59,7 @@ public class KakaoOAuth implements SocialOAuth {
     }
 
     @Override
-    public String requestAccessToken(String code) {
+    public Map<String, Object> requestAccessToken(String code) {
         try {
             URL url = new URL(KAKAO_TOKEN_BASE_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -96,56 +95,38 @@ public class KakaoOAuth implements SocialOAuth {
             if (conn.getResponseCode() == 200) {
                 ObjectMapper mapper = new ObjectMapper();
                 Map<String, Object> map = mapper.readValue(sb.toString(), Map.class);
-                log.info(" get token {} -> {}", sb.toString(), map);
-                requestUserEmail((String) map.get("access_token"));
-                return sb.toString();
+                String userId = requestUserKakaoId((String) map.get("access_token"));
+                map.put("userId", userId);
+                return map;
             }
-            return "카카오 로그인 요청 처리 실패";
+            throw new KakaoException("Kakao 로그인 요청을 실패했습니다.", ErrorCode.OAUTH_ERROR);
         } catch (IOException e) {
-            throw new IllegalArgumentException("알 수 없는 카카오 로그인 Access Token 요청 URL 입니다 :: " + KAKAO_TOKEN_BASE_URL);
+            throw new KakaoException("알 수 없는 Kakao 로그인 Access Token 요청 URL 입니다" + KAKAO_TOKEN_BASE_URL, ErrorCode.OAUTH_ERROR);
         }
     }
 
-    public String requestUserEmail(String token) {
-        try {
-            URL url = new URL(KAKAO_USER_INFO_URL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization","Bearer "+ token);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setDoOutput(true);
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("property_keys", "kakao_account.email");
-
-            String parameterString = params.entrySet().stream()
-                    .map(x -> x.getKey() + "=" + x.getValue())
-                    .collect(Collectors.joining("&"));
-
-            BufferedOutputStream bous = new BufferedOutputStream(conn.getOutputStream());
-            bous.write(parameterString.getBytes());
-            bous.flush();
-            bous.close();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            StringBuilder sb = new StringBuilder();
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
+    public String requestUserKakaoId(String token) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(token);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity request = new HttpEntity("parameters", httpHeaders);
+        ResponseEntity response = restTemplate.exchange(URI.create(KAKAO_USER_INFO_URL), HttpMethod.GET, request, String.class);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String result = response.getBody().toString();
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                Map<String, Object> map = mapper.readValue(result, Map.class);
+                return String.valueOf(map.get("id"));
+            } catch (JsonMappingException e) {
+                log.error(e.getMessage());
+                throw new KakaoException("Kakao 사용자 정보를 가져오던 중 JsonMapping Exception 오류가 발생 했습니다", ErrorCode.OAUTH_ERROR);
+            } catch (JsonProcessingException e) {
+                log.error(e.getMessage());
+                throw new KakaoException("Kakao 사용자 정보를 가져오던 중 JsonProcessingException 오류가 발생 했습니다", ErrorCode.OAUTH_ERROR);
             }
-
-            if (conn.getResponseCode() == 200) {
-                ObjectMapper mapper = new ObjectMapper();
-                Map<String, Object> map = mapper.readValue(sb.toString(), Map.class);
-                log.info(" get token {} -> {}", sb.toString(), map);
-                requestUserEmail((String) map.get("access_token"));
-                return sb.toString();
-            }
-            return "카카오 로그인 요청 처리 실패";
-        } catch (IOException e) {
-            throw new IllegalArgumentException("알 수 없는 카카오 로그인 Access Token 요청 URL 입니다 :: " + KAKAO_TOKEN_BASE_URL);
         }
+        throw new KakaoException("Kakao 사용자 정보를 가져오던 중 서버 에러가 발생 했습니다", ErrorCode.OAUTH_ERROR);
     }
+
 }

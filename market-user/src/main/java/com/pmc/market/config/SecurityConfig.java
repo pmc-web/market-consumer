@@ -4,8 +4,6 @@ import com.pmc.market.error.LoginFailHandler;
 import com.pmc.market.security.auth.CustomAuthenticationFilter;
 import com.pmc.market.security.auth.CustomAuthenticationProvider;
 import com.pmc.market.security.auth.CustomLoginSuccessHandler;
-//import com.pmc.market.security.auth.JwtTokenProvider;
-//import com.pmc.market.security.oauth.KakaoOAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 // 토큰을 활용하는 경우 모든 요청에 대해 접근이 가능하도록 함
                 .anyRequest().permitAll()
-//                .antMatchers("/", "/users/my", "/oauth2/**", "/login/**").permitAll()
 //                .anyRequest().hasRole("USER")
                 .and()
                 // 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
@@ -39,18 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // form 기반의 로그인에 대해 비활성화 한다.
                 .formLogin()
                 .disable()
-                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                ;
-//                .oauth2Login()
-//                .defaultSuccessUrl("/users/my")
-//                .userInfoEndpoint();
-//                .customUserType(KakaoOAuth2User.class, "kakao");
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/**", "/configuration/ui", "/swagger-resources/**",
-                "/configuration/security", "/swagger-ui.html/**", "/webjars/**", "/swagger**", "/assets/**");
+        web.ignoring().antMatchers("/v2/**", "/configuration/ui", "**/swagger-resources/**",
+                "**/swagger-ui/**", "**/configuration/security", "/swagger-ui.html/**", "**/webjars/**", "**/swagger**", "/assets/**");
     }
 
     @Bean

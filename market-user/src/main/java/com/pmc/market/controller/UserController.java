@@ -1,27 +1,16 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.CustomUserDetails;
 import com.pmc.market.entity.User;
-import com.pmc.market.error.exception.BusinessException;
-import com.pmc.market.error.exception.ErrorCode;
-import com.pmc.market.model.dto.ResponseTokenDto;
 import com.pmc.market.model.dto.UserCreateRequestDto;
 import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
 import com.pmc.market.model.ResponseMessage;
-import com.pmc.market.security.auth.TokenUtils;
-import com.pmc.market.service.UserDetailsServiceImpl;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,33 +24,21 @@ public class UserController {
 
     final private UserService userService;
 
-    @ApiOperation(value = "oauth 로그인 사용자 정보")
-    @GetMapping("my")
-    public String getMyAuthenticationFromSession(@AuthenticationPrincipal OAuth2User oAuth2User) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (oAuth2User == null) throw new BusinessException("oauth error", ErrorCode.INTERNAL_SERVER_ERROR);
-        return oAuth2User.toString();
-    }
-
-    @ApiImplicitParams({
-            @ApiImplicitParam()
-    })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam()
+//    })
     @ApiOperation(value = "회원가입")
     @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
         User user = userCreateRequestDto.toEntity(userCreateRequestDto);
-        User createdUser = userService.signUp(user);
-        String token = "Bearer " + TokenUtils.generateJwtToken(createdUser);
-        return ResponseEntity.ok().body(ResponseMessage.success(ResponseTokenDto.builder().token(token).build()));
+        return ResponseEntity.ok().body(ResponseMessage.success(userService.signUp(user)));
     }
 
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
     public ResponseEntity signIn(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
         User user = userCreateRequestDto.toEntity(userCreateRequestDto);
-
-        ResponseTokenDto token = userService.signIn(user);
-        return ResponseEntity.ok().body(ResponseMessage.success(token));
+        return ResponseEntity.ok().body(ResponseMessage.success(userService.signIn(user)));
     }
 
     @ApiOperation(value = "유저 정보")

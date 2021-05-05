@@ -3,12 +3,11 @@ package com.pmc.market.service;
 import com.pmc.market.entity.CustomUserDetails;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.error.LoginFailException;
-import com.pmc.market.error.UserNotFoundException;
+import com.pmc.market.error.exception.LoginFailException;
+import com.pmc.market.error.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
