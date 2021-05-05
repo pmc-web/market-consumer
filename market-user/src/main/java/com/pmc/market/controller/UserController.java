@@ -24,9 +24,6 @@ public class UserController {
 
     final private UserService userService;
 
-//    @ApiImplicitParams({
-//            @ApiImplicitParam()
-//    })
     @ApiOperation(value = "회원가입")
     @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {

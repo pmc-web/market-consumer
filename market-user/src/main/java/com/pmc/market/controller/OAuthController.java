@@ -5,6 +5,7 @@ import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.security.oauth.SocialLoginType;
 import com.pmc.market.service.OAuthService;
 import com.pmc.market.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Api(tags = "oauth 로그인")
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
