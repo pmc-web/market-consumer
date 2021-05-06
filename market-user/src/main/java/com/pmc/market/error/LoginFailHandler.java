@@ -1,6 +1,7 @@
 package com.pmc.market.error;
 
 import com.pmc.market.entity.Status;
+import com.pmc.market.error.exception.LoginFailException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 public class LoginFailHandler implements AuthenticationFailureHandler {
 
-    private String message;
+    private String message = "";
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         if (exception instanceof UsernameNotFoundException) {

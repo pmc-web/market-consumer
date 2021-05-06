@@ -1,18 +1,12 @@
-package com.pmc.market.entity;
+package com.pmc.market.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pmc.market.entity.Status;
 import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
