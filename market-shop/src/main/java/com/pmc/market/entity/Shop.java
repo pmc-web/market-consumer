@@ -43,12 +43,12 @@ public class Shop {
     @NotNull
     private String telephone;
 
-//    @ManyToOne
-//    @JoinColumn(name= "category_id")
-//    private Category category;
+    @ManyToOne
+    @JoinColumn(name= "category_id")
+    private Category category;
 
-//    @ManyToOne
-//    @JoinColumn(name= "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    private User user;
 
 }

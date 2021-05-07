@@ -19,11 +19,11 @@ public class ShopImage {
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
-//    @ManyToOne
-//    @JoinColumn(name= "shop_id")
-//    private Shop shop;
+    @ManyToOne
+    @JoinColumn(name= "shop_id")
+    private Shop shop;
 
-//    @ManyToOne
-//    @JoinColumn(name= "attachment_id")
-//    private Attachment attachment;
+    @ManyToOne
+    @JoinColumn(name= "attachment_id")
+    private Attachment attachment;
 }

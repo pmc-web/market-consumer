@@ -42,6 +42,7 @@ public class ShopControllerTest {
     private ShopService shopService;
 
     @Test
+    @WithMockUser
     void 쇼핑몰_목록을_가져온다() throws Exception {
         List<Shop> shops = new ArrayList<>();
         shops.add(Shop.builder()
@@ -123,5 +124,11 @@ public class ShopControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("요즘 뜨는 마켓 N개")
+    void 쇼핑몰_리스트_like(){
+
     }
 }

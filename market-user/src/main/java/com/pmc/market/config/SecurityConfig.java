@@ -24,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
@@ -55,10 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new LoginFailHandler();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
 
     @Bean
     public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
@@ -77,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public CustomAuthenticationProvider customAuthenticationProvider() {
-        return new CustomAuthenticationProvider(passwordEncoder());
+        return new CustomAuthenticationProvider(passwordEncoder);
     }
 
     @Override

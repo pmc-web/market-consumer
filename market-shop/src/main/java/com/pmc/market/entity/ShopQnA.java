@@ -29,7 +29,7 @@ public class ShopQnA {
     @NotNull
     private String comment;
 
-//    @ManyToOne
-//    @JoinColumn(name = "shop_id")
-//    private Shop shop;
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 }
