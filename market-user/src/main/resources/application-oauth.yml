@@ -2,8 +2,9 @@ oauth2:
   social:
     kakao:
       base-url: https://kauth.kakao.com/oauth/authorize
-      client-id: c1ba1f09ecd07ec2d41685d595cf8f15
-      client-secret: hZZUJawJxIHACvlIOG8yQFHWMUR9D2FB
+      client-id: ENC(t74WrogR5/OIV/3EK24Dzp40a4kKJmbiJI7cpujT7nUo5ofyXmFDRA/VdH42iw39)
+      client-secret: ENC(R+ZAE0Wqd8wCZfWNlTA8hN4K+817GHKHEWtT6aGYBkTjfKTgPGGhviUrjSDV8F2/)
       token-url: https://kauth.kakao.com/oauth/token
       callback-url: http://localhost:8086/auth/kakao/callback
+#      callback-url: http://101.101.209.211/auth/kakao/callback
       user-info-url: https://kapi.kakao.com/v2/user/scopes

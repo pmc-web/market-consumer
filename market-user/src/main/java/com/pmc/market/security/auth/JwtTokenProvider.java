@@ -25,7 +25,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
 
-    @Resource(name="userDetailsServiceImpl")
+    @Resource(name = "userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
     public String generateJwtToken(User user) {
@@ -64,7 +64,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("email", user.getEmail());
-        claims.put("role", "USER"); // TODO fix
+        claims.put("role", "USER"); // role 설정
 
         return claims;
     }
@@ -89,19 +89,6 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         }
     }
 
-    // Jwt 토큰 생성
-    public String createToken(String userPk, String roles) {
-        Claims claims = Jwts.claims().setSubject(userPk);
-        claims.put("roles", roles);
-        Date now = new Date();
-        return Jwts.builder()
-                .setClaims(claims) // 데이터
-                .setIssuedAt(now) // 토큰 발행일자
-                .setExpiration(new Date(now.getTime() + tokenValidMilisecond)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes()) // 암호화 알고리즘, secret값 세팅
-                .compact();
-    }
-
     public String getTokenFromHeader(String header) {
         return header.split(" ")[1];
     }
@@ -109,9 +96,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
         Claims claims = getClaimsFormToken(token);
-//        UsernamePasswordAuthenticationToken usrToken = (UsernamePasswordAuthenticationToken) authentication;
         UserDetails userDetails = userDetailsService.loadUserByUsername(String.valueOf(claims.get("email")));
-//        new UsernamePasswordAuthenticationToken(userDetails, userPw, userDetails.getAuthorities());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

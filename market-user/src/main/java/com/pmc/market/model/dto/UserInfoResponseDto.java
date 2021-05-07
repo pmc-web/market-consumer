@@ -3,12 +3,12 @@ package com.pmc.market.model.dto;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
+import com.pmc.market.security.auth.AuthConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 
 @Getter
 @Builder
@@ -33,7 +33,7 @@ public class UserInfoResponseDto {
                 .regDate(user.getRegDate())
                 .role(user.getRole())
                 .status(user.getStatus())
-                .token("Bearer "+token)
+                .token(AuthConstants.TOKEN_TYPE + " " + token)
                 .build();
     }
 

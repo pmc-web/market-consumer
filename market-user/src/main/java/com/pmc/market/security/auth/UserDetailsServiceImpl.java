@@ -1,10 +1,7 @@
-package com.pmc.market.service;
+package com.pmc.market.security.auth;
 
-import com.pmc.market.entity.CustomUserDetails;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.error.exception.BusinessException;
-import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.LoginFailException;
 import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.repository.UserRepository;
@@ -30,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
 
         if (Status.STOP.equals(user.getStatus())) throw new LoginFailException(Status.STOP.getKey());
-//        else if (Status.WAIT.equals(user.getStatus())) throw new LoginFailException(Status.WAIT.getKey());
+        else if (Status.WAIT.equals(user.getStatus())) throw new LoginFailException(Status.WAIT.getKey());
         else if (Status.PAUSE.equals(user.getStatus())) throw new LoginFailException(Status.PAUSE.getKey());
 
         return new CustomUserDetails(user, Collections.singleton(new SimpleGrantedAuthority("USER")));

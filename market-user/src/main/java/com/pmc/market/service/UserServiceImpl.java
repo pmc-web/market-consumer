@@ -3,19 +3,15 @@ package com.pmc.market.service;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.MarketUnivException;
-import com.pmc.market.model.dto.TokenResponseDto;
+import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.repository.UserRepository;
 import com.pmc.market.security.auth.JwtTokenProvider;
-import com.pmc.market.security.auth.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,9 +40,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoResponseDto signIn(User user) {
         User findUser = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+                .orElseThrow(() -> new UserNotFoundException(user.getEmail()));
         if (!passwordEncoder.matches(user.getPassword(), findUser.getPassword())) {
-            throw new BadCredentialsException(findUser.getEmail() + "Invalid password");
+            throw new BadCredentialsException(findUser.getEmail() + "의 비밀번호가 올바르지 않습니다.");
         }
         return UserInfoResponseDto.of(findUser, jwtTokenProvider.generateJwtToken(findUser));
     }
@@ -67,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUserStatus(Status status, String userEmail) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
         user.setStatus(status);
         return userRepository.save(user);
     }
@@ -75,7 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUserAuth(String auth, String userEmail) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
         user.setAuthKey(auth);
         userRepository.save(user);
     }
@@ -83,19 +79,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String userEmail) {
         Optional<User> optionalUser = userRepository.findByEmail(userEmail);
-        User user = optionalUser.orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        User user = optionalUser.orElseThrow(() -> new UserNotFoundException(userEmail));
         return user;
     }
 
     @Override
     public User getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         return user;
     }
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         userRepository.deleteById(id);
     }
 
