@@ -1,10 +1,9 @@
 package com.pmc.market.security.auth;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.pmc.market.entity.User;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,29 +12,85 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
-    @Value("${spring.jwt.secret}")
-    private String secretKey;
+    private static final String secretKey = "ThisIsA_SecretKeyForJwtExample123#";
 
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
 
-    private final UserDetailsService userDetailsService;
+    @Resource(name="userDetailsServiceImpl")
+    private UserDetailsService userDetailsService;
 
-    @PostConstruct
-    protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    public String generateJwtToken(User user) {
+        JwtBuilder builder = Jwts.builder()
+                .setSubject(user.getEmail())
+                .setHeader(createHeader())
+                .setClaims(createClaims(user))
+                .setExpiration(createExpireDateForOneYear())
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes());
+        return builder.compact();
+    }
+
+    public Claims getClaimsFormToken(String token) {
+        return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
+    }
+
+    private Map<String, Object> createHeader() {
+        Map<String, Object> header = new HashMap<>();
+
+        header.put("typ", "JWT");
+        header.put("alg", "HS256");
+        header.put("regDate", System.currentTimeMillis());
+
+        return header;
+    }
+
+    private Date createExpireDateForOneYear() {
+        // 토큰 만료시간은 30일으로 설정
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 30);
+        return c.getTime();
+    }
+
+    private Map<String, Object> createClaims(User user) {
+        // 공개 클레임에 사용자의 이름과 이메일을 설정하여 정보를 조회할 수 있다.
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("email", user.getEmail());
+        claims.put("role", "USER"); // TODO fix
+
+        return claims;
+    }
+
+    public boolean isValidToken(String token) {
+        try {
+            Claims claims = getClaimsFormToken(token);
+            log.info("expireTime :" + claims.getExpiration());
+            log.info("email :" + claims.get("email"));
+            log.info("role :" + claims.get("role"));
+            return true;
+
+        } catch (ExpiredJwtException exception) {
+            log.error("Token Expired");
+            return false;
+        } catch (JwtException exception) {
+            log.error("{} Token Tampered", exception.getMessage());
+            return false;
+        } catch (NullPointerException exception) {
+            log.error("Token is null");
+            return false;
+        }
     }
 
     // Jwt 토큰 생성
-    public String createToken(String userPk, List<String> roles) {
+    public String createToken(String userPk, String roles) {
         Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
         Date now = new Date();
@@ -43,31 +98,21 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
                 .setClaims(claims) // 데이터
                 .setIssuedAt(now) // 토큰 발행일자
                 .setExpiration(new Date(now.getTime() + tokenValidMilisecond)) // set Expire Time
-                .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret값 세팅
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes()) // 암호화 알고리즘, secret값 세팅
                 .compact();
     }
 
-    //    public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
-//        final UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-//        final String userEmail = token.getName();
-//        final String userPw = (String) token.getCredentials();
-//        // UserDetailsService 를 통해 DB에서 아이디로 사용자 조회
-//
-//        final UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-//        if (!passwordEncoder.matches(userPw, userDetails.getPassword())) {
-//            throw new BadCredentialsException(userDetails.getUsername() + "Invalid password");
-//        }
-//    return new UsernamePasswordAuthenticationToken(userDetails, userPw, userDetails.getAuthorities());
+    public String getTokenFromHeader(String header) {
+        return header.split(" ")[1];
+    }
 
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        Claims claims = getClaimsFormToken(token);
+//        UsernamePasswordAuthenticationToken usrToken = (UsernamePasswordAuthenticationToken) authentication;
+        UserDetails userDetails = userDetailsService.loadUserByUsername(String.valueOf(claims.get("email")));
+//        new UsernamePasswordAuthenticationToken(userDetails, userPw, userDetails.getAuthorities());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
-
-    // Jwt 토큰에서 회원 구별 정보 추출
-    public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
     // Request의 Header에서 token 파싱 : "Authorization" : jwt토큰"

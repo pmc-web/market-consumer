@@ -2,9 +2,9 @@ package com.pmc.market.config;
 
 import com.pmc.market.config.filter.JwtAuthenticationFilter;
 import com.pmc.market.error.LoginFailHandler;
-import com.pmc.market.security.auth.CustomAuthenticationFilter;
-import com.pmc.market.security.auth.CustomAuthenticationProvider;
-import com.pmc.market.security.auth.CustomLoginSuccessHandler;
+//import com.pmc.market.security.auth.CustomAuthenticationFilter;
+//import com.pmc.market.security.auth.CustomAuthenticationProvider;
+//import com.pmc.market.security.auth.CustomLoginSuccessHandler;
 import com.pmc.market.security.auth.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -45,14 +45,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET, "helloworld/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
                 .anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능
                 .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다
 
     }
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
     @Override // ignore check swagger resource
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger/**");
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/swagger-resources/**",
+                "/swagger-ui.html/**",
+                "/webjars/**",
+                "/auth/**", "/users/sign-up", "/users/login", "/exception/**");
     }
 }
 //@Configuration

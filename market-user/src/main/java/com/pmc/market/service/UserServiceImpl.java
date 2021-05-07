@@ -9,10 +9,13 @@ import com.pmc.market.error.exception.MarketUnivException;
 import com.pmc.market.model.dto.TokenResponseDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.repository.UserRepository;
+import com.pmc.market.security.auth.JwtTokenProvider;
 import com.pmc.market.security.auth.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,8 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Override
     public User createUser(User user) {
         return userRepository.save(user);
@@ -43,7 +48,7 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(user.getPassword(), findUser.getPassword())) {
             throw new BadCredentialsException(findUser.getEmail() + "Invalid password");
         }
-        return UserInfoResponseDto.of(findUser, TokenUtils.generateJwtToken(findUser));
+        return UserInfoResponseDto.of(findUser, jwtTokenProvider.generateJwtToken(findUser));
     }
 
     @Override
@@ -56,7 +61,7 @@ public class UserServiceImpl implements UserService {
         User createdUser = userRepository.save(user);
         String auth = mailSendService.sendAuthMail(user.getEmail());
         updateUserAuth(auth, user.getEmail()); // TODO : 회원가입시 토큰이 필요할까 ?
-        return UserInfoResponseDto.of(createdUser, TokenUtils.generateJwtToken(createdUser));
+        return UserInfoResponseDto.of(createdUser, null);
     }
 
     @Override
@@ -103,8 +108,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoResponseDto getSocialUser(Map<String, Object> user) {
         Optional<User> findUser = userRepository.findByEmail(String.valueOf(user.get("userId")));
-        if(!findUser.isPresent()) return createSocialUser(user);
-        String token = TokenUtils.generateJwtToken(findUser.get());
+        if (!findUser.isPresent()) return createSocialUser(user);
+        String token = jwtTokenProvider.generateJwtToken(findUser.get());
         return UserInfoResponseDto.of(findUser.get(), token);
     }
 
@@ -120,7 +125,7 @@ public class UserServiceImpl implements UserService {
                 .authKey(String.valueOf(user.get("access_token")))
                 .build();
         userRepository.save(createUser);
-        String token = TokenUtils.generateJwtToken(createUser);
+        String token = jwtTokenProvider.generateJwtToken(createUser);
 
         return UserInfoResponseDto.of(createUser, token);
     }

@@ -1,6 +1,5 @@
 package com.pmc.market.service;
 
-import com.pmc.market.security.oauth.KakaoOAuth;
 import com.pmc.market.security.oauth.SocialLoginType;
 import com.pmc.market.security.oauth.SocialOAuth;
 import lombok.RequiredArgsConstructor;
