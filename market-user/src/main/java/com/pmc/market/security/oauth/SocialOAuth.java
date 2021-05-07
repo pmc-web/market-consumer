@@ -1,8 +1,5 @@
 package com.pmc.market.security.oauth;
 
-import com.pmc.market.security.oauth.KakaoOAuth;
-import com.pmc.market.security.oauth.SocialLoginType;
-
 import java.util.Map;
 
 public interface SocialOAuth {
