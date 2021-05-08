@@ -1,12 +1,13 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
+import com.pmc.market.entity.Role;
+import com.pmc.market.entity.User;
 import com.pmc.market.model.FavoriteShopId;
 import com.pmc.market.model.entity.Favorite;
-import com.pmc.market.model.entity.Role;
+
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopInput;
-import com.pmc.market.model.entity.User;
 import com.pmc.market.repository.FavoriteCustomRepository;
 import com.pmc.market.repository.FavoriteRepository;
 import com.pmc.market.repository.ShopRepository;
