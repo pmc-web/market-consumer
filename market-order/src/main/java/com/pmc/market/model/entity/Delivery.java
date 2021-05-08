@@ -1,4 +1,4 @@
-package com.pmc.market.entity;
+package com.pmc.market.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,16 +12,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-public class OrderProduct {
+public class Delivery {
+
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @Column
+    private DeliveryStatus status;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private Product product;
+    @Column
+    private String shippingNumber;
+
 }

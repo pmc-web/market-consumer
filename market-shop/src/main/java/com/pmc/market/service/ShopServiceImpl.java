@@ -1,20 +1,25 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Shop;
-import com.pmc.market.exception.OnlyCanMakeShopOne;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.repository.FavoriteCustomRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
+
+    private final FavoriteCustomRepository favoriteCustomRepository;
 
     @Override
     public List<Shop> findAll() {
@@ -39,5 +44,14 @@ public class ShopServiceImpl implements ShopService {
                 .owner(shopInput.getOwner())
                 .telephone(shopInput.getTelephone())
                 .build());
+    }
+
+    @Override
+    public List<Shop> findFavorite(int count) {
+//        List<Long> ids = favoriteCustomRepository.findShopsMostFavoriteCount(count);
+//        log.info("{} result", ids);
+        List<Shop> shops = new ArrayList<>();
+//        ids.forEach(id -> shops.add(shopRepository.findById(Long.parseLong(id)).get()));
+        return shops;
     }
 }

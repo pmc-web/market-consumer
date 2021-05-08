@@ -1,9 +1,8 @@
-package com.pmc.market.entity;
+package com.pmc.market.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Builder
@@ -11,25 +10,20 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShopQnA {
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @NotNull
-    private String title;
+    private LocalDateTime reg_date;
 
-    @NotNull
-    private String description;
-
-    @NotNull
-    private LocalDateTime regDate;
-
-    @NotNull
-    private String comment;
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
 }

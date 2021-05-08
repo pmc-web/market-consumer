@@ -1,4 +1,4 @@
-package com.pmc.market.model;
+package com.pmc.market.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,11 +1,12 @@
 package com.pmc.market.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.dto.ShopDto;
-import com.pmc.market.entity.Shop;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.model.entity.Favorite;
+import com.pmc.market.model.entity.Role;
+import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.entity.User;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -126,9 +127,54 @@ public class ShopControllerTest {
                 .andDo(print());
     }
 
+    @WithMockUser
     @Test
     @DisplayName("요즘 뜨는 마켓 N개")
-    void 쇼핑몰_리스트_like(){
+    void 쇼핑몰_리스트_like1() throws Exception {
+        // favorite table
+        Shop shop = Shop.builder()
+                .id(1L)
+                .name("shop1")
+                .build();
+        Shop shop2 = Shop.builder()
+                .id(2L)
+                .name("shop2")
+                .build();
+        Shop shop3 = Shop.builder()
+                .id(3L)
+                .name("shop3")
+                .build();
+        User user = User.builder()
+                .id(1L)
+                .email("annna0449@naver.com")
+                .password("password123$")
+                .role(Role.BUYER)
+                .build();
+        Favorite.builder()
+                .id(1L)
+                .shop(shop)
+                .user(user)
+                .build();
+        Favorite.builder()
+                .id(2L)
+                .shop(shop2)
+                .user(user)
+                .build();
+        Favorite.builder()
+                .id(3L)
+                .shop(shop3)
+                .user(user)
+                .build();
+        List<Shop> shops = new ArrayList<>();
+        shops.add(shop); shops.add(shop2); shops.add(shop3);
 
+        when(shopService.findFavorite(3)).thenReturn(shops);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/favorite")
+                .param("count", String.valueOf(3))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", hasSize(3)))
+                .andDo(print());
     }
 }

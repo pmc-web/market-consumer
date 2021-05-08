@@ -1,6 +1,6 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Product;
+import com.pmc.market.model.entity.Product;
 
 import java.util.List;
 
