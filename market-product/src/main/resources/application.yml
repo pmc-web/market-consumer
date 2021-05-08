@@ -1,11 +1,10 @@
 spring:
   # db 설정
   datasource:
-    url: jdbc:mysql://localhost:3306/market-consumer?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/market?serverTimezone=UTC&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 1
-
+    username: market
+    password: market
   # jpa 설정
   jpa:
     hibernate:
@@ -16,10 +15,7 @@ spring:
         format_sql : true
     database: mysql
 
+app:
+  host: http://localhost:8083
 server:
   port: 8083
-
-  logging:
-    level:
-      org.hibernate.SQL: debug
-      org.hibernate.type: trace
