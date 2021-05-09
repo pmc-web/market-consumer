@@ -6,7 +6,6 @@ import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.MarketUnivException;
-import com.pmc.market.model.dto.TokenResponseDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.repository.UserRepository;
 import com.pmc.market.security.auth.TokenUtils;
@@ -18,7 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -106,6 +108,19 @@ public class UserServiceImpl implements UserService {
         if(!findUser.isPresent()) return createSocialUser(user);
         String token = TokenUtils.generateJwtToken(findUser.get());
         return UserInfoResponseDto.of(findUser.get(), token);
+    }
+
+    @Override
+    public boolean isUserAuth(String email, String auth) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        if (!Objects.isNull(auth) && auth.equals(user.getAuthKey())) return true;
+        return false;
+    }
+
+    @Override
+    public User signUpConfirm(Status status, String email, String auth) {
+        if (!isUserAuth(email, auth)) throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
+        return updateUserStatus(status, email);
     }
 
     private UserInfoResponseDto createSocialUser(Map<String, Object> user) {
