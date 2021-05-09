@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(user.getPassword(), findUser.getPassword())) {
             throw new BadCredentialsException(findUser.getEmail() + "의 비밀번호가 올바르지 않습니다.");
         }
+        jwtTokenProvider.getAuthenticationLogin(user.getEmail());
         return UserInfoResponseDto.of(findUser, jwtTokenProvider.generateJwtToken(findUser));
     }
 

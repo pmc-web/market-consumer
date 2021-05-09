@@ -100,6 +100,11 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
+    public Authentication getAuthenticationLogin(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
     // Request의 Header에서 token 파싱 : "Authorization" : jwt토큰"
     public String resolveToken(HttpServletRequest req) {
         return req.getHeader(AuthConstants.AUTH_HEADER);
