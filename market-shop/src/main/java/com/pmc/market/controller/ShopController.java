@@ -28,14 +28,14 @@ public class ShopController {
 
     @ApiOperation("가게 등록하기")
     @PostMapping
-    public ResponseEntity<?> makeShop(@ApiParam(value = "ShopInput 객체") @RequestBody @Valid ShopInput shopInput) {
+    public ResponseEntity<?> makeShop(@ApiParam(name = "ShopInput", value = "owner - 마켓 생성하는 유저의 이메일") @RequestBody @Valid ShopInput shopInput) {
         shopService.makeShop(shopInput);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
-    @ApiOperation("인기순 마켓 n개 조회")
+    @ApiOperation("인기순 마켓 count 개 조회")
     @GetMapping("/favorite")
-    public ResponseEntity<?> getFavoriteShops(@RequestParam Integer count) {
+    public ResponseEntity<?> getFavoriteShops(@ApiParam(value = "조회할 갯수") @RequestParam int count) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findFavorite(count)));
     }
 

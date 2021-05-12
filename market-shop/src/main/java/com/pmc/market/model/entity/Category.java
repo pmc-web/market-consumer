@@ -20,6 +20,6 @@ public class Category { // product 에도 매핑
     @NotNull
     private String subCategory;
 
-    @OneToOne(mappedBy = "category")
-    private Shop shop;
+//    @OneToOne(mappedBy = "category")
+//    private Shop shop;
 }

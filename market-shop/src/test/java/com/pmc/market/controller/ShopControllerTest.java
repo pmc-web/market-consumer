@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopInput;
@@ -87,7 +88,7 @@ public class ShopControllerTest {
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")
                 .fullDescription("쇼핑몰 설명")
-                .owner("주인")
+                .owner("owner@Email.com")
                 .shortDescription("악세사리 쇼핑몰")
                 .period(1) // 유지기간 1년
                 .businessNumber("00-000-000")
@@ -165,8 +166,9 @@ public class ShopControllerTest {
                 .shop(shop3)
                 .user(user)
                 .build();
-        List<Shop> shops = new ArrayList<>();
-        shops.add(shop); shops.add(shop2); shops.add(shop3);
+        List<FavoriteShopDto> shops = new ArrayList<>();
+        shops.add(FavoriteShopDto.of(shop, 1)); shops.add(FavoriteShopDto.of(shop2, 1));
+        shops.add(FavoriteShopDto.of(shop3, 1));
 
         when(shopService.findFavorite(3)).thenReturn(shops);
 

@@ -19,25 +19,25 @@ public class Shop {
     @NotNull
     private String name;
 
-//    @NotNull
+    @NotNull
     private LocalDateTime period;
 
-//    @NotNull
+    @NotNull
     private String fullDescription;
 
     private String shortDescription;
 
-//    @NotNull
+    @NotNull
     private LocalDateTime regDate;
 
     private String businessNumber;
 
     private String businessName;
 
-//    @NotNull
+    @NotNull
     private String owner;
 
-//    @NotNull
+    @NotNull
     private String telephone;
 
     @OneToOne
@@ -55,6 +55,4 @@ public class Shop {
 
     @Lob
     private String shipDescription;
-
-    private Integer likes; // 좋아요 수
 }

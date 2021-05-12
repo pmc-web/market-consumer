@@ -1,13 +1,11 @@
 package com.pmc.market;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootApplication
 class ShopApplicationTests {
-
     @Test
-    void contextLoads() {
-    }
-
+    void contextLoads() {}
 }
