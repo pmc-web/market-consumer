@@ -18,4 +18,6 @@ public interface UserService {
     void deleteUser(Long id);
     List<User> getUserList();
     UserInfoResponseDto getSocialUser(Map<String, Object> user);
+    boolean isUserAuth(String email, String auth);
+    User signUpConfirm(Status status, String email, String auth);
 }
