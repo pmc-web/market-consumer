@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.error.exception.KakaoException;
-import com.pmc.market.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,9 +98,9 @@ public class KakaoOAuth implements SocialOAuth {
                 map.put("userId", userId);
                 return map;
             }
-            throw new KakaoException("Kakao 로그인 요청을 실패했습니다.", ErrorCode.OAUTH_ERROR);
+            throw new KakaoException("Kakao 로그인 요청을 실패했습니다.");
         } catch (IOException e) {
-            throw new KakaoException("알 수 없는 Kakao 로그인 Access Token 요청 URL 입니다" + KAKAO_TOKEN_BASE_URL, ErrorCode.OAUTH_ERROR);
+            throw new KakaoException("알 수 없는 Kakao 로그인 Access Token 요청 URL 입니다" + KAKAO_TOKEN_BASE_URL);
         }
     }
 
@@ -120,13 +119,13 @@ public class KakaoOAuth implements SocialOAuth {
                 return String.valueOf(map.get("id"));
             } catch (JsonMappingException e) {
                 log.error(e.getMessage());
-                throw new KakaoException("Kakao 사용자 정보를 가져오던 중 JsonMapping Exception 오류가 발생 했습니다", ErrorCode.OAUTH_ERROR);
+                throw new KakaoException("Kakao 사용자 정보를 가져오던 중 JsonMapping Exception 오류가 발생 했습니다");
             } catch (JsonProcessingException e) {
                 log.error(e.getMessage());
-                throw new KakaoException("Kakao 사용자 정보를 가져오던 중 JsonProcessingException 오류가 발생 했습니다", ErrorCode.OAUTH_ERROR);
+                throw new KakaoException("Kakao 사용자 정보를 가져오던 중 JsonProcessingException 오류가 발생 했습니다");
             }
         }
-        throw new KakaoException("Kakao 사용자 정보를 가져오던 중 서버 에러가 발생 했습니다", ErrorCode.OAUTH_ERROR);
+        throw new KakaoException("Kakao 사용자 정보를 가져오던 중 서버 에러가 발생 했습니다");
     }
 
 }

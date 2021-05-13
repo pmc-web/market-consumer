@@ -2,7 +2,6 @@ package com.pmc.market.service;
 
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.TokenResponseDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 
 import java.util.List;
