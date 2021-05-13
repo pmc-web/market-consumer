@@ -2,7 +2,6 @@ package com.pmc.market.service;
 
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.TokenResponseDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 
 import java.util.List;
@@ -19,4 +18,6 @@ public interface UserService {
     void deleteUser(Long id);
     List<User> getUserList();
     UserInfoResponseDto getSocialUser(Map<String, Object> user);
+    boolean isUserAuth(String email, String auth);
+    User signUpConfirm(Status status, String email, String auth);
 }

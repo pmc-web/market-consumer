@@ -1,7 +1,6 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.model.ResponseMessage;
-import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.security.oauth.SocialLoginType;
 import com.pmc.market.service.OAuthService;
 import com.pmc.market.service.UserService;

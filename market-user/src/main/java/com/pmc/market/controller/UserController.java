@@ -1,5 +1,6 @@
 package com.pmc.market.controller;
 
+import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.UserCreateRequestDto;
 import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
@@ -62,5 +63,11 @@ public class UserController {
     @PutMapping("/status")
     public ResponseMessage updateStatus(@RequestBody @Valid UserStatusUpdateRequestDto request) {
         return ResponseMessage.success(userService.updateUserStatus(request.getStatus(), request.getEmail()));
+    }
+
+    @ApiOperation(value = "메일 인증 확인", notes = "유저 회원 가입 후 메일로 인증 하는 서비스")
+    @GetMapping("/sign-up-confirm")
+    public ResponseMessage signUpConfirm(@RequestParam(value = "email") String email, @RequestParam(value = "status") Status status, @RequestParam(value = "auth") String auth) {
+        return ResponseMessage.success(userService.signUpConfirm(status, email, auth));
     }
 }

@@ -6,6 +6,7 @@ import com.pmc.market.error.exception.MarketUnivException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -94,5 +95,13 @@ public class GlobalExceptionHandler {
         log.error("handleMarketUnivException", e);
         final ErrorResponse response = ErrorResponse.of(e.getErrorCode(), e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e){
+        log.error("handleAuthenticationException",e);
+
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }
