@@ -6,20 +6,17 @@ import io.jsonwebtoken.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Log4j2
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TokenUtils {
 
-    private static final String secretKey = "ThisIsA_SecretKeyForJwtExample";
+    private static final String secretKey = "ThisIsA_SecretKeyForJwtExample123#";
 
     public static String generateJwtToken(User user) {
         JwtBuilder builder = Jwts.builder()
@@ -27,7 +24,9 @@ public final class TokenUtils {
                 .setHeader(createHeader())
                 .setClaims(createClaims(user))
                 .setExpiration(createExpireDateForOneYear())
-                .signWith(SignatureAlgorithm.HS256, createSigningKey());
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes());
+
+        getClaimsFormToken(builder.compact());
 
         return builder.compact();
     }
@@ -44,7 +43,7 @@ public final class TokenUtils {
             log.error("Token Expired");
             return false;
         } catch (JwtException exception) {
-            log.error("Token Tampered");
+            log.error("{} Token Tampered", exception.getMessage());
             return false;
         } catch (NullPointerException exception) {
             log.error("Token is null");
@@ -53,7 +52,7 @@ public final class TokenUtils {
     }
 
     public static String getTokenFromHeader(String header) {
-        return header.split(" ")[1];
+         return header.split(" ")[1];
     }
 
     private static Date createExpireDateForOneYear() {
@@ -88,9 +87,16 @@ public final class TokenUtils {
         return new SecretKeySpec(apiKeySecretBytes, SignatureAlgorithm.HS256.getJcaName());
     }
 
-    private static Claims getClaimsFormToken(String token) {
-        return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
-                .parseClaimsJws(token).getBody();
+    public static Claims getClaimsFormToken(String token) {
+        return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
+    }
+
+    private String resolveToken(HttpServletRequest req){
+        return req.getHeader("X-AUTH-TOKEN");
+    }
+
+    private boolean validateToken(String token){
+        return false;
     }
 
     private static String getUserEmailFromToken(String token) {

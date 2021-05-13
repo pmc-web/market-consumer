@@ -5,6 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: market
     password: market
+  #    password: ENC(ngEt6S/2mhKV2F30Wogksg==)
 
   # jpa 설정
   jpa:
@@ -17,6 +18,7 @@ spring:
     database: mysql
   profiles:
     include: oauth
+
 app:
   host: http://localhost:8086
 server:
@@ -24,4 +26,8 @@ server:
 email:
   admin:
     account: certification0test@gmail.com
-    password: PCMmanager!
+    password: ENC(GdWyNDQs0S10hpfizKtLSVb5irexBOKm)
+#    password: PCMmanager!
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor

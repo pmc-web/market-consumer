@@ -1,4 +1,4 @@
-package com.pmc.market.error;
+package com.pmc.market.error.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

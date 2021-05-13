@@ -1,7 +1,4 @@
-package com.pmc.market.error;
-
-import com.pmc.market.error.exception.BusinessException;
-import com.pmc.market.error.exception.ErrorCode;
+package com.pmc.market.error.exception;
 
 public class UserNotFoundException extends BusinessException {
     public UserNotFoundException(String email) {

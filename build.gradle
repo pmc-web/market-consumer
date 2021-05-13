@@ -51,12 +51,18 @@ subprojects {
         annotationProcessor ('org.projectlombok:lombok:1.18.12')
         // oauth
         compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+
         // jwt
         compile('io.jsonwebtoken:jjwt-api:0.11.1')
         runtime('io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1')
 
         testCompile('org.springframework.security:spring-security-test')
         implementation 'org.springframework.boot:spring-boot-starter-security'
+
+        //swagger
+        implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+        compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
     }
 
     clean {
@@ -77,10 +83,7 @@ project(':market-common') {
     // common 모듈에만 필요한 라이브러리 명시
     dependencies {
         // swagger
-        compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-        compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-        compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
-        compile group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
+
     }
 }
 
@@ -115,8 +118,20 @@ project(':market-user') {
     // user 모듈에만 필요한 라이브러리 명시
     dependencies {
         compile project(':market-common')
+
         // email 인증
         compile group: 'javax.mail', name: 'mail', version: '1.4.7'
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.5'
+    }
+}
+project(':market-document') {
+    dependencies {
+        compile project(':market-common')
+        compile project(':market-user')
+        compile project(':market-product')
+        compile project(':market-shop')
+        compile project(':market-search')
+        compile project(':market-order')
+
     }
 }

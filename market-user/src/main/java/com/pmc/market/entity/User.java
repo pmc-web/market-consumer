@@ -3,7 +3,6 @@ package com.pmc.market.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
@@ -18,7 +17,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotNull
     @Column(name="email" , unique=true)
     private String email;
 
@@ -50,6 +48,7 @@ public class User {
 
     @Column
     private String authKey;
+
 
     public void setStatus(Status status) {
         this.status = status;
