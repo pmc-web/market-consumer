@@ -21,11 +21,25 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
     public Product findOneProduct(Long productId){
         return productRepository.findOne(productId);
     }
 
+    @Override
     public List<Product> findProducts(){
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> findProductsByKeyword(String keyword) {
+        // FIXME
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> todayPopularProducts() {
+        // FIXME
         return productRepository.findAll();
     }
 }

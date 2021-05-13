@@ -6,7 +6,13 @@ import java.util.List;
 
 public interface ProductService {
 
-   void saveProduct(Product product);
-   Product findOneProduct(Long productId);
-   List<Product> findProducts();
+    void saveProduct(Product product);
+
+    Product findOneProduct(Long productId);
+
+    List<Product> findProducts();
+
+    List<Product> findProductsByKeyword(String keyword);
+
+    List<Product> todayPopularProducts();
 }
