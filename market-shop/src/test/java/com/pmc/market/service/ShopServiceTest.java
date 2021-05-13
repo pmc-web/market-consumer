@@ -1,11 +1,12 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
+import com.pmc.market.entity.Role;
+import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopInput;
-import com.pmc.market.model.entity.Shop;
-import com.pmc.market.repository.FavoriteRepository;
 import com.pmc.market.repository.ShopRepository;
+import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ShopServiceTest {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ShopService shopService;
 
     @Autowired
@@ -41,17 +45,19 @@ class ShopServiceTest {
     void makeShop_마켓_생성() {
         long count = shopRepository.count();
         /* user 의 이메일과 owner 의 값이 같을 경우에만 패스
-        * */
+         * */
+        userRepository.save(User.builder().id(1L).role(Role.SELLER).email("annna0449@naver.com").build());
+        User user = userRepository.findById(1L).get();
         shopService.makeShop(ShopInput.builder()
-                .name("뉴 마켓")
-                .businessName("비지니스이름")
-                .businessNumber("1234-12345")
-                .fullDescription("마켓마켓마켓")
-                .owner("email@email.com")
-                .period(1)
-                .shortDescription("shotDescription")
-                .telephone("010-0000-0000")
-                .build());
+                        .name("뉴 마켓")
+                        .businessName("비지니스이름")
+                        .businessNumber("1234-12345")
+                        .fullDescription("마켓마켓마켓")
+                        .owner("email@email.com")
+                        .period(1)
+                        .shortDescription("shotDescription")
+                        .telephone("010-0000-0000")
+                        .build(), user);
         assertEquals(count + 1, shopRepository.count());
     }
 

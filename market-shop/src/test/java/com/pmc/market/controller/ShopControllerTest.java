@@ -93,7 +93,7 @@ public class ShopControllerTest {
                 .period(1) // 유지기간 1년
                 .businessNumber("00-000-000")
                 .build();
-        doNothing().when(shopService).makeShop(shop);
+        doNothing().when(shopService).makeShop(shop, User.builder().role(Role.SELLER).email("annna0449@naver.com").build());
 
         ObjectMapper objectMapper = new ObjectMapper();
 

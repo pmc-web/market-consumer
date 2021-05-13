@@ -35,14 +35,12 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public void makeShop(ShopInput shopInput) {
+    public void makeShop(ShopInput shopInput, User user) {
         // 개인당 1개의 shop 만 생성 가능하도록
-        User user = userRepository.findByEmail(shopInput.getOwner())
-                .orElseThrow(() -> new UserNotFoundException(shopInput.getOwner()));
         if (!user.getRole().equals(Role.SELLER)) {
             throw new BusinessException("마켓을 생성하려면 판매자로 전환해야 합니다.", ErrorCode.INVALID_INPUT_VALUE);
         }
-        if (shopRepository.findByOwner(user.getEmail())) {
+        if (shopRepository.countByUserEmail(user.getEmail())>0) {
             throw new OnlyCanMakeShopOneException("계정당 1개의 마켓만 만들 수 있습니다.");
         }
         shopRepository.save(shopInput.toEntity(shopInput, user));
