@@ -2,9 +2,9 @@ package com.pmc.market.service;
 
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
-import com.pmc.market.error.UserNotFoundException;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.entity.Shop;
