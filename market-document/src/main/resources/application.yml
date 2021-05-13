@@ -8,14 +8,19 @@ spring:
   # jpa 설정
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
-      hibernate :
-        format_sql : true
+      hibernate:
+        format_sql: true
     database: mysql
 
+swagger:
+  config:
+    refreshrate: 5000
+
 app:
-  host: http://localhost:8084
+  host: http://localhost:8088
+
 server:
-  port: 8084
+  port: 8088

@@ -31,6 +31,6 @@ spring:
           starttls:
             enable: true
 app:
-  host: http://localhost:8084
+  host: http://localhost:8085
 server:
   port: 8085
