@@ -1,77 +1,72 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Shop;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.entity.Role;
+import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.repository.ShopRepository;
+import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})
 class ShopServiceTest {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ShopService shopService;
+
+    @Autowired
     private ShopRepository shopRepository;
 
+    @DisplayName("전체 마켓 리스트")
     @Test
-    void 모든_쇼핑몰을_가져오기() throws Exception{
-        Shop shop = Shop.builder()
-                .id(1L)
-                .name("쇼핑몰1")
-                .telephone("010-0000-0000")
-                .businessName("쇼핑몰1")
-                .fullDescription("쇼핑몰 설명")
-                .owner("주인")
-                .shortDescription("악세사리 쇼핑몰")
-                .regDate(LocalDateTime.now())
-                .period(LocalDateTime.now().plusYears(1))
-                .businessNumber("00-000-000")
-                .build();
-
-        shopRepository.save(shop);
-
-        List<Shop> result = shopRepository.findAll();
-
-        assertEquals(shop.getId(), result.get(0).getId());
+    void findAll_전체_마켓_리스트() {
+        assertEquals(shopService.findAll().size(), shopRepository.count());
     }
 
-    @DisplayName("makeShop() 테스트")
+    @DisplayName("마켓_생성")
     @Test
-    void 쇼핑몰_생성(){
-        ShopInput shopInput = ShopInput.builder()
-                .name("쇼핑몰1")
-                .telephone("010-0000-0000")
-                .businessName("쇼핑몰1")
-                .fullDescription("쇼핑몰 설명")
-                .owner("주인")
-                .shortDescription("악세사리 쇼핑몰")
-                .period(1) // 유지기간 1년
-                .businessNumber("00-000-000")
-                .build();
-        Shop shop = Shop.builder()
-                .name(shopInput.getName())
-                .period(LocalDateTime.now().plusYears(shopInput.getPeriod()))
-                .fullDescription(shopInput.getFullDescription())
-                .shortDescription(shopInput.getShortDescription())
-                .regDate(LocalDateTime.now())
-                .businessName(shopInput.getBusinessName())
-                .businessNumber(shopInput.getBusinessNumber())
-                .owner(shopInput.getOwner())
-                .telephone(shopInput.getTelephone())
-                .build();
-        shopRepository.save(shop);
-
-        assertEquals(shop.getId(), 1L); // auto-create 일 때
-
+    void makeShop_마켓_생성() {
+        long count = shopRepository.count();
+        /* user 의 이메일과 owner 의 값이 같을 경우에만 패스
+         * */
+        userRepository.save(User.builder().id(1L).role(Role.SELLER).email("annna0449@naver.com").build());
+        User user = userRepository.findById(1L).get();
+        shopService.makeShop(ShopInput.builder()
+                        .name("뉴 마켓")
+                        .businessName("비지니스이름")
+                        .businessNumber("1234-12345")
+                        .fullDescription("마켓마켓마켓")
+                        .owner("email@email.com")
+                        .period(1)
+                        .shortDescription("shotDescription")
+                        .telephone("010-0000-0000")
+                        .build(), user);
+        assertEquals(count + 1, shopRepository.count());
     }
+
+    @DisplayName("가장 인기 있는 마켓 count 개 조회")
+    @Test
+    void findFavorite_인기마켓_리스트() {
+        int count = 3;
+        List<FavoriteShopDto> favoriteShopDtoList = shopService.findFavorite(count);
+        assertTrue(favoriteShopDtoList.size() == count);
+    }
+
 }
