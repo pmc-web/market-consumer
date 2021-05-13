@@ -3,6 +3,7 @@ package com.pmc.market.service;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
+import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.MarketUnivException;
 import com.pmc.market.error.exception.UserNotFoundException;
@@ -125,6 +126,19 @@ public class UserServiceImpl implements UserService {
         String token = jwtTokenProvider.generateJwtToken(createUser);
 
         return UserInfoResponseDto.of(createUser, token);
+    }
+
+    @Override
+    public boolean isUserAuth(String email, String auth) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        if (!Objects.isNull(auth) && auth.equals(user.getAuthKey())) return true;
+        return false;
+    }
+
+    @Override
+    public User signUpConfirm(Status status, String email, String auth) {
+        if (!isUserAuth(email, auth)) throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
+        return updateUserStatus(status, email);
     }
 
 }
