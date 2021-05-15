@@ -8,8 +8,10 @@ import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopDto;
+import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
@@ -33,7 +35,7 @@ public class ShopServiceImpl implements ShopService {
 
     private final FavoriteCustomRepository favoriteCustomRepository;
 
-    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<Shop> findAll() {
@@ -70,5 +72,11 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public FavoriteShopDto getShopById(long id) {
         return favoriteCustomRepository.findById(id);
+    }
+
+    @Override
+    public List<Shop> getShopsByCategory(long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(()-> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
+        return shopRepository.findByCategory(category);
     }
 }

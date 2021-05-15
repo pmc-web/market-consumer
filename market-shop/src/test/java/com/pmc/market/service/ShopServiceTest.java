@@ -6,6 +6,7 @@ import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopDto;
 import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.entity.Shop;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,15 +51,15 @@ class ShopServiceTest {
         userRepository.save(User.builder().id(1L).role(Role.SELLER).email("annna0449@naver.com").build());
         User user = userRepository.findById(1L).get();
         shopService.makeShop(ShopInput.builder()
-                        .name("뉴 마켓")
-                        .businessName("비지니스이름")
-                        .businessNumber("1234-12345")
-                        .fullDescription("마켓마켓마켓")
-                        .owner("email@email.com")
-                        .period(1)
-                        .shortDescription("shotDescription")
-                        .telephone("010-0000-0000")
-                        .build(), user);
+                .name("뉴 마켓")
+                .businessName("비지니스이름")
+                .businessNumber("1234-12345")
+                .fullDescription("마켓마켓마켓")
+                .owner("email@email.com")
+                .period(1)
+                .shortDescription("shotDescription")
+                .telephone("010-0000-0000")
+                .build(), user);
         assertEquals(count + 1, shopRepository.count());
     }
 
@@ -72,7 +73,7 @@ class ShopServiceTest {
 
     @DisplayName("신규 마켓 리스트 - 서비스")
     @Test
-    void findNew_신규마켓_리스트(){
+    void findNew_신규마켓_리스트() {
         int count = 6;
         List<ShopDto> shopDtos = shopService.findNew(count);
         assertEquals(shopDtos.size(), count);
@@ -80,9 +81,19 @@ class ShopServiceTest {
 
     @DisplayName("마켓 조회 (좋아요수 포함) - 서비스")
     @Test
-    void 마켓_조회1(){
+    void 마켓_조회1() {
         long id = 1L;
         FavoriteShopDto dto = shopService.getShopById(id);
         assertEquals(dto.getId(), id);
+    }
+
+    @Test
+    @DisplayName("마켓 카테고리 리스트 조회 ")
+    void 카테고리별_마켓_리스트() {
+        long id = 1L;
+        List<Shop> shops = shopService.getShopsByCategory(id);
+        shops.forEach(s -> {
+            assertEquals(s.getCategory().getId(), id);
+        });
     }
 }

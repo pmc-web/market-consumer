@@ -211,4 +211,20 @@ public class ShopControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 카테고리 리스트 조회 ")
+    void 카테고리별_마켓_리스트() throws Exception{
+        long id = 1L;
+        List<Shop> shops = new ArrayList<>();
+        for(int i=0; i<4; i++) shops.add(Shop.builder().id(i+1).build());
+        when(shopService.getShopsByCategory(id)).thenReturn(shops);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/category")
+                .param("id", String.valueOf(id))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

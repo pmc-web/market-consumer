@@ -2,6 +2,7 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ class ShopRepositoryTest {
 
     @Autowired
     private ShopRepository shopRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     void 모든_쇼핑몰을_가져오기() throws Exception {
@@ -89,5 +93,15 @@ class ShopRepositoryTest {
             System.out.println(s.getId()+" "+s.getRegDate());
         });
         assertEquals(count, content.size());
+    }
+
+    @Test
+    void 카테고리별_쇼핑몰(){
+        Category category = categoryRepository.findById(1L).get();
+        List<Shop> shops = shopRepository.findByCategory(category);
+
+        shops.forEach(s->{
+            assertEquals(s.getCategory().getId(),1L);
+        });
     }
 }

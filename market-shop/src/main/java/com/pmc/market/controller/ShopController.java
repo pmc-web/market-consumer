@@ -66,4 +66,10 @@ public class ShopController {
     public ResponseEntity<?> getShopById(@ApiParam(value = "조회할 마켓 id")@PathVariable long id){
         return ResponseEntity.ok(ResponseMessage.success(shopService.getShopById(id)));
     }
+
+    @ApiOperation("마켓 카테고리별 조회")
+    @GetMapping("/category")
+    public ResponseEntity<?> getShopsByCategory(@ApiParam(value = "카테고리 id")@RequestParam long id){
+        return ResponseEntity.ok(ResponseMessage.success(shopService.getShopsByCategory(id)));
+    }
 }
