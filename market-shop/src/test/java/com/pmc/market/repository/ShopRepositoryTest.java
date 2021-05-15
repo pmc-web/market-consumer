@@ -8,6 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
@@ -74,4 +78,16 @@ class ShopRepositoryTest {
 
     }
 
+    @DisplayName("신규 쇼핑몰 ")
+    @Test
+    void 신규_쇼핑몰_리스트() {
+        int count = 6;
+        Pageable pageable = PageRequest.of(0,count, Sort.by(Sort.Direction.ASC, "regDate"));
+        Page<Shop> all = shopRepository.findAll(pageable);
+        List<Shop> content = all.getContent();
+        content.forEach(s->{
+            System.out.println(s.getId()+" "+s.getRegDate());
+        });
+        assertEquals(count, content.size());
+    }
 }

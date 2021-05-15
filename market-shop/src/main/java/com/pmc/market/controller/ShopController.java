@@ -49,10 +49,15 @@ public class ShopController {
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
-    @ApiOperation("인기순 마켓 count 개 조회")
+    @ApiOperation("인기순 마켓 최대 count 개 조회")
     @GetMapping("/favorite")
     public ResponseEntity<?> getFavoriteShops(@ApiParam(value = "조회할 갯수") @RequestParam int count) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findFavorite(count)));
     }
 
+    @ApiOperation("새로 등록된 마켓 최대 count 개 조회")
+    @GetMapping("/new")
+    public ResponseEntity<?> getNewShops(@ApiParam(value = "조회할 갯수") @RequestParam int count) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.findNew(count)));
+    }
 }

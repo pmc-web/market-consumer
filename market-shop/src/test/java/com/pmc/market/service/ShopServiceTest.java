@@ -4,6 +4,7 @@ import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.dto.ShopDto;
 import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
@@ -67,6 +68,14 @@ class ShopServiceTest {
         int count = 3;
         List<FavoriteShopDto> favoriteShopDtoList = shopService.findFavorite(count);
         assertTrue(favoriteShopDtoList.size() == count);
+    }
+
+    @DisplayName("신규 마켓 리스트 - 서비스")
+    @Test
+    void findNew_신규마켓_리스트(){
+        int count = 6;
+        List<ShopDto> shopDtos = shopService.findNew(count);
+        assertEquals(shopDtos.size(), count);
     }
 
 }

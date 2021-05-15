@@ -5,6 +5,7 @@ import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.dto.ShopDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopInput;
@@ -167,7 +168,8 @@ public class ShopControllerTest {
                 .user(user)
                 .build();
         List<FavoriteShopDto> shops = new ArrayList<>();
-        shops.add(FavoriteShopDto.of(shop, 1)); shops.add(FavoriteShopDto.of(shop2, 1));
+        shops.add(FavoriteShopDto.of(shop, 1));
+        shops.add(FavoriteShopDto.of(shop2, 1));
         shops.add(FavoriteShopDto.of(shop3, 1));
 
         when(shopService.findFavorite(3)).thenReturn(shops);
@@ -177,6 +179,22 @@ public class ShopControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data", hasSize(3)))
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("신상 마켓 N개")
+    void 쇼핑몰_리스트_new() throws Exception {
+        int count = 6;
+        List<ShopDto> shops = new ArrayList<>();
+        for (int i = 0; i < count; i++) shops.add(ShopDto.builder().id(i+1).build());
+        when(shopService.findNew(count)).thenReturn(shops);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
+                .param("count", String.valueOf(count))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
