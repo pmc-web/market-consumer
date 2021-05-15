@@ -66,4 +66,9 @@ public class ShopServiceImpl implements ShopService {
         content.forEach(shop -> shops.add(ShopDto.of(shop)));
         return shops;
     }
+
+    @Override
+    public FavoriteShopDto getShopById(long id) {
+        return favoriteCustomRepository.findById(id);
+    }
 }

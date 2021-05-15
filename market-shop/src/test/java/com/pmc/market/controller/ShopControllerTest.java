@@ -197,4 +197,18 @@ public class ShopControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 정보 조회 - 1 ")
+    void 마켓_1개_조회_좋아요수포함() throws Exception{
+        FavoriteShopDto shop = FavoriteShopDto.of(Shop.builder().id(1L).build(), 1);
+        long id = 1L;
+        when(shopService.getShopById(id)).thenReturn(shop);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

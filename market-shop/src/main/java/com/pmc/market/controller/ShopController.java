@@ -60,4 +60,10 @@ public class ShopController {
     public ResponseEntity<?> getNewShops(@ApiParam(value = "조회할 갯수") @RequestParam int count) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findNew(count)));
     }
+
+    @ApiOperation("마켓 id 조회")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getShopById(@ApiParam(value = "조회할 마켓 id")@PathVariable long id){
+        return ResponseEntity.ok(ResponseMessage.success(shopService.getShopById(id)));
+    }
 }

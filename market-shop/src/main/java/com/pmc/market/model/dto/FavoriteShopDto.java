@@ -49,4 +49,9 @@ public class FavoriteShopDto {
                 .likes(likes)
                 .build();
     }
+
+    public FavoriteShopDto(Shop shop, long likes){
+        this.id = shop.getId();
+        this.likes = likes;
+    }
 }

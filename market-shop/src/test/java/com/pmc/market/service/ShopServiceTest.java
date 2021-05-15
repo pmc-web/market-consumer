@@ -78,4 +78,11 @@ class ShopServiceTest {
         assertEquals(shopDtos.size(), count);
     }
 
+    @DisplayName("마켓 조회 (좋아요수 포함) - 서비스")
+    @Test
+    void 마켓_조회1(){
+        long id = 1L;
+        FavoriteShopDto dto = shopService.getShopById(id);
+        assertEquals(dto.getId(), id);
+    }
 }

@@ -14,4 +14,5 @@ public interface ShopService {
     void makeShop(ShopInput shopInput, User user);
     List<FavoriteShopDto> findFavorite(int count);
     List<ShopDto> findNew(int count);
+    FavoriteShopDto getShopById(long id);
 }

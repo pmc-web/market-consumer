@@ -15,6 +15,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,4 +103,12 @@ class FavoriteCustomRepositoryTest {
 
     }
 
+
+    @DisplayName("jpa 테스트- shop favorite join")
+    @Test
+    void jpaJoinTest(){
+        FavoriteShopDto shopDtos = favoriteCustomRepository.findById(1L);
+        assertTrue(shopDtos.getId() == 1L);
+        System.out.println(shopDtos.getId()+" "+shopDtos.getLikes());
+    }
 }
