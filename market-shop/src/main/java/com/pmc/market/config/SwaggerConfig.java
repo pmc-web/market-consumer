@@ -26,7 +26,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.pmc.market"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.ant("/shops"))
                 .build()
                 .groupName("market-shop")
                 .apiInfo(apiInfo())

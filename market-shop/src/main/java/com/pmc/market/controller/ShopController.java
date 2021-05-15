@@ -9,14 +9,12 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
-@Api(value = "Shop Controller", tags = "Shop 컨트롤러")
+@Api(value = "Shop Controller", tags = "마켓 컨트롤러")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/shops")
