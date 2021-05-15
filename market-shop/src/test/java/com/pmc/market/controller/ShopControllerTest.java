@@ -1,11 +1,13 @@
 package com.pmc.market.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.dto.ShopDto;
-import com.pmc.market.entity.Shop;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.entity.Role;
+import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.entity.Favorite;
+import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,6 +44,7 @@ public class ShopControllerTest {
     private ShopService shopService;
 
     @Test
+    @WithMockUser
     void 쇼핑몰_목록을_가져온다() throws Exception {
         List<Shop> shops = new ArrayList<>();
         shops.add(Shop.builder()
@@ -85,12 +88,12 @@ public class ShopControllerTest {
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")
                 .fullDescription("쇼핑몰 설명")
-                .owner("주인")
+                .owner("owner@Email.com")
                 .shortDescription("악세사리 쇼핑몰")
                 .period(1) // 유지기간 1년
                 .businessNumber("00-000-000")
                 .build();
-        doNothing().when(shopService).makeShop(shop);
+        doNothing().when(shopService).makeShop(shop, User.builder().role(Role.SELLER).email("annna0449@naver.com").build());
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -122,6 +125,58 @@ public class ShopControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("요즘 뜨는 마켓 N개")
+    void 쇼핑몰_리스트_like1() throws Exception {
+        // favorite table
+        Shop shop = Shop.builder()
+                .id(1L)
+                .name("shop1")
+                .build();
+        Shop shop2 = Shop.builder()
+                .id(2L)
+                .name("shop2")
+                .build();
+        Shop shop3 = Shop.builder()
+                .id(3L)
+                .name("shop3")
+                .build();
+        User user = User.builder()
+                .id(1L)
+                .email("annna0449@naver.com")
+                .password("password123$")
+                .role(Role.BUYER)
+                .build();
+        Favorite.builder()
+                .id(1L)
+                .shop(shop)
+                .user(user)
+                .build();
+        Favorite.builder()
+                .id(2L)
+                .shop(shop2)
+                .user(user)
+                .build();
+        Favorite.builder()
+                .id(3L)
+                .shop(shop3)
+                .user(user)
+                .build();
+        List<FavoriteShopDto> shops = new ArrayList<>();
+        shops.add(FavoriteShopDto.of(shop, 1)); shops.add(FavoriteShopDto.of(shop2, 1));
+        shops.add(FavoriteShopDto.of(shop3, 1));
+
+        when(shopService.findFavorite(3)).thenReturn(shops);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/favorite")
+                .param("count", String.valueOf(3))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", hasSize(3)))
                 .andDo(print());
     }
 }

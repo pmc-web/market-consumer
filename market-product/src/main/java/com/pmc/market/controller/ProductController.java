@@ -1,6 +1,6 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.Product;
+import com.pmc.market.model.entity.Product;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.service.ProductService;
 import io.swagger.annotations.Api;

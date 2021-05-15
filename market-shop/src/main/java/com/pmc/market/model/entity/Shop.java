@@ -1,5 +1,5 @@
-package com.pmc.market.entity;
-
+package com.pmc.market.model.entity;
+import com.pmc.market.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,16 +25,13 @@ public class Shop {
     @NotNull
     private String fullDescription;
 
-    @NotNull
     private String shortDescription;
 
     @NotNull
     private LocalDateTime regDate;
 
-    @NotNull
     private String businessNumber;
 
-    @NotNull
     private String businessName;
 
     @NotNull
@@ -43,12 +40,19 @@ public class Shop {
     @NotNull
     private String telephone;
 
-//    @ManyToOne
-//    @JoinColumn(name= "category_id")
-//    private Category category;
+    @OneToOne
+    @JoinColumn(name= "category_id")
+    private Category category;
 
-//    @ManyToOne
-//    @JoinColumn(name= "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name= "user_id")
+    private User user;
 
+    private Integer deliveryCost; // deliveryCost 원 이상 무료배송
+
+    @Lob
+    private String qnaDescription;
+
+    @Lob
+    private String shipDescription;
 }

@@ -1,5 +1,4 @@
-package com.pmc.market.entity;
-
+package com.pmc.market.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +28,7 @@ public class ShopQnA {
     @NotNull
     private String comment;
 
-//    @ManyToOne
-//    @JoinColumn(name = "shop_id")
-//    private Shop shop;
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 }

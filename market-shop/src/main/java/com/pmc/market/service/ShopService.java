@@ -1,12 +1,16 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Shop;
-import com.pmc.market.model.ShopInput;
+import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopInput;
 
 import java.util.List;
 
 public interface ShopService {
 
     List<Shop> findAll();
-    void makeShop(ShopInput shopInput);
+    void makeShop(ShopInput shopInput, User user);
+
+    List<FavoriteShopDto> findFavorite(int count);
 }

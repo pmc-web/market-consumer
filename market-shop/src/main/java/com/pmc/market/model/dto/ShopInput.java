@@ -1,5 +1,7 @@
-package com.pmc.market.model;
+package com.pmc.market.model.dto;
 
+import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -39,4 +42,20 @@ public class ShopInput {
 
     @NotEmpty(message = "Shop Input(telephone) is not empty.")
     private String telephone;
+
+
+    public Shop toEntity(ShopInput shopInput, User user) {
+        return Shop.builder()
+                .name(shopInput.getName())
+                .period(LocalDateTime.now().plusYears(shopInput.getPeriod()))
+                .fullDescription(shopInput.getFullDescription())
+                .shortDescription(shopInput.getShortDescription())
+                .regDate(LocalDateTime.now())
+                .businessName(shopInput.getBusinessName())
+                .businessNumber(shopInput.getBusinessNumber())
+                .owner(shopInput.getOwner())
+                .telephone(shopInput.getTelephone())
+                .user(user)
+                .build();
+    }
 }

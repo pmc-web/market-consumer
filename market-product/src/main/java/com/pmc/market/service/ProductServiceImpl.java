@@ -1,6 +1,6 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Product;
+import com.pmc.market.model.entity.Product;
 import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

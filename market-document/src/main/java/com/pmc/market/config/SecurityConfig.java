@@ -1,7 +1,6 @@
 package com.pmc.market.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -35,10 +34,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("**", "/configuration/ui", "**/swagger-resources/**",
                 "**/swagger-ui/**", "**/configuration/security", "/swagger-ui.html/**", "**/webjars/**", "**/swagger**", "/assets/**", "**/eureka/**");
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
