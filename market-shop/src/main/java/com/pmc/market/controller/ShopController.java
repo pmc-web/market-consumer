@@ -3,14 +3,18 @@ package com.pmc.market.controller;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.service.ShopService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Api(value = "Shop Controller", tags = "Shop 컨트롤러")
 @RequiredArgsConstructor
@@ -39,7 +43,10 @@ public class ShopController {
     })
     @ApiOperation("가게 등록하기")
     @PostMapping
-    public ResponseEntity<?> makeShop(@AuthenticationPrincipal User user, @RequestBody @Valid ShopInput shopInput) {
+    public ResponseEntity<?> makeShop(@RequestBody @Valid ShopInput shopInput) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
         shopService.makeShop(shopInput, user);
         return ResponseEntity.ok(ResponseMessage.success());
     }
