@@ -1,6 +1,7 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,10 @@ public class ShopInput {
     @NotEmpty(message = "Shop Input(telephone) is not empty.")
     private String telephone;
 
+    private Integer deliveryCost;
+    private String qnaDescription;
+    private String shipDescription;
+    private long categoryId;
 
     public Shop toEntity(ShopInput shopInput, User user) {
         return Shop.builder()
@@ -56,6 +61,10 @@ public class ShopInput {
                 .owner(shopInput.getOwner())
                 .telephone(shopInput.getTelephone())
                 .user(user)
+                .deliveryCost(shopInput.deliveryCost)
+                .shipDescription(shopInput.qnaDescription)
+                .shipDescription(shopInput.shipDescription)
+//                .category() TODO : category id 도 받아야 함..
                 .build();
     }
 }

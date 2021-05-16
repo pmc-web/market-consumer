@@ -3,16 +3,17 @@ package com.pmc.market.model.dto;
 import com.pmc.market.model.entity.Shop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
 @Builder
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-public class FavoriteShopDto {
+@NoArgsConstructor
+public class ShopDto {
+    // TODO: 좋아요 정보도 넣어야 하는데 ???? jpa 로 가져올 수 있을지 확인 후
     private long id;
     private String name;
     private LocalDateTime period;
@@ -28,10 +29,9 @@ public class FavoriteShopDto {
     private Integer deliveryCost;
     private String qnaDescription;
     private String shipDescription;
-    private long likes;
 
-    public static FavoriteShopDto of(Shop shop, long likes) {
-        return FavoriteShopDto.builder()
+    public static ShopDto of(Shop shop) {
+        return ShopDto.builder()
                 .id(shop.getId())
                 .name(shop.getName())
                 .period(shop.getPeriod())
@@ -39,6 +39,7 @@ public class FavoriteShopDto {
                 .shortDescription(shop.getShortDescription())
                 .regDate(shop.getRegDate())
                 .businessName(shop.getBusinessName())
+                .businessNumber(shop.getBusinessNumber())
                 .owner(shop.getOwner())
                 .telephone(shop.getTelephone())
                 .categoryId(shop.getCategory() == null ? null : shop.getCategory().getId())
@@ -46,12 +47,6 @@ public class FavoriteShopDto {
                 .deliveryCost(shop.getDeliveryCost())
                 .qnaDescription(shop.getQnaDescription())
                 .shipDescription(shop.getShipDescription())
-                .likes(likes)
                 .build();
-    }
-
-    public FavoriteShopDto(Shop shop, long likes){
-        this.id = shop.getId();
-        this.likes = likes;
     }
 }
