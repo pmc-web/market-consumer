@@ -15,5 +15,5 @@ public interface ShopService {
     List<FavoriteShopDto> findFavorite(int count);
     List<ShopDto> findNew(int count);
     FavoriteShopDto getShopById(long id);
-    List<Shop> getShopsByCategory(long id);
+    List<ShopDto> getShopsByCategory(long id);
 }

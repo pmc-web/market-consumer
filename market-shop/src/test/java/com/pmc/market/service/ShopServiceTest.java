@@ -91,9 +91,9 @@ class ShopServiceTest {
     @DisplayName("마켓 카테고리 리스트 조회 ")
     void 카테고리별_마켓_리스트() {
         long id = 1L;
-        List<Shop> shops = shopService.getShopsByCategory(id);
+        List<ShopDto> shops = shopService.getShopsByCategory(id);
         shops.forEach(s -> {
-            assertEquals(s.getCategory().getId(), id);
+            assertEquals(s.getCategoryId(), id);
         });
     }
 }

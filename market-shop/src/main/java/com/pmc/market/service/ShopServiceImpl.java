@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -63,9 +64,7 @@ public class ShopServiceImpl implements ShopService {
     public List<ShopDto> findNew(int count) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
         Page<Shop> all = shopRepository.findAll(pageable);
-        List<Shop> content = all.getContent();
-        List<ShopDto> shops = new ArrayList<>();
-        content.forEach(shop -> shops.add(ShopDto.of(shop)));
+        List<ShopDto> shops = all.getContent().stream().map(ShopDto::of).collect(Collectors.toList());
         return shops;
     }
 
@@ -75,8 +74,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<Shop> getShopsByCategory(long id) {
+    public List<ShopDto> getShopsByCategory(long id) {
         Category category = categoryRepository.findById(id).orElseThrow(()-> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
-        return shopRepository.findByCategory(category);
+        return shopRepository.findByCategory(category).stream().map(ShopDto::of).collect(Collectors.toList());
     }
 }
