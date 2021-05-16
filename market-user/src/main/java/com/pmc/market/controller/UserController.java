@@ -8,6 +8,7 @@ import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -69,5 +70,12 @@ public class UserController {
     @GetMapping("/sign-up-confirm")
     public ResponseMessage signUpConfirm(@RequestParam(value = "email") String email, @RequestParam(value = "status") Status status, @RequestParam(value = "auth") String auth) {
         return ResponseMessage.success(userService.signUpConfirm(status, email, auth));
+    }
+
+    @ApiOperation(value = "판매자 전환")
+    @PutMapping("/{id}/role")
+    public ResponseEntity changeUserRole(@ApiParam(value = "유저id") @PathVariable Long id){
+        userService.changeToSeller(id);
+        return ResponseEntity.ok().body(ResponseMessage.success());
     }
 }

@@ -17,7 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="email" , unique=true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column
@@ -53,11 +53,16 @@ public class User {
     public void setStatus(Status status) {
         this.status = status;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
     public void setAuthKey(String authKey) {
         this.authKey = authKey;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
