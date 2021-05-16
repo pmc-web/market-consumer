@@ -141,4 +141,12 @@ public class UserServiceImpl implements UserService {
         return updateUserStatus(status, email);
     }
 
+    @Override
+    public void changeToSeller(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+        if (user.getRole().equals(Role.SELLER))
+            throw new BusinessException("이미 판매자입니다.", ErrorCode.INVALID_INPUT_VALUE);
+        user.setRole(Role.SELLER);
+        userRepository.save(user);
+    }
 }
