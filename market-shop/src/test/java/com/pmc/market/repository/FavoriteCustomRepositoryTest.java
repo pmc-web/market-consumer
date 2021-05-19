@@ -4,16 +4,20 @@ import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.dto.ShopLikesDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,12 +107,16 @@ class FavoriteCustomRepositoryTest {
 
     }
 
-
-    @DisplayName("jpa 테스트- shop favorite join")
+    @Autowired
+    private EntityManager entityManager;
     @Test
-    void jpaJoinTest(){
-        FavoriteShopDto shopDtos = favoriteCustomRepository.findById(1L);
-        assertTrue(shopDtos.getId() == 1L);
-        System.out.println(shopDtos.getId()+" "+shopDtos.getLikes());
+    void jpaTest() {
+        /*
+           SELECT sf.likes, s.*  FROM shop s left join
+           (select count(shop_id) as likes, f.shop_id from favorite f group by f.shop_id) sf
+           on sf.shop_id = s.id
+         */
     }
+
+
 }

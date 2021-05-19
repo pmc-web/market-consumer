@@ -4,14 +4,14 @@ import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopDto;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.dto.ShopRequestDto;
 
 import java.util.List;
 
 public interface ShopService {
 
     List<Shop> findAll();
-    void makeShop(ShopInput shopInput, User user);
+    void makeShop(ShopRequestDto shopRequestDto, User user);
     List<FavoriteShopDto> findFavorite(int count);
     List<ShopDto> findNew(int count);
     FavoriteShopDto getShopById(long id);

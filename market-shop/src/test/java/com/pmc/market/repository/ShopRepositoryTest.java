@@ -1,7 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,7 +56,7 @@ class ShopRepositoryTest {
     @DisplayName("makeShop() 테스트")
     @Test
     void 쇼핑몰_생성() {
-        ShopInput shopInput = ShopInput.builder()
+        ShopRequestDto shopRequestDto = ShopRequestDto.builder()
                 .name("쇼핑몰1")
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")
@@ -66,15 +67,15 @@ class ShopRepositoryTest {
                 .businessNumber("00-000-000")
                 .build();
         Shop shop = Shop.builder()
-                .name(shopInput.getName())
-                .period(LocalDateTime.now().plusYears(shopInput.getPeriod()))
-                .fullDescription(shopInput.getFullDescription())
-                .shortDescription(shopInput.getShortDescription())
+                .name(shopRequestDto.getName())
+                .period(LocalDateTime.now().plusYears(shopRequestDto.getPeriod()))
+                .fullDescription(shopRequestDto.getFullDescription())
+                .shortDescription(shopRequestDto.getShortDescription())
                 .regDate(LocalDateTime.now())
-                .businessName(shopInput.getBusinessName())
-                .businessNumber(shopInput.getBusinessNumber())
-                .owner(shopInput.getOwner())
-                .telephone(shopInput.getTelephone())
+                .businessName(shopRequestDto.getBusinessName())
+                .businessNumber(shopRequestDto.getBusinessNumber())
+                .owner(shopRequestDto.getOwner())
+                .telephone(shopRequestDto.getTelephone())
                 .build();
         shopRepository.save(shop);
 
@@ -103,5 +104,20 @@ class ShopRepositoryTest {
         shops.forEach(s->{
             assertEquals(s.getCategory().getId(),1L);
         });
+    }
+
+    @Transactional
+    @Test
+    void 마켓조회_테스트(){
+        List<Shop> shop = shopRepository.findAll();
+        shop.forEach(s->s.getFavorites().forEach(f-> System.out.println(f.getId())));
+    }
+
+    @Transactional
+    @Test
+    void 마켓조회_테스트2_byId(){
+        Long id = 1L;
+        Shop shops = shopRepository.findById(id).get();
+        shops.getFavorites().forEach(f-> System.out.println("favorite id"+f.getId()+" "));
     }
 }

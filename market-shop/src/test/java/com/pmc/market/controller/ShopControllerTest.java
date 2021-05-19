@@ -8,7 +8,7 @@ import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,7 +84,7 @@ public class ShopControllerTest {
     @DisplayName("makeShop() 테스트")
     @Test
     void 쇼핑몰_등록() throws Exception {
-        ShopInput shop = ShopInput.builder()
+        ShopRequestDto shop = ShopRequestDto.builder()
                 .name("쇼핑몰1")
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")
@@ -109,7 +109,7 @@ public class ShopControllerTest {
     @Test
     @DisplayName("exception handler 테스트")
     void 유효성체크() throws Exception {
-        ShopInput shop = ShopInput.builder()
+        ShopRequestDto shop = ShopRequestDto.builder()
                 .name("쇼핑몰1")
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")

@@ -1,10 +1,15 @@
 package com.pmc.market.model.entity;
 import com.pmc.market.entity.User;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Builder
 @Entity
@@ -40,11 +45,11 @@ public class Shop {
     @NotNull
     private String telephone;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name= "category_id")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne // 원칙상으로는 불가하지만(1인당 마켓 1개 생성가능) 원활한 테스트를 위해 1당 여러개 마켓을 생성할 수 있도록 허용
     @JoinColumn(name= "user_id")
     private User user;
 
@@ -55,4 +60,16 @@ public class Shop {
 
     @Lob
     private String shipDescription;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<Favorite> favorites = new ArrayList<>();
+
+    public void addFavorite(Favorite favorite){
+        Collection<Favorite> likes = getFavorites();
+        likes.add(favorite);
+    }
+    public void removeFavorite(Favorite favorite){
+        Collection<Favorite> likes = getFavorites();
+        likes.remove(favorite);
+    }
 }

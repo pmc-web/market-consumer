@@ -5,8 +5,7 @@ import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopDto;
-import com.pmc.market.model.dto.ShopInput;
-import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +49,7 @@ class ShopServiceTest {
          * */
         userRepository.save(User.builder().id(1L).role(Role.SELLER).email("annna0449@naver.com").build());
         User user = userRepository.findById(1L).get();
-        shopService.makeShop(ShopInput.builder()
+        shopService.makeShop(ShopRequestDto.builder()
                 .name("뉴 마켓")
                 .businessName("비지니스이름")
                 .businessNumber("1234-12345")
