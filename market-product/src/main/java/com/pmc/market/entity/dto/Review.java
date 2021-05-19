@@ -1,4 +1,4 @@
-package com.pmc.market.model.entity;
+package com.pmc.market.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
