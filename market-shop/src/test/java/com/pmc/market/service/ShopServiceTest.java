@@ -4,7 +4,7 @@ import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
-import com.pmc.market.model.dto.ShopDto;
+import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +36,7 @@ class ShopServiceTest {
     @Autowired
     private ShopRepository shopRepository;
 
+    @Transactional
     @DisplayName("전체 마켓 리스트")
     @Test
     void findAll_전체_마켓_리스트() {
@@ -66,31 +68,34 @@ class ShopServiceTest {
     @Test
     void findFavorite_인기마켓_리스트() {
         int count = 3;
-        List<FavoriteShopDto> favoriteShopDtoList = shopService.findFavorite(count);
+        List<ShopResponseDto> favoriteShopDtoList = shopService.findFavorite(count);
         assertTrue(favoriteShopDtoList.size() == count);
     }
 
+    @Transactional
     @DisplayName("신규 마켓 리스트 - 서비스")
     @Test
     void findNew_신규마켓_리스트() {
         int count = 6;
-        List<ShopDto> shopDtos = shopService.findNew(count);
-        assertEquals(shopDtos.size(), count);
+        List<ShopResponseDto> shopResponseDtos = shopService.findNew(count);
+        assertEquals(shopResponseDtos.size(), count);
     }
 
-    @DisplayName("마켓 조회 (좋아요수 포함) - 서비스")
+    @Transactional
+    @DisplayName("마켓 아이디로 조회 - 서비스")
     @Test
-    void 마켓_조회1() {
+    void getShopById() {
         long id = 1L;
-        FavoriteShopDto dto = shopService.getShopById(id);
-        assertEquals(dto.getId(), id);
+        ShopResponseDto shopResponseDto = shopService.getShopById(id);
+        assertEquals(shopResponseDto.getId(), id);
     }
 
+    @Transactional
     @Test
     @DisplayName("마켓 카테고리 리스트 조회 ")
     void 카테고리별_마켓_리스트() {
         long id = 1L;
-        List<ShopDto> shops = shopService.getShopsByCategory(id);
+        List<ShopResponseDto> shops = shopService.getShopsByCategory(id);
         shops.forEach(s -> {
             assertEquals(s.getCategoryId(), id);
         });

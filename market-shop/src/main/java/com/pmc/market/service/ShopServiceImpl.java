@@ -3,10 +3,11 @@ package com.pmc.market.service;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
+import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.FavoriteShopDto;
-import com.pmc.market.model.dto.ShopDto;
+import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopRequestDto;
@@ -36,8 +37,8 @@ public class ShopServiceImpl implements ShopService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<Shop> findAll() {
-        return shopRepository.findAll();
+    public List<ShopResponseDto> findAll() {
+        return shopRepository.findAll().stream().map(ShopResponseDto::of).collect(Collectors.toList());
     }
 
     @Override
@@ -53,26 +54,28 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<FavoriteShopDto> findFavorite(int count) {
+    public List<ShopResponseDto> findFavorite(int count) {
         return favoriteCustomRepository.findShopsMostFavoriteCount(count);
     }
 
     @Override
-    public List<ShopDto> findNew(int count) {
+    public List<ShopResponseDto> findNew(int count) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
         Page<Shop> all = shopRepository.findAll(pageable);
-        List<ShopDto> shops = all.getContent().stream().map(ShopDto::of).collect(Collectors.toList());
+        List<ShopResponseDto> shops = all.getContent().stream().map(ShopResponseDto::of).collect(Collectors.toList());
         return shops;
     }
 
     @Override
-    public FavoriteShopDto getShopById(long id) {
-        return favoriteCustomRepository.findById(id);
+    public ShopResponseDto getShopById(long id) {
+        Shop shop = shopRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 id 에 대한 마켓 정보가 없습니다."));
+        return ShopResponseDto.of(shop);
     }
 
     @Override
-    public List<ShopDto> getShopsByCategory(long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(()-> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
-        return shopRepository.findByCategory(category).stream().map(ShopDto::of).collect(Collectors.toList());
+    public List<ShopResponseDto> getShopsByCategory(long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
+        return shopRepository.findByCategory(category).stream().map(ShopResponseDto::of).collect(Collectors.toList());
     }
 }
