@@ -22,7 +22,7 @@ public class ShopController {
     private final ShopService shopService;
 
     @ApiOperation("전체 마켓 리스트")
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<?> getAllShops() {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findAll()));
     }
@@ -51,13 +51,33 @@ public class ShopController {
 
     @ApiOperation("마켓 id 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getShopById(@ApiParam(value = "조회할 마켓 id")@PathVariable long id){
+    public ResponseEntity<?> getShopById(@ApiParam(value = "조회할 마켓 id") @PathVariable long id) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.getShopById(id)));
     }
 
     @ApiOperation("마켓 카테고리별 조회")
     @GetMapping("/category")
-    public ResponseEntity<?> getShopsByCategory(@ApiParam(value = "카테고리 id")@RequestParam long id){
+    public ResponseEntity<?> getShopsByCategory(@ApiParam(value = "카테고리 id") @RequestParam long id) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.getShopsByCategory(id)));
+    }
+
+    @ApiOperation("마켓 검색")
+    @GetMapping("/search")
+    public ResponseEntity<?> getShopsBySearch(@RequestParam String searchWord) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.getShopsBySearch(searchWord)));
+    }
+
+    @ApiOperation("마켓 정보 수정")
+    @PostMapping("/{id}")
+    public ResponseEntity<?> updateShop(@RequestBody @Valid ShopRequestDto shopRequestDto, @ApiParam("수정할 마켓 id") @PathVariable long id) {
+        shopService.updateShop(shopRequestDto, id);
+        return ResponseEntity.ok(ResponseMessage.success());
+    }
+
+    @ApiOperation("마켓 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteShop(@ApiParam("삭제할 마켓 id") @PathVariable long id){
+        shopService.deleteShop(id);
+        return ResponseEntity.ok(ResponseMessage.success());
     }
 }

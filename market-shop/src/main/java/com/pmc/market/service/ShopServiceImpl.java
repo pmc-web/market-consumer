@@ -6,13 +6,14 @@ import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
-import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Category;
+import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
+import com.pmc.market.repository.FavoriteRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +33,10 @@ import java.util.stream.Collectors;
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
-
+    private final FavoriteRepository favoriteRepository;
     private final FavoriteCustomRepository favoriteCustomRepository;
-
     private final CategoryRepository categoryRepository;
+
 
     @Override
     public List<ShopResponseDto> findAll() {
@@ -69,13 +71,51 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public ShopResponseDto getShopById(long id) {
         Shop shop = shopRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당 id 에 대한 마켓 정보가 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
         return ShopResponseDto.of(shop);
     }
 
     @Override
     public List<ShopResponseDto> getShopsByCategory(long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
-        return shopRepository.findByCategory(category).stream().map(ShopResponseDto::of).collect(Collectors.toList());
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
+        return shopRepository.findByCategory(category).stream()
+                .map(ShopResponseDto::of).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ShopResponseDto> getShopsBySearch(String searchWord) {
+        return shopRepository.findByName(searchWord).stream()
+                .map(ShopResponseDto::of).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void updateShop(ShopRequestDto shopRequestDto, long id) {
+        Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
+
+        if (shop.getCategory().getId() != shopRequestDto.getCategoryId()) {
+            Category category = categoryRepository.findById(shopRequestDto.getCategoryId())
+                    .orElseThrow(() -> new EntityNotFoundException("해당 카테고리를 찾을 수 없습니다."));
+            shop.updateCategory(category);
+        }
+        shop.update(shopRequestDto);
+
+        try {
+            shopRepository.save(shop);
+        } catch (Exception e) {
+            throw new BusinessException("Shop Update 도중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteShop(long id) {
+        Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
+        List<Favorite> favorites = shop.getFavorites();
+        shop.removeFavoriteAll(); // favorite 참조 지우기
+        favoriteRepository.deleteAllByIdInQuery(favorites.stream().map(f -> f.getId()).collect(Collectors.toList())); // favorite 삭제
+        shopRepository.delete(shop); // shop 삭제
+    }
+
 }

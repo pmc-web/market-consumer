@@ -1,7 +1,6 @@
 package com.pmc.market.service;
 
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.dto.ShopRequestDto;
 
@@ -15,4 +14,7 @@ public interface ShopService {
     List<ShopResponseDto> findNew(int count);
     ShopResponseDto getShopById(long id);
     List<ShopResponseDto> getShopsByCategory(long id);
+    List<ShopResponseDto> getShopsBySearch(String searchWord);
+    void updateShop(ShopRequestDto shop, long id);
+    void deleteShop(long id);
 }

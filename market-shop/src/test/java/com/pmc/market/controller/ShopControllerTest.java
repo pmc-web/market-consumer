@@ -1,10 +1,10 @@
 package com.pmc.market.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
@@ -228,4 +228,57 @@ public class ShopControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @WithMockUser
+    @DisplayName("마켓 조회 - 검색어")
+    @Test
+    void getShopsBySearch() throws Exception {
+        // 쇼핑몰 이름 검색 ??
+        String searchWord = "213";
+        List<ShopResponseDto> shops = new ArrayList<>();
+
+        when(shopService.getShopsBySearch(searchWord)).thenReturn(shops);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/search")
+                .param("searchWord", String.valueOf(searchWord))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @DisplayName("마켓 정보 수정")
+    @Test
+    void updateShop() throws Exception {
+        long id = 6L;
+        ShopRequestDto shop = ShopRequestDto.builder()
+                .name("hi")
+                .businessName("update shop")
+                .build();
+        doNothing().when(shopService).updateShop(shop, id);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}", id)
+                .content(objectMapper.writeValueAsString(shop))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @DisplayName("마켓 삭제 ")
+    @Test
+    void deleteShop() throws Exception {
+        long id = 7L;
+        doNothing().when(shopService).deleteShop(id);
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+
+
 }

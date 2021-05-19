@@ -3,6 +3,7 @@ package com.pmc.market.repository;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.entity.Category;
+import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +32,9 @@ class ShopRepositoryTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private FavoriteRepository favoriteRepository;
 
     @Test
     void 모든_쇼핑몰을_가져오기() throws Exception {
@@ -87,37 +92,91 @@ class ShopRepositoryTest {
     @Test
     void 신규_쇼핑몰_리스트() {
         int count = 6;
-        Pageable pageable = PageRequest.of(0,count, Sort.by(Sort.Direction.ASC, "regDate"));
+        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
         Page<Shop> all = shopRepository.findAll(pageable);
         List<Shop> content = all.getContent();
-        content.forEach(s->{
-            System.out.println(s.getId()+" "+s.getRegDate());
+        content.forEach(s -> {
+            System.out.println(s.getId() + " " + s.getRegDate());
         });
         assertEquals(count, content.size());
     }
 
     @Test
-    void 카테고리별_쇼핑몰(){
+    void 카테고리별_쇼핑몰() {
         Category category = categoryRepository.findById(1L).get();
         List<Shop> shops = shopRepository.findByCategory(category);
 
-        shops.forEach(s->{
-            assertEquals(s.getCategory().getId(),1L);
+        shops.forEach(s -> {
+            assertEquals(s.getCategory().getId(), 1L);
         });
     }
 
     @Transactional
     @Test
-    void 마켓조회_테스트(){
+    void 마켓조회_테스트() {
         List<Shop> shop = shopRepository.findAll();
-        shop.forEach(s->s.getFavorites().forEach(f-> System.out.println(f.getId())));
+        shop.forEach(s -> s.getFavorites().forEach(f -> System.out.println(f.getId())));
     }
 
     @Transactional
     @Test
-    void 마켓조회_테스트2_byId(){
+    void 마켓조회_테스트2_byId() {
         Long id = 1L;
         Shop shops = shopRepository.findById(id).get();
-        shops.getFavorites().forEach(f-> System.out.println("favorite id"+f.getId()+" "));
+        shops.getFavorites().forEach(f -> System.out.println("favorite id" + f.getId() + " "));
+    }
+
+    @DisplayName("마켓 조회 - 검색어")
+    @Transactional
+    @Test
+    void getShopsBySearch() {
+        String searchWord = "";
+        List<Shop> result = shopRepository.findByName(searchWord);
+        assertTrue(result.size() > 0);
+        result.forEach(s -> System.out.println(s.getName()));
+    }
+
+    @DisplayName("마켓 업데이트")
+    @Test
+    void updateShop() {
+        long id = 6L;
+        Shop shop = shopRepository.findById(id).get();
+        long categoryId = 6L;
+        String prevMainCategory = shop.getCategory().getMainCategory();
+        Category category = categoryRepository.findById(categoryId).get();
+        shop.updateCategory(category);
+        shopRepository.save(shop);
+        String updateMainCategory = shop.getCategory().getMainCategory();
+        assertNotEquals(prevMainCategory, updateMainCategory);
+    }
+
+    @DisplayName("마켓 업데이트2")
+    @Test
+    void updateShop2() {
+        Shop shop = shopRepository.findById(6L).get();
+        String prev = shop.getName();
+        shop.setName("업데이트 이름");
+        shopRepository.save(shop);
+        String now = shopRepository.findById(6L).get().getName();
+        System.out.println(prev + " " + now);
+        assertNotEquals(prev, now);
+    }
+
+    @DisplayName("좋아요 삭제 _ 무한삽질중 ")
+    @Test
+    @Transactional
+    void 좋아요_데이터_삭제() {
+        Shop shop = shopRepository.findById(8L).get();
+        List<Long> ids = shop.getFavorites().stream().map(f -> f.getId()).collect(Collectors.toList());
+        shop.removeFavoriteAll(); // 연관관계 끊기
+//        List<Favorite> favorites = shop.getFavorites();
+//        favorites.forEach(f->f.setShop(null));
+
+//        List<Favorite> favorites = favoriteRepository.findByShop_Id(8L);
+//        favorites.forEach(f-> f.setShop(null));
+
+        favoriteRepository.deleteAllByIdInQuery(ids);
+//        shopRepository.save(shop);
+//        assertEquals(shopRepository.findById(8L).get().getFavorites().size(), 0);
     }
 }

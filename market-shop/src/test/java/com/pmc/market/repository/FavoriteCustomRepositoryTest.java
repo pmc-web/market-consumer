@@ -1,12 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.model.entity.Favorite;
-import com.pmc.market.model.entity.Shop;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,16 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = {ShopApplication.class})
 class FavoriteCustomRepositoryTest {
     @Autowired
-    private ShopRepository shopRepository;
-
-    @Autowired
     private FavoriteCustomRepository favoriteCustomRepository;
-
-    @Autowired
-    private FavoriteRepository favoriteRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private EntityManager entityManager;

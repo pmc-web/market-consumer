@@ -3,7 +3,6 @@ package com.pmc.market.service;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.repository.ShopRepository;
@@ -20,8 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})
@@ -99,5 +97,39 @@ class ShopServiceTest {
         shops.forEach(s -> {
             assertEquals(s.getCategoryId(), id);
         });
+    }
+
+    @Transactional
+    @Test
+    @DisplayName("마켓 조회 - 검색어")
+    void getShopsBySearch() {
+        String searchWord = "";
+        List<ShopResponseDto> shopResponseDtos = shopService.getShopsBySearch(searchWord);
+        assertTrue(shopResponseDtos.size() > 0);
+    }
+
+    @DisplayName("마켓 정보 수정")
+    @Test
+    void updateShop(){
+        long id = 6L;
+        ShopRequestDto updateShop = ShopRequestDto.builder()
+                .name("수정한 이름")
+                .businessName("수정한 이름")
+                .businessNumber("수정")
+                .categoryId(2L)
+                .deliveryCost(0)
+                .period(1)
+                .fullDescription("---")
+                .telephone("11-010010-0100")
+                .owner("사업자 이름 ")
+                .build();
+        shopService.updateShop(updateShop, id);
+    }
+
+    @Test
+    void deleteShop(){
+        long id = 8L;
+        shopService.deleteShop(id);
+        assertFalse(shopRepository.findById(id).isPresent());
     }
 }
