@@ -6,11 +6,11 @@ import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
+import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
 import com.pmc.market.repository.FavoriteRepository;
@@ -37,7 +37,6 @@ public class ShopServiceImpl implements ShopService {
     private final FavoriteCustomRepository favoriteCustomRepository;
     private final CategoryRepository categoryRepository;
 
-
     @Override
     public List<ShopResponseDto> findAll() {
         return shopRepository.findAll().stream().map(ShopResponseDto::of).collect(Collectors.toList());
@@ -52,7 +51,9 @@ public class ShopServiceImpl implements ShopService {
         if (shopRepository.countByUserEmail(user.getEmail()) > 0) {
             throw new OnlyCanMakeShopOneException("계정당 1개의 마켓만 만들 수 있습니다.");
         }
-        shopRepository.save(shopRequestDto.toEntity(shopRequestDto, user));
+        Category category = categoryRepository.findById(shopRequestDto.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
+        shopRepository.save(shopRequestDto.toEntity(shopRequestDto, user, category));
     }
 
     @Override

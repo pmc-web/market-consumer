@@ -3,14 +3,11 @@ package com.pmc.market.model.entity;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.ShopRequestDto;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Builder
@@ -47,11 +44,11 @@ public class Shop {
     @NotNull
     private String telephone;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne // 원칙상으로는 불가하지만(1인당 마켓 1개 생성가능) 원활한 테스트를 위해 1당 여러개 마켓을 생성할 수 있도록 허용
+    @ManyToOne(fetch = FetchType.LAZY) // 원칙상으로는 불가하지만(1인당 마켓 1개 생성가능) 원활한 테스트를 위해 1당 여러개 마켓을 생성할 수 있도록 허용
     @JoinColumn(name = "user_id")
     private User user;
 

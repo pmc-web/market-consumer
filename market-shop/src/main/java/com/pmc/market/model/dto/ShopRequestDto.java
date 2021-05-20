@@ -1,6 +1,7 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.entity.User;
+import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("Shop 생성시 필요한 ShopInput")
+@ApiModel("Shop 생성, 수정시 필요한 ShopInput")
 public class ShopRequestDto {
     @ApiModelProperty(value = "마켓 이름 ")
     @NotEmpty(message = "Shop Input(name) can not empty.")
@@ -65,7 +66,7 @@ public class ShopRequestDto {
     @ApiModelProperty(value = "카테고리 Id")
     private long categoryId;
 
-    public Shop toEntity(ShopRequestDto shopRequestDto, User user) {
+    public Shop toEntity(ShopRequestDto shopRequestDto, User user, Category category) {
         return Shop.builder()
                 .name(shopRequestDto.getName())
                 .period(LocalDateTime.now().plusYears(shopRequestDto.getPeriod()))
@@ -78,9 +79,9 @@ public class ShopRequestDto {
                 .telephone(shopRequestDto.getTelephone())
                 .user(user)
                 .deliveryCost(shopRequestDto.deliveryCost)
-                .shipDescription(shopRequestDto.qnaDescription)
+                .qnaDescription(shopRequestDto.qnaDescription)
                 .shipDescription(shopRequestDto.shipDescription)
-//                .category() TODO : category id 도 받아야 함..
+                .category(category)
                 .build();
     }
 }
