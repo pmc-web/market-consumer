@@ -1,12 +1,23 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.entity.Product;
+import com.pmc.market.entity.vo.ProductCreateParamVo;
+import com.pmc.market.entity.vo.ProductUpdateParamVo;
+import com.pmc.market.entity.vo.ProductVo;
+import com.pmc.market.entity.vo.SearchProductParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ProductService {
 
-   void saveProduct(Product product);
-   Product findOneProduct(Long productId);
-   List<Product> findProducts();
+    ProductVo create(ProductCreateParamVo product);
+
+    ProductVo update(ProductUpdateParamVo product);
+
+    ProductVo getById(Long productId);
+
+    Page<ProductVo> get(SearchProductParam searchParam, Pageable pageable);
+
+    List<ProductVo> getTodayPopularProducts(int limit);
 }
