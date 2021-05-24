@@ -3,8 +3,8 @@ package com.pmc.market.service;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -34,7 +32,6 @@ class ShopServiceTest {
     @Autowired
     private ShopRepository shopRepository;
 
-    @Transactional
     @DisplayName("전체 마켓 리스트")
     @Test
     void findAll_전체_마켓_리스트() {
@@ -110,7 +107,7 @@ class ShopServiceTest {
 
     @DisplayName("마켓 정보 수정")
     @Test
-    void updateShop(){
+    void updateShop() {
         long id = 6L;
         ShopRequestDto updateShop = ShopRequestDto.builder()
                 .name("수정한 이름")
@@ -127,7 +124,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void deleteShop(){
+    void deleteShop() {
         long id = 8L;
         shopService.deleteShop(id);
         assertFalse(shopRepository.findById(id).isPresent());

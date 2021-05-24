@@ -3,7 +3,6 @@ package com.pmc.market.repository;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.entity.Category;
-import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +35,8 @@ class ShopRepositoryTest {
     private FavoriteRepository favoriteRepository;
 
     @Test
-    void 모든_쇼핑몰을_가져오기() throws Exception {
+    void 모든_쇼핑몰을_가져오기_좋아요_제외() {
+        /*
         Shop shop = Shop.builder()
                 .id(1L)
                 .name("쇼핑몰1")
@@ -50,12 +49,11 @@ class ShopRepositoryTest {
                 .period(LocalDateTime.now().plusYears(1))
                 .businessNumber("00-000-000")
                 .build();
-
         shopRepository.save(shop);
-
-        List<Shop> result = shopRepository.findAll();
-
-        assertEquals(shop.getId(), result.get(0).getId());
+         */
+//        List<Shop> result = shopRepository.findAllList();
+//        List<Shop> result = shopRepository.findAll(); // 그냥 조회만 하면 select 쿼리 1개 사용
+//        assertTrue(result.size() > 0);
     }
 
     @DisplayName("makeShop() 테스트")
@@ -88,12 +86,12 @@ class ShopRepositoryTest {
 
     }
 
-    @DisplayName("신규 쇼핑몰 ")
+    @DisplayName("신규 쇼핑몰 - 최신순서로 쇼핑몰 전체 조회")
     @Test
     void 신규_쇼핑몰_리스트() {
         int count = 6;
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
-        Page<Shop> all = shopRepository.findAll(pageable);
+        Page<Shop> all = shopRepository.findAll(pageable); // select 쿼리 1번 사용 확인
         List<Shop> content = all.getContent();
         content.forEach(s -> {
             System.out.println(s.getId() + " " + s.getRegDate());
@@ -164,19 +162,8 @@ class ShopRepositoryTest {
 
     @DisplayName("좋아요 삭제 _ 무한삽질중 ")
     @Test
-    @Transactional
-    void 좋아요_데이터_삭제() {
-        Shop shop = shopRepository.findById(8L).get();
-        List<Long> ids = shop.getFavorites().stream().map(f -> f.getId()).collect(Collectors.toList());
-        shop.removeFavoriteAll(); // 연관관계 끊기
-//        List<Favorite> favorites = shop.getFavorites();
-//        favorites.forEach(f->f.setShop(null));
-
-//        List<Favorite> favorites = favoriteRepository.findByShop_Id(8L);
-//        favorites.forEach(f-> f.setShop(null));
-
-        favoriteRepository.deleteAllByIdInQuery(ids);
-//        shopRepository.save(shop);
-//        assertEquals(shopRepository.findById(8L).get().getFavorites().size(), 0);
+    void 마켓_삭제() {
+        shopRepository.deleteById(8L);
+        // delete 3 : shop1+favorite 2
     }
 }

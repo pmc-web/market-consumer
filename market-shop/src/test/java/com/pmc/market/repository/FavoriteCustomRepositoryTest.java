@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})
@@ -23,6 +23,7 @@ class FavoriteCustomRepositoryTest {
 
     @Autowired
     private EntityManager entityManager;
+
     @Test
     void jpaTest() {
         /*
@@ -38,7 +39,7 @@ class FavoriteCustomRepositoryTest {
 
     }
 
-    @DisplayName("인기순 n개")
+    @DisplayName("인기순 n개 - 쿼리 1개 사용 확인")
     @Test
     @Rollback
     void 쇼핑몰_리스트_favorite_table() {

@@ -9,7 +9,6 @@ import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Category;
-import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
@@ -37,6 +36,7 @@ public class ShopServiceImpl implements ShopService {
     private final FavoriteCustomRepository favoriteCustomRepository;
     private final CategoryRepository categoryRepository;
 
+    @Transactional // lazy
     @Override
     public List<ShopResponseDto> findAll() {
         return shopRepository.findAll().stream().map(ShopResponseDto::of).collect(Collectors.toList());
@@ -113,9 +113,6 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void deleteShop(long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        List<Favorite> favorites = shop.getFavorites();
-        shop.removeFavoriteAll(); // favorite 참조 지우기
-        favoriteRepository.deleteAllByIdInQuery(favorites.stream().map(f -> f.getId()).collect(Collectors.toList())); // favorite 삭제
         shopRepository.delete(shop); // shop 삭제
     }
 
