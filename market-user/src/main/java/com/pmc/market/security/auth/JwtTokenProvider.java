@@ -11,72 +11,65 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
-    private static final String secretKey = "ThisIsA_SecretKeyForJwtExample123#";
+    public static final long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 60; // 1시간만 토큰 유효
+    public static final long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24 * 7; // 1주
 
-    private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
+    @Value("${spring.jwt.secret:ThisIsA_SecretKeyForJwtExample123}")
+    private String SECRET_KEY;
 
     @Resource(name = "userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
-    public String generateJwtToken(User user) {
-        JwtBuilder builder = Jwts.builder()
-                .setSubject(user.getEmail())
-                .setHeader(createHeader())
-                .setClaims(createClaims(user))
-                .setExpiration(createExpireDateForOneYear())
-                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes());
-        return builder.compact();
-    }
-
-    public Claims getClaimsFormToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
-    }
-
-    private Map<String, Object> createHeader() {
-        Map<String, Object> header = new HashMap<>();
-
-        header.put("typ", "JWT");
-        header.put("alg", "HS256");
-        header.put("regDate", System.currentTimeMillis());
-
-        return header;
-    }
-
-    private Date createExpireDateForOneYear() {
-        // 토큰 만료시간은 30일으로 설정
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 30);
-        return c.getTime();
-    }
-
     private Map<String, Object> createClaims(User user) {
         // 공개 클레임에 사용자의 이름과 이메일을 설정하여 정보를 조회할 수 있다.
         Map<String, Object> claims = new HashMap<>();
-
         claims.put("email", user.getEmail());
         claims.put("role", "USER"); // role 설정
-
         return claims;
     }
 
+    public String generateJwtAccessToken(User user) {
+        return createToken(user.getEmail(), ACCESS_TOKEN_VALID_TIME);
+    }
+
+    public String generateJwtRefreshToken(User user) {
+        return createToken(user.getEmail(), REFRESH_TOKEN_VALID_TIME);
+    }
+
+    private String createToken(String email, long expireDate) {
+        Claims claims = Jwts.claims();
+        claims.put("email", email);
+        claims.put("role", "USER");
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + expireDate))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
+                .compact();
+    }
+
+    public Claims getClaimsFormToken(String token) {
+        return Jwts.parser().setSigningKey(SECRET_KEY.getBytes()).parseClaimsJws(token).getBody();
+    }
+
+    // Jwt 토큰의 유효성 + 만료일자 확인
     public boolean isValidToken(String token) {
         try {
             Claims claims = getClaimsFormToken(token);
-            log.info("expireTime :" + claims.getExpiration());
-            log.info("email :" + claims.get("email"));
-            log.info("role :" + claims.get("role"));
+            log.info("expireTime : {}, email : {}, role : {}", claims.getExpiration(), claims.get("email"), claims.get("role"));
             return true;
-
         } catch (ExpiredJwtException exception) {
             log.error("Token Expired");
             return false;
@@ -100,6 +93,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
+    // email 로 인증 정보 조회
     public Authentication getAuthenticationLogin(String email) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -110,13 +104,4 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return req.getHeader(AuthConstants.AUTH_HEADER);
     }
 
-    // Jwt 토큰의 유효성 + 만료일자 확인
-    public boolean validateToken(String jwtToken) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

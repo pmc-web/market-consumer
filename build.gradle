@@ -47,11 +47,14 @@ subprojects {
         runtime('mysql:mysql-connector-java')
         // jpa mapping
         implementation group: 'org.qlrm', name: 'qlrm', version: '2.0.2'
-        implementation ('org.springframework.boot:spring-boot-starter-validation')
-        annotationProcessor ('org.projectlombok:lombok:1.18.12')
+        implementation('org.springframework.boot:spring-boot-starter-validation')
+        annotationProcessor('org.projectlombok:lombok:1.18.12')
         // oauth
         compile('org.springframework.boot:spring-boot-starter-oauth2-client')
 
+        // redis
+        compile('org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE')
+        
         // jwt
         compile('io.jsonwebtoken:jjwt-api:0.11.1')
         runtime('io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1')
@@ -124,7 +127,7 @@ project(':market-user') {
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.5'
 
         // yml 암호화
-        compile ('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.17')
+        compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.17')
     }
 }
 project(':market-document') {

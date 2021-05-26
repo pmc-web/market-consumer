@@ -8,8 +8,10 @@ import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.MarketUnivException;
 import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.model.dto.UserInfoResponseDto;
+import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.repository.UserRepository;
 import com.pmc.market.security.auth.JwtTokenProvider;
+import com.pmc.market.security.auth.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,7 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -33,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final RedisUtil redisUtil;
+
     @Override
     public User createUser(User user) {
         return userRepository.save(user);
@@ -45,8 +52,10 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(user.getPassword(), findUser.getPassword())) {
             throw new BadCredentialsException(findUser.getEmail() + "의 비밀번호가 올바르지 않습니다.");
         }
-        jwtTokenProvider.getAuthenticationLogin(user.getEmail());
-        return UserInfoResponseDto.of(findUser, jwtTokenProvider.generateJwtToken(findUser));
+        jwtTokenProvider.getAuthenticationLogin(user.getEmail()); // 이메일로 인증 정보 조회
+        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(findUser);
+        redisUtil.setDataExpire(refreshToken, findUser.getEmail(), jwtTokenProvider.REFRESH_TOKEN_VALID_TIME);
+        return UserInfoResponseDto.of(findUser, jwtTokenProvider.generateJwtAccessToken(findUser));
     }
 
     @Override
@@ -58,7 +67,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User createdUser = userRepository.save(user);
         String auth = mailSendService.sendAuthMail(user.getEmail());
-        updateUserAuth(auth, user.getEmail()); // TODO : 회원가입시 토큰이 필요할까 ?
+        updateUserAuth(auth, user.getEmail());
         return UserInfoResponseDto.of(createdUser, null);
     }
 
@@ -107,7 +116,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoResponseDto getSocialUser(Map<String, Object> user) {
         Optional<User> findUser = userRepository.findByEmail(String.valueOf(user.get("userId")));
         if (!findUser.isPresent()) return createSocialUser(user);
-        String token = jwtTokenProvider.generateJwtToken(findUser.get());
+        String token = jwtTokenProvider.generateJwtAccessToken(findUser.get());
         return UserInfoResponseDto.of(findUser.get(), token);
     }
 
@@ -123,7 +132,7 @@ public class UserServiceImpl implements UserService {
                 .authKey(String.valueOf(user.get("access_token")))
                 .build();
         userRepository.save(createUser);
-        String token = jwtTokenProvider.generateJwtToken(createUser);
+        String token = jwtTokenProvider.generateJwtAccessToken(createUser);
 
         return UserInfoResponseDto.of(createUser, token);
     }
@@ -148,5 +157,13 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("이미 판매자입니다.", ErrorCode.INVALID_INPUT_VALUE);
         user.setRole(Role.SELLER);
         userRepository.save(user);
+    }
+
+    @Override
+    public void changePassword(UserPasswordRequestDto request) {
+        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException());
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+//        redisUtil.setDataExpire(key, user.getEmail(), 60 * 30L);
     }
 }

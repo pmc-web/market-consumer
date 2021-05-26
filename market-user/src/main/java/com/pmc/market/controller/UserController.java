@@ -2,9 +2,10 @@ package com.pmc.market.controller;
 
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.UserCreateRequestDto;
-import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
 import com.pmc.market.model.ResponseMessage;
+import com.pmc.market.model.dto.UserCreateRequestDto;
+import com.pmc.market.model.dto.UserPasswordRequestDto;
+import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +13,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -74,8 +74,15 @@ public class UserController {
 
     @ApiOperation(value = "판매자 전환")
     @PutMapping("/{id}/role")
-    public ResponseEntity changeUserRole(@ApiParam(value = "유저id") @PathVariable Long id){
+    public ResponseEntity changeUserRole(@ApiParam(value = "유저id") @PathVariable Long id) {
         userService.changeToSeller(id);
+        return ResponseEntity.ok().body(ResponseMessage.success());
+    }
+
+    @ApiOperation(value = "판매자 전환")
+    @PutMapping("/password")
+    public ResponseEntity changePassword(@RequestBody UserPasswordRequestDto request) {
+        userService.changePassword(request);
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
 }
