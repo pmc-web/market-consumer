@@ -4,17 +4,18 @@ import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
-import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.dto.NoticeInputDto;
 import com.pmc.market.model.dto.ShopDto;
+import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.entity.ShopNotice;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
+import com.pmc.market.repository.NoticeRepository;
 import com.pmc.market.repository.ShopRepository;
-import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,8 @@ public class ShopServiceImpl implements ShopService {
     private final FavoriteCustomRepository favoriteCustomRepository;
 
     private final CategoryRepository categoryRepository;
+
+    private final NoticeRepository noticeRepository;
 
     @Override
     public List<Shop> findAll() {
@@ -76,7 +79,32 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public List<Shop> getShopsByCategory(long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(()-> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new BusinessException("해당하는 카테고리가 없습니다.", ErrorCode.INVALID_INPUT_VALUE));
         return shopRepository.findByCategory(category);
+    }
+
+    @Override
+    public List<ShopNotice> getNoticeList(long shopId) {
+        return noticeRepository.findAllByShopId(shopId);
+    }
+
+    @Override
+    public ShopNotice insertNotice(long id, NoticeInputDto noticeInputDto) {
+        return null;
+    }
+
+    @Override
+    public ShopNotice getNotice(long noticeId) {
+        return null;
+    }
+
+    @Override
+    public ShopNotice updateNotice(long noticeId, NoticeInputDto noticeInputDto) {
+        return null;
+    }
+
+    @Override
+    public void deleteNotice(long noticeId) {
+
     }
 }

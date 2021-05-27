@@ -3,6 +3,7 @@ package com.pmc.market.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Builder
 @Entity
@@ -14,10 +15,14 @@ public class ShopNotice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    private String description;
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name= "shop_id")
+    @Lob
+    private String content;
+
+    private LocalDateTime regDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 }

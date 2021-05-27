@@ -1,10 +1,13 @@
 package com.pmc.market.model.entity;
+
 import com.pmc.market.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Entity
@@ -41,11 +44,11 @@ public class Shop {
     private String telephone;
 
     @OneToOne
-    @JoinColumn(name= "category_id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name= "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Integer deliveryCost; // deliveryCost 원 이상 무료배송
@@ -55,4 +58,7 @@ public class Shop {
 
     @Lob
     private String shipDescription;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.REMOVE)
+    private List<ShopNotice> shopNotices = new ArrayList<>();
 }

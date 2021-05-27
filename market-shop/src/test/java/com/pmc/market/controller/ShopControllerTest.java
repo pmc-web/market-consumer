@@ -5,10 +5,12 @@ import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.FavoriteShopDto;
+import com.pmc.market.model.dto.NoticeInputDto;
 import com.pmc.market.model.dto.ShopDto;
+import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.entity.ShopNotice;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,7 +43,17 @@ public class ShopControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
+    NoticeInputDto noticeInputDto = NoticeInputDto.builder()
+            .title("타이틀")
+            .content("공지사항1")
+            .build();
+    ShopNotice notice = ShopNotice.builder()
+            .id(1L)
+            .title("타이틀")
+            .content("공지사항1")
+            .regDate(LocalDateTime.now())
+            .shop(Shop.builder().build())
+            .build();
     @MockBean
     private ShopService shopService;
 
@@ -188,7 +201,7 @@ public class ShopControllerTest {
     void 쇼핑몰_리스트_new() throws Exception {
         int count = 6;
         List<ShopDto> shops = new ArrayList<>();
-        for (int i = 0; i < count; i++) shops.add(ShopDto.builder().id(i+1).build());
+        for (int i = 0; i < count; i++) shops.add(ShopDto.builder().id(i + 1).build());
         when(shopService.findNew(count)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
@@ -201,7 +214,7 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 정보 조회 - 1 ")
-    void 마켓_1개_조회_좋아요수포함() throws Exception{
+    void 마켓_1개_조회_좋아요수포함() throws Exception {
         FavoriteShopDto shop = FavoriteShopDto.of(Shop.builder().id(1L).build(), 1);
         long id = 1L;
         when(shopService.getShopById(id)).thenReturn(shop);
@@ -215,14 +228,81 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 카테고리 리스트 조회 ")
-    void 카테고리별_마켓_리스트() throws Exception{
+    void 카테고리별_마켓_리스트() throws Exception {
         long id = 1L;
         List<Shop> shops = new ArrayList<>();
-        for(int i=0; i<4; i++) shops.add(Shop.builder().id(i+1).build());
+        for (int i = 0; i < 4; i++) shops.add(Shop.builder().id(i + 1).build());
         when(shopService.getShopsByCategory(id)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/category")
                 .param("id", String.valueOf(id))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 공지사항 리스트 조회 ")
+    void 마켓_공지사항_리스트() throws Exception {
+        long id = 1L;
+        List<ShopNotice> notices = new ArrayList<>();
+        when(shopService.getNoticeList(id)).thenReturn(notices);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 공지사항 작성 ")
+    void 마켓_공지사항_작성() throws Exception {
+        long shopId = 1L;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        when(shopService.insertNotice(shopId, noticeInputDto)).thenReturn(notice);
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}/notice", shopId)
+                .content(objectMapper.writeValueAsString(noticeInputDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 공지사항 상세")
+    void 마켓_공지사항_단일조회() throws Exception {
+        long id = 1L;
+        when(shopService.getNotice(id)).thenReturn(notice);
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/notice/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 공지사항 수정")
+    void 마켓_공지사항_수정() throws Exception {
+        long id = 1L;
+        ObjectMapper objectMapper = new ObjectMapper();
+        when(shopService.updateNotice(id, noticeInputDto)).thenReturn(notice);
+        mockMvc.perform(MockMvcRequestBuilders.put("/shops/notice/{id}", id)
+                .content(objectMapper.writeValueAsString(noticeInputDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @Test
+    @DisplayName("마켓 공지사항 삭제")
+    void 마켓_공지사항_삭제() throws Exception {
+        long id = 1L;
+        doNothing().when(shopService).deleteNotice(id);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/shops/notice/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
