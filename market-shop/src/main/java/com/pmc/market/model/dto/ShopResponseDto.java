@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Builder
 @Getter
@@ -29,6 +30,7 @@ public class ShopResponseDto {
     private String qnaDescription;
     private String shipDescription;
     private long likes;
+    private ArrayList<NoticeResponseDto> notices = new ArrayList<>();
 
     public static ShopResponseDto of(Shop shop) {
         return ShopResponseDto.builder()

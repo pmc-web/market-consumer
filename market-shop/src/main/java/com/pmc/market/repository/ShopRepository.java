@@ -14,8 +14,8 @@ import java.util.List;
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     int countByUserEmail(String email);
 
-//    @Query(value = "SELECT s FROM Shop s JOIN s.Favorite ORDER BY s.regDate")
-//    List<Object> findAllList();
+    @Query(value = "SELECT s FROM Shop s ORDER BY s.regDate")
+    List<Shop> findAllShop();
 
     @Query(value = "SELECT s FROM Shop s ORDER BY s.regDate DESC")
     List<Shop> findAll(Pageable limit);

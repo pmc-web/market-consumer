@@ -34,28 +34,6 @@ class ShopRepositoryTest {
     @Autowired
     private FavoriteRepository favoriteRepository;
 
-    @Test
-    void 모든_쇼핑몰을_가져오기_좋아요_제외() {
-        /*
-        Shop shop = Shop.builder()
-                .id(1L)
-                .name("쇼핑몰1")
-                .telephone("010-0000-0000")
-                .businessName("쇼핑몰1")
-                .fullDescription("쇼핑몰 설명")
-                .owner("주인")
-                .shortDescription("악세사리 쇼핑몰")
-                .regDate(LocalDateTime.now())
-                .period(LocalDateTime.now().plusYears(1))
-                .businessNumber("00-000-000")
-                .build();
-        shopRepository.save(shop);
-         */
-//        List<Shop> result = shopRepository.findAllList();
-//        List<Shop> result = shopRepository.findAll(); // 그냥 조회만 하면 select 쿼리 1개 사용
-//        assertTrue(result.size() > 0);
-    }
-
     @DisplayName("makeShop() 테스트")
     @Test
     void 쇼핑몰_생성() {
@@ -83,7 +61,6 @@ class ShopRepositoryTest {
         shopRepository.save(shop);
 
         assertEquals(shop.getId(), 1L); // auto-create 일 때
-
     }
 
     @DisplayName("신규 쇼핑몰 - 최신순서로 쇼핑몰 전체 조회")
@@ -113,6 +90,13 @@ class ShopRepositoryTest {
     @Test
     void 마켓조회_테스트() {
         List<Shop> shop = shopRepository.findAll();
+        shop.forEach(s -> s.getFavorites().forEach(f -> System.out.println(f.getId())));
+    }
+
+    @Transactional
+    @Test
+    void 마켓조회_테스트2() {
+        List<Shop> shop = shopRepository.findAllShop();
         shop.forEach(s -> s.getFavorites().forEach(f -> System.out.println(f.getId())));
     }
 

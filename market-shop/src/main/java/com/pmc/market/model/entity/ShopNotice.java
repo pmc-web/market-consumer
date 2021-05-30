@@ -1,5 +1,6 @@
 package com.pmc.market.model.entity;
 
+import com.pmc.market.model.dto.NoticeRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,4 +26,18 @@ public class ShopNotice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
+    @Transient
+    private boolean isNew;
+
+    public void updateNotice(NoticeRequestDto noticeRequestDto) {
+        this.title = noticeRequestDto.getTitle();
+        this.content = noticeRequestDto.getContent();
+    }
+
+    @PrePersist
+    @PostLoad
+    void markNotNew() {
+        this.isNew = false;
+    }
 }

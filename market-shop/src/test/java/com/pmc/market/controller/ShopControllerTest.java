@@ -1,14 +1,13 @@
 package com.pmc.market.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,7 +40,6 @@ public class ShopControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @MockBean
     private ShopService shopService;
 
@@ -188,7 +187,7 @@ public class ShopControllerTest {
     void 쇼핑몰_리스트_new() throws Exception {
         int count = 6;
         List<ShopResponseDto> shops = new ArrayList<>();
-        for (int i = 0; i < count; i++) shops.add(ShopResponseDto.builder().id(i+1).build());
+        for (int i = 0; i < count; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
         when(shopService.findNew(count)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
@@ -201,7 +200,7 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 정보 조회 - 1 ")
-    void 마켓_1개_조회_좋아요수포함() throws Exception{
+    void 마켓_1개_조회_좋아요수포함() throws Exception {
 
         ShopResponseDto shop = ShopResponseDto.of(Shop.builder().id(1L).build());
         long id = 1L;
@@ -216,10 +215,10 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 카테고리 리스트 조회 ")
-    void 카테고리별_마켓_리스트() throws Exception{
+    void 카테고리별_마켓_리스트() throws Exception {
         long id = 1L;
         List<ShopResponseDto> shops = new ArrayList<>();
-        for(int i=0; i<4; i++) shops.add(ShopResponseDto.builder().id(i+1).build());
+        for (int i = 0; i < 4; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
         when(shopService.getShopsByCategory(id)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/category")
@@ -278,7 +277,5 @@ public class ShopControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-
-
 
 }

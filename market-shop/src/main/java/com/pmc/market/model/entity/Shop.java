@@ -60,8 +60,11 @@ public class Shop {
     @Lob
     private String shipDescription;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<Favorite> favorites = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<ShopNotice> shopNotices = new ArrayList<>();
 
     public void addFavorite(final Favorite favorite) {
         this.favorites.add(favorite);
