@@ -1,0 +1,26 @@
+spring:
+  # db 설정
+  datasource:
+    url: jdbc:mysql://localhost:3306/market?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: market
+    password: market
+  # jpa 설정
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+
+swagger:
+  config:
+    refreshrate: 5000
+
+app:
+  host: http://localhost:8088
+
+server:
+  port: 8088

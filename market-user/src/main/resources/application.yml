@@ -1,15 +1,11 @@
 spring:
   # db 설정
-#  datasource:
-#    hikari:
-#      driver-class-name: com.mysql.jdbc.Driver
-#      jdbc-url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
-#      username:
-#      password:
-#    url:
-#    driver-class-name:
-#    username: root
-#    password: 1
+  datasource:
+    url: jdbc:mysql://localhost:3306/market?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: market
+    password: market
+#    password: ENC(ngEt6S/2mhKV2F30Wogksg==)
 
   # jpa 설정
   jpa:
@@ -20,21 +16,18 @@ spring:
       hibernate :
         format_sql : true
     database: mysql
+  profiles:
+    include: oauth
 
-  # mail 설정
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username:
-    password:
-    properties:
-      mail:
-        smtp:
-          auth: true
-          timeout: 5000
-          starttls:
-            enable: true
 app:
-  host: http://localhost:8084
+  host: http://localhost:8086
 server:
   port: 8086
+email:
+  admin:
+    account: certification0test@gmail.com
+    password: ENC(GdWyNDQs0S10hpfizKtLSVb5irexBOKm)
+#    password: PCMmanager!
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor

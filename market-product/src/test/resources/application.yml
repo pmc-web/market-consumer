@@ -1,0 +1,25 @@
+spring:
+  # db 설정
+  datasource:
+    url: jdbc:mysql://localhost:3306/market-consumer?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1
+
+  # jpa 설정
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate :
+        format_sql : true
+    database: mysql
+
+server:
+  port: 8083
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+      org.hibernate.type: trace
