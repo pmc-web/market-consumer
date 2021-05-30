@@ -27,6 +27,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.pmc.market"))
                 .paths(PathSelectors.ant("/shops/**"))
+                .paths(PathSelectors.ant("/categories/**"))
                 .build()
                 .groupName("market-shop")
                 .apiInfo(apiInfo())
