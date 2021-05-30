@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShopDto {
-    // TODO: 좋아요 정보도 넣어야 하는데 ???? jpa 로 가져올 수 있을지 확인 후
+public class ShopResponseDto {
     private long id;
     private String name;
     private LocalDateTime period;
@@ -29,9 +28,10 @@ public class ShopDto {
     private Integer deliveryCost;
     private String qnaDescription;
     private String shipDescription;
+    private long likes;
 
-    public static ShopDto of(Shop shop) {
-        return ShopDto.builder()
+    public static ShopResponseDto of(Shop shop) {
+        return ShopResponseDto.builder()
                 .id(shop.getId())
                 .name(shop.getName())
                 .period(shop.getPeriod())
@@ -47,6 +47,27 @@ public class ShopDto {
                 .deliveryCost(shop.getDeliveryCost())
                 .qnaDescription(shop.getQnaDescription())
                 .shipDescription(shop.getShipDescription())
+                .likes(shop.getFavorites() == null ? 0 : shop.getFavorites().size())
+                .build();
+    }
+
+    public static ShopResponseDto of(Shop shop, long likes) {
+        return ShopResponseDto.builder()
+                .id(shop.getId())
+                .name(shop.getName())
+                .period(shop.getPeriod())
+                .fullDescription(shop.getFullDescription())
+                .shortDescription(shop.getShortDescription())
+                .regDate(shop.getRegDate())
+                .businessName(shop.getBusinessName())
+                .owner(shop.getOwner())
+                .telephone(shop.getTelephone())
+                .categoryId(shop.getCategory() == null ? null : shop.getCategory().getId())
+                .userId(shop.getUser() == null ? null : shop.getUser().getId())
+                .deliveryCost(shop.getDeliveryCost())
+                .qnaDescription(shop.getQnaDescription())
+                .shipDescription(shop.getShipDescription())
+                .likes(likes)
                 .build();
     }
 }
