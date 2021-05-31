@@ -13,7 +13,10 @@ import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.entity.ShopNotice;
-import com.pmc.market.repository.*;
+import com.pmc.market.repository.CategoryRepository;
+import com.pmc.market.repository.FavoriteCustomRepository;
+import com.pmc.market.repository.NoticeRepository;
+import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,7 +36,6 @@ import java.util.stream.Collectors;
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
-    private final FavoriteRepository favoriteRepository;
     private final FavoriteCustomRepository favoriteCustomRepository;
     private final CategoryRepository categoryRepository;
     private final NoticeRepository noticeRepository;

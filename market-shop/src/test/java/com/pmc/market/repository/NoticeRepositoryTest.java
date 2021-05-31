@@ -86,4 +86,11 @@ class NoticeRepositoryTest {
         assertTrue(!noticeRepository.findById(noticeId).isPresent());
     }
 
+
+    @DisplayName("마켓 조회 - 공지사항 포함")
+    @Test
+    void 공지사항_정보_포함_마켓_상세() {
+        long shopId = 1L;
+
+    }
 }

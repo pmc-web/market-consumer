@@ -94,7 +94,7 @@ public class ShopController {
     // TODO : url 에는 id 가 있어야 할 것 같은데 body에 id 를 같이 받는 방법이 더 좋을까?
     @ApiOperation("마켓 공지사항 작성")
     @PostMapping("/{id}/notice")
-    public ResponseEntity<?> makeNotice(@ApiParam(value = "마켓 id") @PathVariable long id, @RequestBody NoticeRequestDto noticeRequestDto) {
+    public ResponseEntity<?> makeNotice(@ApiParam(value = "마켓 id") @PathVariable long id, @RequestBody @Valid NoticeRequestDto noticeRequestDto) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.insertNotice(id, noticeRequestDto)));
     }
 
@@ -107,7 +107,7 @@ public class ShopController {
 
     @ApiOperation("마켓 공지사항 상세 수정")
     @PutMapping("/notice/{id}")
-    public ResponseEntity<?> updateNotice(@ApiParam(value = "공지사항 id") @PathVariable("id") long noticeId, @RequestBody NoticeRequestDto noticeRequestDto) {
+    public ResponseEntity<?> updateNotice(@ApiParam(value = "공지사항 id") @PathVariable("id") long noticeId, @RequestBody @Valid NoticeRequestDto noticeRequestDto) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.updateNotice(noticeId, noticeRequestDto)));
     }
 
