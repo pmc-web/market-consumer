@@ -25,4 +25,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     @Query(value = "SELECT s FROM Shop s WHERE s.name LIKE CONCAT('%', :searchWord, '%') ")
     List<Shop> findByName(@Param("searchWord") String searchWord);
 
+//    @Query(value = "SELECT s FROM Shop s JOIN s.Tag t WHERE t= :tagName")
+//    List<Shop> findByTagName(@Param("tagName") String tagName);
 }

@@ -144,10 +144,21 @@ class ShopRepositoryTest {
         assertNotEquals(prev, now);
     }
 
-    @DisplayName("좋아요 삭제 _ 무한삽질중 ")
+    @DisplayName("좋아요 삭제")
     @Test
     void 마켓_삭제() {
         shopRepository.deleteById(8L);
         // delete 3 : shop1+favorite 2
     }
+
+//    @DisplayName("마켓검색 - 태그이름으로 검색")
+//    @Test
+//    void 마켓검색_태그이름() {
+//        String tag = "태그1";
+//        List<Shop> shops = shopRepository.findByTagName(tag);
+//
+//        shops.stream().forEach(s -> {
+//            System.out.println(s.getName() + " " + s.getId());
+//        });
+//    }
 }

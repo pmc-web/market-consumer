@@ -27,5 +27,4 @@ public class FavoriteCustomRepository {
                 .map(result -> ShopResponseDto.of((Shop) result[0], (long) result[1]))
                 .collect(Collectors.toList());
     }
-
 }

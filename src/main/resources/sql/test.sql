@@ -23,3 +23,12 @@ VALUES ('1', '1', '공지사항내용입니다', '2021-05-27', 'hi 에이치 아
 INSERT INTO `market`.`shop_notice` (`id`, `shop_id`, `content`, `reg_date`, `title`)
 VALUES ('2', '1', '공지사항내용입니다2', '2021-05-27', '공지사항제목');
 
+-- TAG
+INSERT INTO `market`.`tag` (name) VALUES ('태그1');
+INSERT INTO `market`.`tag` (name) VALUES ('태그2');
+
+-- SHOP_TAG
+INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '1');
+INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '2');
+
+
