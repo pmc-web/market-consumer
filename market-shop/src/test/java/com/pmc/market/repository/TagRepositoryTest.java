@@ -56,4 +56,12 @@ class TagRepositoryTest {
         assertTrue(tags.size() > 0);
     }
 
+    @DisplayName("태그 이름으로 검색 - 20210601 통과")
+    @Test
+    void findByTagName() {
+        String tagName = "태그1";
+        List<Tag> tags = tagRepository.findTagByName(tagName);
+        assertTrue(tags.size() > 0);
+    }
+
 }

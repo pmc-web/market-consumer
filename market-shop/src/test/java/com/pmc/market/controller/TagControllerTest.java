@@ -104,4 +104,43 @@ class TagControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @WithMockUser
+    @DisplayName("태그 이름 검색 - 20210601 통과")
+    @Test
+    void getTagsByName() throws Exception {
+        TagResponseDto tag = TagResponseDto.builder()
+                .id(4L)
+                .tagName("태그 이름")
+                .build();
+        List<TagResponseDto> tags = new ArrayList<>();
+        tags.add(tag);
+        String tagName = "태그1";
+        when(tagService.findAll()).thenReturn(tags);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/tags/name")
+                .param("tagName", String.valueOf(tagName))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @DisplayName("태그 아이디 검색 - 20210601 통과")
+    @Test
+    void getTagsById() throws Exception {
+        TagResponseDto tag = TagResponseDto.builder()
+                .id(4L)
+                .tagName("태그 이름")
+                .build();
+        List<TagResponseDto> tags = new ArrayList<>();
+        tags.add(tag);
+        long id = 1L;
+        when(tagService.findAll()).thenReturn(tags);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/tags/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

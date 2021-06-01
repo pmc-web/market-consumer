@@ -1,5 +1,6 @@
 package com.pmc.market.service;
 
+import com.pmc.market.model.dto.ShopTagResponseDto;
 import com.pmc.market.model.dto.TagRequestDto;
 import com.pmc.market.model.dto.TagResponseDto;
 
@@ -13,4 +14,8 @@ public interface TagService {
     void deleteTag(long id);
 
     List<TagResponseDto> findByWord(String searchWord);
+
+    ShopTagResponseDto findByTagName(String tagName);
+
+    ShopTagResponseDto findByTagId(long id);
 }

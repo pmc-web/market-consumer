@@ -11,9 +11,14 @@ import java.util.List;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Long> {
+
+    @EntityGraph(attributePaths = "shopTags")
     @Query(value = "SELECT t FROM Tag t WHERE t.name LIKE CONCAT('%', :searchWord, '%') ")
     List<Tag> findByName(@Param("searchWord") String searchWord);
 
     @EntityGraph(attributePaths = {"shopTags"})
     List<Tag> findAll();
+
+    @EntityGraph(attributePaths = "shopTags")
+    List<Tag> findTagByName(String name);
 }

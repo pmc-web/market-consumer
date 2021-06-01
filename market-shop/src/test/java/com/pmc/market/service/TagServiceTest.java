@@ -1,6 +1,7 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
+import com.pmc.market.model.dto.ShopTagResponseDto;
 import com.pmc.market.model.dto.TagRequestDto;
 import com.pmc.market.model.dto.TagResponseDto;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
@@ -27,9 +29,6 @@ class TagServiceTest {
     void findAll() {
         List<TagResponseDto> tags = tagService.findAll();
 
-        tags.stream().forEach(t -> {
-            System.out.println(t.getShopIds());
-        });
         assertTrue(tags.size() > 0);
     }
 
@@ -52,6 +51,26 @@ class TagServiceTest {
     void getTagsBySearch() {
         String searchWord = "태";
         List<TagResponseDto> tags = tagService.findByWord(searchWord);
+
+        tags.stream().forEach(t -> {
+            System.out.println(t.getShopIds());
+        });
         assertTrue(tags.size() > 0);
+    }
+
+    @DisplayName("태그 검색 목록 - 20210531 통과")
+    @Test
+    void findByName() {
+        String tagName = "태그1";
+        ShopTagResponseDto tags = tagService.findByTagName(tagName);
+        assertEquals(tags.getTagName(), tagName);
+    }
+
+    @DisplayName("태그 아이디 검색 - 20210601")
+    @Test
+    void findById() {
+        long id = 1L;
+        ShopTagResponseDto tags = tagService.findByTagId(id);
+        assertEquals(tags.getTagId(), id);
     }
 }

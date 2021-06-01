@@ -45,4 +45,16 @@ public class TagController {
     public ResponseEntity<?> getTagsBySearch(@RequestParam @ApiParam("검색할 단어") String searchWord) {
         return ResponseEntity.ok(ResponseMessage.success(tagService.findByWord(searchWord)));
     }
+
+    @ApiOperation("태그 이름 검색")
+    @GetMapping("/name")
+    public ResponseEntity<?> getTagsByName(@RequestParam @ApiParam("태그 이름") String tagName) {
+        return ResponseEntity.ok(ResponseMessage.success(tagService.findByTagName(tagName)));
+    }
+
+    @ApiOperation("태그 아이디 검색")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTagsById(@PathVariable @ApiParam("태그 아이디") long id) {
+        return ResponseEntity.ok(ResponseMessage.success(tagService.findByTagId(id)));
+    }
 }

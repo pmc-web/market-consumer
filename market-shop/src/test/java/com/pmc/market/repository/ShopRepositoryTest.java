@@ -151,14 +151,4 @@ class ShopRepositoryTest {
         // delete 3 : shop1+favorite 2
     }
 
-//    @DisplayName("마켓검색 - 태그이름으로 검색")
-//    @Test
-//    void 마켓검색_태그이름() {
-//        String tag = "태그1";
-//        List<Shop> shops = shopRepository.findByTagName(tag);
-//
-//        shops.stream().forEach(s -> {
-//            System.out.println(s.getName() + " " + s.getId());
-//        });
-//    }
 }
