@@ -35,7 +35,9 @@ class ShopServiceTest {
     @DisplayName("전체 마켓 리스트")
     @Test
     void findAll_전체_마켓_리스트() {
-        assertEquals(shopService.findAll().size(), shopRepository.count());
+        List<ShopResponseDto> shops = shopService.findAll();
+        shops.stream().forEach(s -> s.getTags().stream().forEach(dto -> System.out.println(dto.getTagName())));
+        assertEquals(shops.size(), shopRepository.count());
     }
 
     @DisplayName("마켓_생성")

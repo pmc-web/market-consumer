@@ -33,6 +33,7 @@ public class ShopResponseDto {
     private String shipDescription;
     private long likes;
     private List<NoticeResponseDto> notices = new ArrayList<>();
+    private List<TagIdNameDto> tags = new ArrayList<>();
 
     public static ShopResponseDto of(Shop shop) {
         return ShopResponseDto.builder()
@@ -53,6 +54,7 @@ public class ShopResponseDto {
                 .shipDescription(shop.getShipDescription())
                 .likes(shop.getFavorites() == null ? 0 : shop.getFavorites().size())
                 .notices(shop.getShopNotices().stream().map(NoticeResponseDto::of).collect(Collectors.toList()))
+                .tags(shop.getShopTags().stream().map(shopTag -> TagIdNameDto.of(shopTag.getTag())).collect(Collectors.toList()))
                 .build();
     }
 

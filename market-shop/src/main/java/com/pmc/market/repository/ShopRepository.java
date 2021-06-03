@@ -15,7 +15,10 @@ import java.util.List;
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     int countByUserEmail(String email);
 
-    @EntityGraph(attributePaths = {"shopTags"})
+    @EntityGraph(attributePaths = {"favorites"})
+    List<Shop> findAll();
+
+    @EntityGraph(attributePaths = {"favorites"})
     @Query(value = "SELECT s FROM Shop s ORDER BY s.regDate")
     List<Shop> findAllShop();
 

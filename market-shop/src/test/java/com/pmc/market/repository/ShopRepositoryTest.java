@@ -2,8 +2,11 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.TagIdNameDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.entity.ShopTag;
+import com.pmc.market.model.entity.Tag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -96,8 +100,14 @@ class ShopRepositoryTest {
     @Transactional
     @Test
     void 마켓조회_테스트2() {
-        List<Shop> shop = shopRepository.findAllShop();
-        shop.forEach(s -> s.getFavorites().forEach(f -> System.out.println(f.getId())));
+        List<Shop> shops = shopRepository.findAllShop();
+        for (Shop shop : shops) {
+            List<ShopTag> shopTags = shop.getShopTags();
+            List<TagIdNameDto> map = shop.getShopTags().stream().map(shopTag -> TagIdNameDto.of(shopTag.getTag())).collect(Collectors.toList());
+            List<Tag> tags = shopTags.stream().map(ShopTag::getTag).collect(Collectors.toList());
+            map.forEach(t -> System.out.println(t.getId() + " " + t.getTagName()));
+        }
+
     }
 
     @Transactional
@@ -105,7 +115,6 @@ class ShopRepositoryTest {
     void 마켓조회_테스트2_byId() {
         Long id = 1L;
         Shop shops = shopRepository.findById(id).get();
-        shops.getFavorites().forEach(f -> System.out.println("favorite id" + f.getId() + " "));
     }
 
     @DisplayName("마켓 조회 - 검색어")
