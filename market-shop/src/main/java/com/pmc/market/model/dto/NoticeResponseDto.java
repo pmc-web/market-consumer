@@ -25,7 +25,7 @@ public class NoticeResponseDto {
                 .title(shopNotice.getTitle())
                 .content(shopNotice.getContent())
                 .regDate(shopNotice.getRegDate())
-                .shopId(shopNotice.getShop().getId()) // TODO 이렇게 해도 되는지 확인하기
+                .shopId(shopNotice.getShop().getId())
                 .build();
     }
 }
