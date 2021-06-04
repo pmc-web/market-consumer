@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService {
     public void changePassword(UserPasswordRequestDto request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException());
         UUID uuid = UUID.randomUUID();
-        userRepository.updatePassword(request.getNewPassword(), request.getUserId());
+        userRepository.updatePassword(passwordEncoder.encode(request.getNewPassword()), request.getUserId());
         redisUtil.setDataExpire(uuid.toString(), user.getEmail(), 60 * 30L); // refresh token 변경
     }
 
