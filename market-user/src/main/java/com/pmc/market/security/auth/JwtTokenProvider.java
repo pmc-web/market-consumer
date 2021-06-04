@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,14 +28,6 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
     @Resource(name = "userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
-
-    private Map<String, Object> createClaims(User user) {
-        // 공개 클레임에 사용자의 이름과 이메일을 설정하여 정보를 조회할 수 있다.
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("email", user.getEmail());
-        claims.put("role", "USER"); // role 설정
-        return claims;
-    }
 
     public String generateJwtAccessToken(User user) {
         return createToken(user.getEmail(), ACCESS_TOKEN_VALID_TIME);
@@ -72,6 +62,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
             return true;
         } catch (ExpiredJwtException exception) {
             log.error("Token Expired");
+            // refresh token
             return false;
         } catch (JwtException exception) {
             log.error("{} Token Tampered", exception.getMessage());
@@ -102,6 +93,12 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     // Request의 Header에서 token 파싱 : "Authorization" : jwt토큰"
     public String resolveToken(HttpServletRequest req) {
         return req.getHeader(AuthConstants.AUTH_HEADER);
+    }
+
+    public String getRefreshToken(HttpServletRequest req) {
+        String header = req.getHeader(AuthConstants.REFRESH_TOKEN);
+        if (header == null) return null;
+        return header.split(" ")[1];
     }
 
 }

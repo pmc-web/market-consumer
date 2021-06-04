@@ -4,6 +4,7 @@ import com.pmc.market.config.filter.JwtAuthenticationFilter;
 import com.pmc.market.security.auth.CustomAccessDeniedHandler;
 import com.pmc.market.security.auth.CustomAuthenticationEntryPoint;
 import com.pmc.market.security.auth.JwtTokenProvider;
+import com.pmc.market.security.auth.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final RedisUtil redisUtil;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
@@ -42,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다
+                .addFilterBefore(new JwtAuthenticationFilter(redisUtil, jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다
     }
 
     @Override // ignore check swagger resource

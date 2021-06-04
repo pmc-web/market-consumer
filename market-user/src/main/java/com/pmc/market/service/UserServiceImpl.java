@@ -7,6 +7,7 @@ import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.MarketUnivException;
 import com.pmc.market.error.exception.UserNotFoundException;
+import com.pmc.market.model.dto.TokenDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.repository.UserRepository;
@@ -20,10 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -53,9 +52,10 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException(findUser.getEmail() + "의 비밀번호가 올바르지 않습니다.");
         }
         jwtTokenProvider.getAuthenticationLogin(user.getEmail()); // 이메일로 인증 정보 조회
-        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(findUser);
+        String accessToken = jwtTokenProvider.generateJwtAccessToken(findUser);
+        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(findUser); // refresh token
         redisUtil.setDataExpire(refreshToken, findUser.getEmail(), jwtTokenProvider.REFRESH_TOKEN_VALID_TIME);
-        return UserInfoResponseDto.of(findUser, jwtTokenProvider.generateJwtAccessToken(findUser));
+        return UserInfoResponseDto.of(findUser, TokenDto.of(accessToken, refreshToken));
     }
 
     @Override
@@ -107,17 +107,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserList() {
+    public List<UserInfoResponseDto> getUserList() {
         List<User> users = userRepository.findAll();
-        return users;
+        return users.stream().map(UserInfoResponseDto::of).collect(Collectors.toList());
     }
 
     @Override
     public UserInfoResponseDto getSocialUser(Map<String, Object> user) {
         Optional<User> findUser = userRepository.findByEmail(String.valueOf(user.get("userId")));
         if (!findUser.isPresent()) return createSocialUser(user);
-        String token = jwtTokenProvider.generateJwtAccessToken(findUser.get());
-        return UserInfoResponseDto.of(findUser.get(), token);
+        String accessToken = jwtTokenProvider.generateJwtAccessToken(findUser.get());
+        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(findUser.get());
+        redisUtil.setDataExpire(refreshToken, findUser.get().getEmail(), 60 * 30L);
+        return UserInfoResponseDto.of(findUser.get(), TokenDto.of(accessToken, refreshToken));
     }
 
     private UserInfoResponseDto createSocialUser(Map<String, Object> user) {
@@ -132,9 +134,10 @@ public class UserServiceImpl implements UserService {
                 .authKey(String.valueOf(user.get("access_token")))
                 .build();
         userRepository.save(createUser);
-        String token = jwtTokenProvider.generateJwtAccessToken(createUser);
-
-        return UserInfoResponseDto.of(createUser, token);
+        String accessToken = jwtTokenProvider.generateJwtAccessToken(createUser);
+        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(createUser);
+        redisUtil.setDataExpire(refreshToken, createUser.getEmail(), 60 * 30L);
+        return UserInfoResponseDto.of(createUser, TokenDto.of(accessToken, refreshToken));
     }
 
     @Override
@@ -162,8 +165,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(UserPasswordRequestDto request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException());
+        UUID uuid = UUID.randomUUID();
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-//        redisUtil.setDataExpire(key, user.getEmail(), 60 * 30L);
+        redisUtil.setDataExpire(uuid.toString(), user.getEmail(), 60 * 30L);
+    }
+
+    @Override
+    public UserInfoResponseDto updateUserInfo(long id) {
+        try {
+
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+
+    @Override
+    public String getRefreshToken(long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+        return jwtTokenProvider.generateJwtRefreshToken(user);
     }
 }

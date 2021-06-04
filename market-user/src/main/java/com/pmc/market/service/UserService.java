@@ -25,7 +25,7 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    List<User> getUserList();
+    List<UserInfoResponseDto> getUserList();
 
     UserInfoResponseDto getSocialUser(Map<String, Object> user);
 
@@ -36,4 +36,8 @@ public interface UserService {
     void changeToSeller(Long id);
 
     void changePassword(UserPasswordRequestDto request);
+
+    UserInfoResponseDto updateUserInfo(long id);
+
+    String getRefreshToken(long id);
 }

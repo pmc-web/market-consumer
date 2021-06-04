@@ -56,8 +56,8 @@ public class UserController {
 
     @ApiOperation(value = "유저 리스트 조회")
     @GetMapping
-    public ResponseMessage list() {
-        return ResponseMessage.success(userService.getUserList());
+    public ResponseEntity<?> list() {
+        return ResponseEntity.ok().body(ResponseMessage.success(userService.getUserList()));
     }
 
     @ApiOperation(value = "유저 상태 업데이트")
@@ -79,10 +79,23 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
 
-    @ApiOperation(value = "판매자 전환")
-    @PutMapping("/password")
-    public ResponseEntity changePassword(@RequestBody UserPasswordRequestDto request) {
+    @ApiOperation(value = "비밀번호 변경")
+    @PatchMapping("/password")
+    public ResponseEntity<?> changePassword(@RequestBody UserPasswordRequestDto request) {
         userService.changePassword(request);
         return ResponseEntity.ok().body(ResponseMessage.success());
+    }
+
+    @ApiOperation(value = "유저 정보 변경")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUserInfo(@PathVariable long id) {
+        userService.updateUserInfo(id);
+        return ResponseEntity.ok().body(ResponseMessage.success());
+    }
+
+    @ApiOperation(value = "refresh 토큰 요청")
+    @GetMapping("/{id}/token")
+    public ResponseEntity<?> getRefreshToken(@PathVariable long id) {
+        return ResponseEntity.ok(ResponseMessage.success(userService.getRefreshToken(id)));
     }
 }
