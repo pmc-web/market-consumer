@@ -114,13 +114,13 @@ project(':market-shop') {
     dependencies {
         compile project(':market-common')
         compile project(':market-user')
-        compile project(':market-product')
     }
 }
 project(':market-user') {
     // user 모듈에만 필요한 라이브러리 명시
     dependencies {
         compile project(':market-common')
+        compile project(':market-product')
 
         // email 인증
         compile group: 'javax.mail', name: 'mail', version: '1.4.7'

@@ -6,6 +6,7 @@ import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.UserCreateRequestDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
+import com.pmc.market.model.dto.UserUpdateRequestDto;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -88,14 +89,14 @@ public class UserController {
 
     @ApiOperation(value = "유저 정보 변경")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUserInfo(@PathVariable long id) {
-        userService.updateUserInfo(id);
+    public ResponseEntity<?> updateUserInfo(@ApiParam(value = "유저id") @PathVariable long id, @RequestBody UserUpdateRequestDto request) {
+        userService.updateUserInfo(id, request);
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
 
     @ApiOperation(value = "refresh 토큰 요청")
     @GetMapping("/{id}/token")
-    public ResponseEntity<?> getRefreshToken(@PathVariable long id) {
+    public ResponseEntity<?> getRefreshToken(@ApiParam(value = "유저id") @PathVariable long id) {
         return ResponseEntity.ok(ResponseMessage.success(userService.getRefreshToken(id)));
     }
 }

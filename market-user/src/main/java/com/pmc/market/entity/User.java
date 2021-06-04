@@ -4,8 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-
+@EqualsAndHashCode(of = {"id"})// dirty check 방지
 @Getter
 @Builder
 @AllArgsConstructor
@@ -48,6 +50,9 @@ public class User {
 
     @Column
     private String authKey;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<UserSearch> searches = new ArrayList<>();
 
 
     public void setStatus(Status status) {

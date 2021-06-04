@@ -5,34 +5,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
-public class QNA {
-
+public class ShipAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String title;
+    private String address;
 
-    @Column
-    private String description;
+    private String detail;
 
-    @Column
-    private String comment;
-
-    @Column
-    private LocalDateTime regDate;
-
-    private QnaType qnaType;
+    private String zipCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
 }

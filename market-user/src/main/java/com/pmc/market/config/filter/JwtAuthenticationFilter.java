@@ -19,7 +19,6 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-//@Component
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final RedisUtil redisUtil;
@@ -42,10 +41,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 Authentication auth = jwtTokenProvider.getAuthentication(refreshToken);
                 CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
                 User user = userDetails.getUser();
-                // 정보가 일치하면 refresh token 을 발급한다. -> refresh token 발급은 나중에
                 if (userEmail.equals(user.getEmail())) {
                     SecurityContextHolder.getContext().setAuthentication(auth);
-//                    String newRefreshToken = jwtTokenProvider.generateJwtRefreshToken(user);
                 }
             }
         }

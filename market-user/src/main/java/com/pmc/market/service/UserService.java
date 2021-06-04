@@ -4,6 +4,7 @@ import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
+import com.pmc.market.model.dto.UserUpdateRequestDto;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public interface UserService {
 
     void changePassword(UserPasswordRequestDto request);
 
-    UserInfoResponseDto updateUserInfo(long id);
+    UserInfoResponseDto updateUserInfo(long id, UserUpdateRequestDto request);
 
     String getRefreshToken(long id);
 }

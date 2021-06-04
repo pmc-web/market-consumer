@@ -10,6 +10,7 @@ import com.pmc.market.error.exception.UserNotFoundException;
 import com.pmc.market.model.dto.TokenDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
+import com.pmc.market.model.dto.UserUpdateRequestDto;
 import com.pmc.market.repository.UserRepository;
 import com.pmc.market.security.auth.JwtTokenProvider;
 import com.pmc.market.security.auth.RedisUtil;
@@ -166,18 +167,13 @@ public class UserServiceImpl implements UserService {
     public void changePassword(UserPasswordRequestDto request) {
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException());
         UUID uuid = UUID.randomUUID();
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepository.save(user);
-        redisUtil.setDataExpire(uuid.toString(), user.getEmail(), 60 * 30L);
+        userRepository.updatePassword(request.getNewPassword(), request.getUserId());
+        redisUtil.setDataExpire(uuid.toString(), user.getEmail(), 60 * 30L); // refresh token 변경
     }
 
     @Override
-    public UserInfoResponseDto updateUserInfo(long id) {
-        try {
-
-        } catch (Exception e) {
-
-        }
+    public UserInfoResponseDto updateUserInfo(long id, UserUpdateRequestDto request) {
+        // 유저 정보 업데이트
         return null;
     }
 

@@ -3,9 +3,9 @@ package com.pmc.market.model.dto;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@ApiModel("회원 가입 정보")
 public class UserCreateRequestDto {
     @NotNull(message = "이메일을 입력하세요")
     @Email(message = "이메일 형식에 맞지 않습니다.")
