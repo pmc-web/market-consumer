@@ -12,6 +12,7 @@ import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserUpdateRequestDto;
 import com.pmc.market.repository.UserRepository;
+import com.pmc.market.security.auth.AuthConstants;
 import com.pmc.market.security.auth.JwtTokenProvider;
 import com.pmc.market.security.auth.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -180,6 +181,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getRefreshToken(long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        return jwtTokenProvider.generateJwtRefreshToken(user);
+        return AuthConstants.TOKEN_TYPE + " " + jwtTokenProvider.generateJwtRefreshToken(user);
     }
 }
