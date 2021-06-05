@@ -42,6 +42,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
                 User user = userDetails.getUser();
                 if (userEmail.equals(user.getEmail())) {
+                    // TODO: access token 발급후 client에 어떻게 건네줄지 세팅이 안되어 있음
+                    String accessToken = jwtTokenProvider.generateJwtAccessToken(user);
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
