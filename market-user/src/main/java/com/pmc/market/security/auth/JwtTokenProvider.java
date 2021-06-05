@@ -1,6 +1,8 @@
 package com.pmc.market.security.auth;
 
 import com.pmc.market.entity.User;
+import com.pmc.market.error.exception.BusinessException;
+import com.pmc.market.error.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,10 +62,9 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
             Claims claims = getClaimsFormToken(token);
             log.info("expireTime : {}, email : {}, role : {}", claims.getExpiration(), claims.get("email"), claims.get("role"));
             return true;
-        } catch (ExpiredJwtException exception) {
+        } catch (ExpiredJwtException expiredJwtException) {
             log.error("Token Expired");
-            // refresh token
-            return false;
+            throw new BusinessException("access Token 유효기간이 만료되었습니다, refresh token 을 요청 하거나 다시 로그인해주세요.", ErrorCode.TOKEN_EXPIRED);
         } catch (JwtException exception) {
             log.error("{} Token Tampered", exception.getMessage());
             return false;
@@ -93,12 +94,6 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     // Request의 Header에서 token 파싱 : "Authorization" : jwt토큰"
     public String resolveToken(HttpServletRequest req) {
         return req.getHeader(AuthConstants.AUTH_HEADER);
-    }
-
-    public String getRefreshToken(HttpServletRequest req) {
-        String header = req.getHeader(AuthConstants.REFRESH_TOKEN);
-        if (header == null) return null;
-        return header.split(" ")[1];
     }
 
 }

@@ -2,6 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.TokenDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserUpdateRequestDto;
@@ -40,5 +41,5 @@ public interface UserService {
 
     UserInfoResponseDto updateUserInfo(long id, UserUpdateRequestDto request);
 
-    String getRefreshToken(long id);
+    TokenDto getRefreshToken(long id, String refreshToken);
 }

@@ -12,7 +12,6 @@ import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserUpdateRequestDto;
 import com.pmc.market.repository.UserRepository;
-import com.pmc.market.security.auth.AuthConstants;
 import com.pmc.market.security.auth.JwtTokenProvider;
 import com.pmc.market.security.auth.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -180,8 +178,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getRefreshToken(long id) {
+    public TokenDto getRefreshToken(long id, String refreshToken) {
+        if (!jwtTokenProvider.isValidToken(refreshToken))
+            throw new BusinessException("refresh token 이 올바르지 않습니다.", ErrorCode.UNAUTHORIZED);
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        return AuthConstants.TOKEN_TYPE + " " + jwtTokenProvider.generateJwtRefreshToken(user);
+        return TokenDto.of(jwtTokenProvider.generateJwtAccessToken(user), jwtTokenProvider.generateJwtRefreshToken(user));
     }
 }

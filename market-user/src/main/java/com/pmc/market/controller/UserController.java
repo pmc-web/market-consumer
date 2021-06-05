@@ -94,9 +94,9 @@ public class UserController {
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
 
-    @ApiOperation(value = "refresh 토큰 요청")
-    @GetMapping("/{id}/token")
-    public ResponseEntity<?> getRefreshToken(@ApiParam(value = "유저id") @PathVariable long id) {
-        return ResponseEntity.ok(ResponseMessage.success(userService.getRefreshToken(id)));
+    @ApiOperation(value = "access 토큰 요청")
+    @PostMapping("/{id}/refreshToken")
+    public ResponseEntity<?> getRefreshToken(@ApiParam(value = "유저id") @PathVariable long id, @RequestBody String refreshToken) {
+        return ResponseEntity.ok(ResponseMessage.success(userService.getRefreshToken(id, refreshToken)));
     }
 }
