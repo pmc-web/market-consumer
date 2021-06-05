@@ -26,7 +26,9 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.pmc.market"))
-                .paths(PathSelectors.ant("/shops/**"))
+                .paths(PathSelectors.any())
+//                .paths(PathSelectors.ant("/shops/**"))
+//                .paths(PathSelectors.ant("/categories/**"))
                 .build()
                 .groupName("market-shop")
                 .apiInfo(apiInfo())
@@ -41,6 +43,7 @@ public class SwaggerConfig {
                 .version("1.0")
                 .build();
     }
+
     private SecurityContext securityContext() {
         return springfox
                 .documentation
@@ -50,9 +53,11 @@ public class SwaggerConfig {
                 .builder()
                 .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
     }
+
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header");
     }
+
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];

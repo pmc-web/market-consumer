@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
-import com.pmc.market.model.dto.ShopDto;
+import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Favorite;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopInput;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,15 +40,14 @@ public class ShopControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @MockBean
     private ShopService shopService;
 
     @Test
     @WithMockUser
     void 쇼핑몰_목록을_가져온다() throws Exception {
-        List<Shop> shops = new ArrayList<>();
-        shops.add(Shop.builder()
+        List<ShopResponseDto> shops = new ArrayList<>();
+        shops.add(ShopResponseDto.builder()
                 .id(1L)
                 .name("쇼핑몰1")
                 .telephone("010-0000-0000")
@@ -60,7 +59,7 @@ public class ShopControllerTest {
                 .period(LocalDateTime.now().plusYears(1))
                 .businessNumber("00-000-000")
                 .build());
-        shops.add(Shop.builder()
+        shops.add(ShopResponseDto.builder()
                 .id(2L)
                 .name("쇼핑몰2")
                 .telephone("010-0000-0000")
@@ -84,7 +83,7 @@ public class ShopControllerTest {
     @DisplayName("makeShop() 테스트")
     @Test
     void 쇼핑몰_등록() throws Exception {
-        ShopInput shop = ShopInput.builder()
+        ShopRequestDto shop = ShopRequestDto.builder()
                 .name("쇼핑몰1")
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")
@@ -109,7 +108,7 @@ public class ShopControllerTest {
     @Test
     @DisplayName("exception handler 테스트")
     void 유효성체크() throws Exception {
-        ShopInput shop = ShopInput.builder()
+        ShopRequestDto shop = ShopRequestDto.builder()
                 .name("쇼핑몰1")
                 .telephone("010-0000-0000")
                 .businessName("쇼핑몰1")
@@ -167,10 +166,10 @@ public class ShopControllerTest {
                 .shop(shop3)
                 .user(user)
                 .build();
-        List<FavoriteShopDto> shops = new ArrayList<>();
-        shops.add(FavoriteShopDto.of(shop, 1));
-        shops.add(FavoriteShopDto.of(shop2, 1));
-        shops.add(FavoriteShopDto.of(shop3, 1));
+        List<ShopResponseDto> shops = new ArrayList<>();
+        shops.add(ShopResponseDto.of(shop, 1));
+        shops.add(ShopResponseDto.of(shop2, 1));
+        shops.add(ShopResponseDto.of(shop3, 1));
 
         when(shopService.findFavorite(3)).thenReturn(shops);
 
@@ -187,8 +186,8 @@ public class ShopControllerTest {
     @DisplayName("신상 마켓 N개")
     void 쇼핑몰_리스트_new() throws Exception {
         int count = 6;
-        List<ShopDto> shops = new ArrayList<>();
-        for (int i = 0; i < count; i++) shops.add(ShopDto.builder().id(i+1).build());
+        List<ShopResponseDto> shops = new ArrayList<>();
+        for (int i = 0; i < count; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
         when(shopService.findNew(count)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
@@ -201,8 +200,9 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 정보 조회 - 1 ")
-    void 마켓_1개_조회_좋아요수포함() throws Exception{
-        FavoriteShopDto shop = FavoriteShopDto.of(Shop.builder().id(1L).build(), 1);
+    void 마켓_1개_조회_좋아요수포함() throws Exception {
+
+        ShopResponseDto shop = ShopResponseDto.of(Shop.builder().id(1L).build());
         long id = 1L;
         when(shopService.getShopById(id)).thenReturn(shop);
 
@@ -215,10 +215,10 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 카테고리 리스트 조회 ")
-    void 카테고리별_마켓_리스트() throws Exception{
+    void 카테고리별_마켓_리스트() throws Exception {
         long id = 1L;
-        List<Shop> shops = new ArrayList<>();
-        for(int i=0; i<4; i++) shops.add(Shop.builder().id(i+1).build());
+        List<ShopResponseDto> shops = new ArrayList<>();
+        for (int i = 0; i < 4; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
         when(shopService.getShopsByCategory(id)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/category")
@@ -227,4 +227,55 @@ public class ShopControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @WithMockUser
+    @DisplayName("마켓 조회 - 검색어")
+    @Test
+    void getShopsBySearch() throws Exception {
+        // 쇼핑몰 이름 검색 ??
+        String searchWord = "213";
+        List<ShopResponseDto> shops = new ArrayList<>();
+
+        when(shopService.getShopsBySearch(searchWord)).thenReturn(shops);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops/search")
+                .param("searchWord", String.valueOf(searchWord))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @DisplayName("마켓 정보 수정")
+    @Test
+    void updateShop() throws Exception {
+        long id = 6L;
+        ShopRequestDto shop = ShopRequestDto.builder()
+                .name("hi")
+                .businessName("update shop")
+                .build();
+        doNothing().when(shopService).updateShop(shop, id);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}", id)
+                .content(objectMapper.writeValueAsString(shop))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @WithMockUser
+    @DisplayName("마켓 삭제 ")
+    @Test
+    void deleteShop() throws Exception {
+        long id = 7L;
+        doNothing().when(shopService).deleteShop(id);
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
 }

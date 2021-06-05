@@ -9,11 +9,12 @@ spring:
   # jpa 설정
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 1000  # join fetch paging
     database: mysql
   #    generate-ddl: false
 
