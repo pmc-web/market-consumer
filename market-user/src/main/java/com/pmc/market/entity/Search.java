@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,16 @@ public class Search {
 
     private long count;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    private LocalDateTime regDate;
+
+    private LocalDateTime updateDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "search", cascade = CascadeType.ALL)
     private List<UserSearch> searches = new ArrayList<>();
+
+    public void updateSearch() {
+        this.updateDate = LocalDateTime.now();
+        this.count++;
+    }
+    // TODO : batch (updateDate - regDate)>=30 일 이상 차이나면 delete
 }

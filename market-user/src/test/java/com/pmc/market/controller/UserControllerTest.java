@@ -1,6 +1,5 @@
 package com.pmc.market.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.UserApplication;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.User;

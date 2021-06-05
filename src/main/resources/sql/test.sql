@@ -32,3 +32,6 @@ INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '1');
 INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '2');
 
 
+-- SEARCH
+INSERT INTO `market`.`search` (`count`, `word`, `reg_date`, update_date) VALUES ('1', '검색1', NOW(), NOW());
+-- USER_SEARCH
