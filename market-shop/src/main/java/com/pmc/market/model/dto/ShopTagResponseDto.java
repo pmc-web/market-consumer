@@ -20,7 +20,7 @@ public class ShopTagResponseDto {
     private String tagName;
     private List<ShopIdNameDto> shops;
 
-    public static ShopTagResponseDto of(List<ShopTag> shopTags) {
+    public static ShopTagResponseDto from(List<ShopTag> shopTags) {
         if (shopTags == null || shopTags.size() == 0) throw new EntityNotFoundException("해당 태그의 정보가 없습니다.");
         Tag tag = shopTags.get(0).getTag();
         List<ShopIdNameDto> shops = shopTags.stream().map(ShopIdNameDto::of).collect(Collectors.toList());

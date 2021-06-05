@@ -19,7 +19,7 @@ public class NoticeResponseDto {
     private LocalDateTime regDate;
     private Long shopId;
 
-    public static NoticeResponseDto of(ShopNotice shopNotice) {
+    public static NoticeResponseDto from(ShopNotice shopNotice) {
         return NoticeResponseDto.builder()
                 .id(shopNotice.getId())
                 .title(shopNotice.getTitle())

@@ -24,7 +24,7 @@ public class FavoriteCustomRepository {
         String sql = "select f.shop, count (s.id) as likes from Favorite f join f.shop s group by s.id order by likes desc";
         List<Object[]> objects = entityManager.createQuery(sql).setMaxResults(count).getResultList();
         return objects.stream()
-                .map(result -> ShopResponseDto.of((Shop) result[0], (long) result[1]))
+                .map(result -> ShopResponseDto.from((Shop) result[0], (long) result[1]))
                 .collect(Collectors.toList());
     }
 }
