@@ -2,10 +2,13 @@ package com.pmc.market.controller;
 
 import com.pmc.market.entity.User;
 import com.pmc.market.model.ResponseMessage;
+import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.service.ShopService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -76,8 +79,42 @@ public class ShopController {
 
     @ApiOperation("마켓 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteShop(@ApiParam("삭제할 마켓 id") @PathVariable long id){
+    public ResponseEntity<?> deleteShop(@ApiParam("삭제할 마켓 id") @PathVariable long id) {
         shopService.deleteShop(id);
+        return ResponseEntity.ok(ResponseMessage.success());
+    }
+
+    // TODO : controller 분리 ? ex : ShopNoticeController
+    @ApiOperation("마켓 공지사항 목록")
+    @GetMapping("/{id}/notice")
+    public ResponseEntity<?> getNoticeList(@ApiParam(value = "마켓 id") @PathVariable long id) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.getNoticeList(id)));
+    }
+
+    // TODO : url 에는 id 가 있어야 할 것 같은데 body에 id 를 같이 받는 방법이 더 좋을까?
+    @ApiOperation("마켓 공지사항 작성")
+    @PostMapping("/{id}/notice")
+    public ResponseEntity<?> makeNotice(@ApiParam(value = "마켓 id") @PathVariable long id, @RequestBody @Valid NoticeRequestDto noticeRequestDto) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.insertNotice(id, noticeRequestDto)));
+    }
+
+    // TODO : ShopId 가 필요할까?
+    @ApiOperation("마켓 공지사항 상세 조회")
+    @GetMapping("/notice/{id}")
+    public ResponseEntity<?> getNoticeDetail(@ApiParam(value = "공지사항 id") @PathVariable("id") long noticeId) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.getNotice(noticeId)));
+    }
+
+    @ApiOperation("마켓 공지사항 상세 수정")
+    @PutMapping("/notice/{id}")
+    public ResponseEntity<?> updateNotice(@ApiParam(value = "공지사항 id") @PathVariable("id") long noticeId, @RequestBody @Valid NoticeRequestDto noticeRequestDto) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.updateNotice(noticeId, noticeRequestDto)));
+    }
+
+    @ApiOperation("마켓 공지사항 삭제")
+    @DeleteMapping("/notice/{id}")
+    public ResponseEntity<?> deleteNotice(@ApiParam(value = "공지사항 id") @PathVariable("id") long noticeId) {
+        shopService.deleteNotice(noticeId);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 }

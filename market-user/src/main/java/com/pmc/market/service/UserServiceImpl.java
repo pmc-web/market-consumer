@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -58,7 +61,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User createdUser = userRepository.save(user);
         String auth = mailSendService.sendAuthMail(user.getEmail());
-        updateUserAuth(auth, user.getEmail()); // TODO : 회원가입시 토큰이 필요할까 ?
+        updateUserAuth(auth, user.getEmail());
         return UserInfoResponseDto.of(createdUser, null);
     }
 

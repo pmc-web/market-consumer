@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -29,6 +32,8 @@ public class ShopResponseDto {
     private String qnaDescription;
     private String shipDescription;
     private long likes;
+    private List<NoticeResponseDto> notices = new ArrayList<>();
+    private List<TagIdNameDto> tags = new ArrayList<>();
 
     public static ShopResponseDto of(Shop shop) {
         return ShopResponseDto.builder()
@@ -48,6 +53,8 @@ public class ShopResponseDto {
                 .qnaDescription(shop.getQnaDescription())
                 .shipDescription(shop.getShipDescription())
                 .likes(shop.getFavorites() == null ? 0 : shop.getFavorites().size())
+                .notices(shop.getShopNotices().stream().map(NoticeResponseDto::of).collect(Collectors.toList()))
+                .tags(shop.getShopTags().stream().map(shopTag -> TagIdNameDto.of(shopTag.getTag())).collect(Collectors.toList()))
                 .build();
     }
 

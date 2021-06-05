@@ -2,8 +2,11 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.TagIdNameDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.entity.ShopTag;
+import com.pmc.market.model.entity.Tag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,28 +37,6 @@ class ShopRepositoryTest {
 
     @Autowired
     private FavoriteRepository favoriteRepository;
-
-    @Test
-    void 모든_쇼핑몰을_가져오기_좋아요_제외() {
-        /*
-        Shop shop = Shop.builder()
-                .id(1L)
-                .name("쇼핑몰1")
-                .telephone("010-0000-0000")
-                .businessName("쇼핑몰1")
-                .fullDescription("쇼핑몰 설명")
-                .owner("주인")
-                .shortDescription("악세사리 쇼핑몰")
-                .regDate(LocalDateTime.now())
-                .period(LocalDateTime.now().plusYears(1))
-                .businessNumber("00-000-000")
-                .build();
-        shopRepository.save(shop);
-         */
-//        List<Shop> result = shopRepository.findAllList();
-//        List<Shop> result = shopRepository.findAll(); // 그냥 조회만 하면 select 쿼리 1개 사용
-//        assertTrue(result.size() > 0);
-    }
 
     @DisplayName("makeShop() 테스트")
     @Test
@@ -83,7 +65,6 @@ class ShopRepositoryTest {
         shopRepository.save(shop);
 
         assertEquals(shop.getId(), 1L); // auto-create 일 때
-
     }
 
     @DisplayName("신규 쇼핑몰 - 최신순서로 쇼핑몰 전체 조회")
@@ -118,10 +99,22 @@ class ShopRepositoryTest {
 
     @Transactional
     @Test
+    void 마켓조회_테스트2() {
+        List<Shop> shops = shopRepository.findAllShop();
+        for (Shop shop : shops) {
+            List<ShopTag> shopTags = shop.getShopTags();
+            List<TagIdNameDto> map = shop.getShopTags().stream().map(shopTag -> TagIdNameDto.of(shopTag.getTag())).collect(Collectors.toList());
+            List<Tag> tags = shopTags.stream().map(ShopTag::getTag).collect(Collectors.toList());
+            map.forEach(t -> System.out.println(t.getId() + " " + t.getTagName()));
+        }
+
+    }
+
+    @Transactional
+    @Test
     void 마켓조회_테스트2_byId() {
         Long id = 1L;
         Shop shops = shopRepository.findById(id).get();
-        shops.getFavorites().forEach(f -> System.out.println("favorite id" + f.getId() + " "));
     }
 
     @DisplayName("마켓 조회 - 검색어")
@@ -160,10 +153,11 @@ class ShopRepositoryTest {
         assertNotEquals(prev, now);
     }
 
-    @DisplayName("좋아요 삭제 _ 무한삽질중 ")
+    @DisplayName("좋아요 삭제")
     @Test
     void 마켓_삭제() {
         shopRepository.deleteById(8L);
         // delete 3 : shop1+favorite 2
     }
+
 }
