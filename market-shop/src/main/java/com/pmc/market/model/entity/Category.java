@@ -3,6 +3,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Entity
@@ -19,5 +21,11 @@ public class Category { // product 에도 매핑
 
     @NotNull
     private String subCategory;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Shop> shops = new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<Product> products = new ArrayList<>();
 
 }

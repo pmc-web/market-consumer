@@ -1,4 +1,5 @@
 package com.pmc.market.model.entity;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,11 +14,11 @@ public class ShopTag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name= "shop_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
 }

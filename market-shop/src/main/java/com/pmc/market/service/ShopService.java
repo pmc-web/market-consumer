@@ -1,19 +1,41 @@
 package com.pmc.market.service;
 
 import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
-import com.pmc.market.model.dto.ShopDto;
-import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.dto.ShopInput;
+import com.pmc.market.model.dto.NoticeRequestDto;
+import com.pmc.market.model.dto.NoticeResponseDto;
+import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.model.entity.ShopNotice;
 
 import java.util.List;
 
 public interface ShopService {
 
-    List<Shop> findAll();
-    void makeShop(ShopInput shopInput, User user);
-    List<FavoriteShopDto> findFavorite(int count);
-    List<ShopDto> findNew(int count);
-    FavoriteShopDto getShopById(long id);
-    List<Shop> getShopsByCategory(long id);
+    List<ShopResponseDto> findAll();
+
+    void makeShop(ShopRequestDto shopRequestDto, User user);
+
+    List<ShopResponseDto> findFavorite(int count);
+
+    List<ShopResponseDto> findNew(int count);
+
+    ShopResponseDto getShopById(long id);
+
+    List<ShopResponseDto> getShopsByCategory(long id);
+
+    List<ShopResponseDto> getShopsBySearch(String searchWord);
+
+    void updateShop(ShopRequestDto shop, long id);
+
+    void deleteShop(long id);
+
+    List<ShopNotice> getNoticeList(long id);
+
+    NoticeResponseDto insertNotice(long id, NoticeRequestDto noticeRequestDto);
+
+    NoticeResponseDto getNotice(long noticeId);
+
+    NoticeResponseDto updateNotice(long noticeId, NoticeRequestDto noticeRequestDto);
+
+    void deleteNotice(long noticeId);
 }

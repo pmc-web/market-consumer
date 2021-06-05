@@ -1,11 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.FavoriteShopDto;
-import com.pmc.market.model.entity.Favorite;
-import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.dto.ShopResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,33 +10,41 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})
 class FavoriteCustomRepositoryTest {
     @Autowired
-    private ShopRepository shopRepository;
-
-    @Autowired
     private FavoriteCustomRepository favoriteCustomRepository;
 
     @Autowired
-    private FavoriteRepository favoriteRepository;
+    private EntityManager entityManager;
 
-    @Autowired
-    private UserRepository userRepository;
+    @Test
+    void jpaTest() {
+        /*
+           SELECT sf.likes, s.*  FROM shop s left join
+           (select count(shop_id) as likes, f.shop_id from favorite f group by f.shop_id) sf
+           on sf.shop_id = s.id
+         */
+        /*
+            select s.*, f.likes from (SELECT count(*) as likes, shop_id
+            FROM market.favorite group by shop_id order by likes desc)f
+            inner join shop s on s.id = f.shop_id;
+        */
 
-    @DisplayName("인기순 n개")
+    }
+
+    @DisplayName("인기순 n개 - 쿼리 1개 사용 확인")
     @Test
     @Rollback
     void 쇼핑몰_리스트_favorite_table() {
         /*
         다음 Shop 은 NotNull 제약 조건 을 전부 없애야 테스트 가능
-        **/
         Shop shop = Shop.builder()
                 .id(1L)
                 .name("shop1")
@@ -98,17 +102,9 @@ class FavoriteCustomRepositoryTest {
                 .user(user)
                 .build();
         favoriteRepository.save(f5);
-        List<FavoriteShopDto> shopIds = favoriteCustomRepository.findShopsMostFavoriteCount(3);
+         */
+        List<ShopResponseDto> shopIds = favoriteCustomRepository.findShopsMostFavoriteCount(3);
         assertEquals(shopIds.size(), 3);
-
     }
 
-
-    @DisplayName("jpa 테스트- shop favorite join")
-    @Test
-    void jpaJoinTest(){
-        FavoriteShopDto shopDtos = favoriteCustomRepository.findById(1L);
-        assertTrue(shopDtos.getId() == 1L);
-        System.out.println(shopDtos.getId()+" "+shopDtos.getLikes());
-    }
 }
