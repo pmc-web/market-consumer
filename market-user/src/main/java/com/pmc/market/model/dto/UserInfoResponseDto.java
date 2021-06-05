@@ -3,7 +3,6 @@ package com.pmc.market.model.dto;
 import com.pmc.market.entity.Role;
 import com.pmc.market.entity.Status;
 import com.pmc.market.entity.User;
-import com.pmc.market.security.auth.AuthConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,9 +21,9 @@ public class UserInfoResponseDto {
     private Status status;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
-    private String token;
+    private TokenDto token;
 
-    public static UserInfoResponseDto of(User user, String token) {
+    public static UserInfoResponseDto of(User user, TokenDto token) {
         String email = user.getProvider().equals("KAKAO") ? "KAKAO" + user.hashCode() : user.getEmail();
         return UserInfoResponseDto.builder()
                 .email(email)
@@ -33,8 +32,19 @@ public class UserInfoResponseDto {
                 .regDate(user.getRegDate())
                 .role(user.getRole())
                 .status(user.getStatus())
-                .token(AuthConstants.TOKEN_TYPE + " " + token)
+                .token(token)
                 .build();
     }
 
+    public static UserInfoResponseDto of(User user) {
+        String email = user.getProvider().equals("KAKAO") ? "KAKAO" + user.hashCode() : user.getEmail();
+        return UserInfoResponseDto.builder()
+                .email(email)
+                .provider(user.getProvider())
+                .name(user.getName())
+                .regDate(user.getRegDate())
+                .role(user.getRole())
+                .status(user.getStatus())
+                .build();
+    }
 }

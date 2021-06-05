@@ -1,28 +1,27 @@
 package com.pmc.market.entity;
 
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
 @Entity
-public class Claim {
-
+public class Search {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private LocalDateTime regDate;
+    private String word;
 
-    @Column
-    private String title;
+    private long count;
 
-    @Column
-    private String content;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<UserSearch> searches = new ArrayList<>();
 }

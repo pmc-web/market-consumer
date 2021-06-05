@@ -1,38 +1,27 @@
 package com.pmc.market.entity;
 
+import com.pmc.market.entity.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
-public class QNA {
+public class ProductFavorite { // 상품 좋아요
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String title;
-
-    @Column
-    private String description;
-
-    @Column
-    private String comment;
-
-    @Column
-    private LocalDateTime regDate;
-
-    private QnaType qnaType;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private ProductDto productDto;
 }

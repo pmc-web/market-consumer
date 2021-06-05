@@ -16,8 +16,8 @@ public enum ErrorCode {
     // User
     EMAIL_SEND_ERROR(500, "U001", "이메일 전송에 실패했습니다."),
     OAUTH_ERROR(500, "U002", "OAUTH 인증에 실패했습니다"),
-    UNAUTHORIZED(401, "U003","권한이 없습니다.")
-    ;
+    UNAUTHORIZED(401, "U003", "권한이 없습니다."),
+    TOKEN_EXPIRED(401, "U004", "토큰이 만료되었습니다.");
 
     private final String code;
     private final String message;

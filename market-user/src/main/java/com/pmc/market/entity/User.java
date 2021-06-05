@@ -4,8 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-
+@EqualsAndHashCode(of = {"id"})// dirty check 방지
 @Getter
 @Builder
 @AllArgsConstructor
@@ -27,9 +29,6 @@ public class User {
     private String password;
 
     @Column
-    private String address;
-
-    @Column
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -49,6 +48,17 @@ public class User {
     @Column
     private String authKey;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<UserSearch> searches = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<ShipAddress> shipAddresses = new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.LAZY) // TODO: shop entity를 가져올 수 없는데 어떡하지... 
+//    private List<Claims> claims = new ArrayList<>();
+
+//    @OneToMany
+//    private List<Favorite> favoriteShop = new ArrayList<>();
 
     public void setStatus(Status status) {
         this.status = status;
