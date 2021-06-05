@@ -21,7 +21,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagResponseDto> findAll() {
-        return tagRepository.findAll().stream().map(TagResponseDto::of).collect(Collectors.toList());
+        return tagRepository.findAll().stream().map(TagResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
@@ -40,16 +40,16 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagResponseDto> findByWord(String searchWord) {
-        return tagRepository.findByName(searchWord).stream().map(TagResponseDto::of).collect(Collectors.toList());
+        return tagRepository.findByName(searchWord).stream().map(TagResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
     public ShopTagResponseDto findByTagName(String tagName) {
-        return ShopTagResponseDto.of(shopTagRepository.findByTagName(tagName));
+        return ShopTagResponseDto.from(shopTagRepository.findByTagName(tagName));
     }
 
     @Override
     public ShopTagResponseDto findByTagId(long id) {
-        return ShopTagResponseDto.of(shopTagRepository.findByTagId(id));
+        return ShopTagResponseDto.from(shopTagRepository.findByTagId(id));
     }
 }

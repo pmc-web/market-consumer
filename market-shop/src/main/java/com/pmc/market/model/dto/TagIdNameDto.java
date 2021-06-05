@@ -15,7 +15,7 @@ public class TagIdNameDto {
     private long id;
     private String tagName;
 
-    public static TagIdNameDto of(Tag tag) {
+    public static TagIdNameDto from(Tag tag) {
         return TagIdNameDto.builder()
                 .id(tag.getId())
                 .tagName(tag.getName())

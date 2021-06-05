@@ -25,13 +25,13 @@ class ShopNoticeServiceTest {
             .content("공지사항 내용입니다,공지사항 내용입니다,공지사항 내용입니다,공지사항 내용입니다,공지사항 내용입니다")
             .build();
     @Autowired
-    private ShopService shopService;
+    private ShopNoticeService shopNoticeService;
 
     @DisplayName("마켓의 공지사항 리스트")
     @Test
     void getNoticeList() {
         long shopId = 1L;
-        List<ShopNotice> shopNotice = shopService.getNoticeList(shopId);
+        List<ShopNotice> shopNotice = shopNoticeService.getNoticeList(shopId);
         assertTrue(shopNotice.size() > 0);
     }
 
@@ -39,7 +39,7 @@ class ShopNoticeServiceTest {
     @Test
     void insertNotice() {
         long shopId = 1L;
-        NoticeResponseDto noticeResponseDto = shopService.insertNotice(shopId, noticeRequestDto);
+        NoticeResponseDto noticeResponseDto = shopNoticeService.insertNotice(shopId, noticeRequestDto);
         assertTrue(noticeResponseDto.getShopId().equals(shopId));
     }
 
@@ -47,7 +47,7 @@ class ShopNoticeServiceTest {
     @Test
     void getNotice() {
         long noticeId = 2L;
-        NoticeResponseDto noticeResponseDto = shopService.getNotice(noticeId);
+        NoticeResponseDto noticeResponseDto = shopNoticeService.getNotice(noticeId);
         assertTrue(noticeResponseDto.getId().equals(noticeId));
     }
 
@@ -59,7 +59,7 @@ class ShopNoticeServiceTest {
                 .title("공지사항 제목 ")
                 .content("공지사항 수정 내용!!")
                 .build();
-        NoticeResponseDto noticeResponseDto = shopService.updateNotice(noticeId, noticeRequestDto);
+        NoticeResponseDto noticeResponseDto = shopNoticeService.updateNotice(noticeId, noticeRequestDto);
         assertTrue(noticeResponseDto.getTitle().equals(noticeRequestDto.getTitle()));
     }
 
@@ -68,7 +68,7 @@ class ShopNoticeServiceTest {
     void deleteNotice() {
         long noticeId = 3L;
         try {
-            shopService.deleteNotice(noticeId);
+            shopNoticeService.deleteNotice(noticeId);
         } catch (EntityNotFoundException e) {
             System.out.println("error test");
         }

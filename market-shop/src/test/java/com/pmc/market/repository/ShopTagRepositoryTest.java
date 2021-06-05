@@ -47,7 +47,7 @@ class ShopTagRepositoryTest {
                 .tagName(tag.getName())
                 .shops(list)
                 .build();
-        ShopTagResponseDto tagShop2 = ShopTagResponseDto.of(shopTags);
+        ShopTagResponseDto tagShop2 = ShopTagResponseDto.from(shopTags);
         assertEquals(tagShop.getTagName(), tagShop2.getTagName());
         assertTrue(shopTags.size() > 0);
     }
@@ -57,7 +57,7 @@ class ShopTagRepositoryTest {
     void findByTagId() {
         long id = 1L;
         List<ShopTag> shopTags = shopTagRepository.findByTagId(id);
-        ShopTagResponseDto tagShop = ShopTagResponseDto.of(shopTags);
+        ShopTagResponseDto tagShop = ShopTagResponseDto.from(shopTags);
         assertEquals(tagShop.getTagId(), id);
     }
 }
