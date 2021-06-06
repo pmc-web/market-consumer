@@ -1,6 +1,6 @@
-package com.pmc.market.model.entity;
+package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.entity.dto.ProductDto;
+import com.pmc.market.model.product.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.Status;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.Status;
+import com.pmc.market.model.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

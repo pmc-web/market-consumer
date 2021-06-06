@@ -1,10 +1,10 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,5 @@
-package com.pmc.market.model.entity;
+package com.pmc.market.model.shop.entity;
+
 import lombok.*;
 
 import javax.persistence.*;

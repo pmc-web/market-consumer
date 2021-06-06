@@ -1,5 +1,6 @@
-package com.pmc.market.model.entity;
-import com.pmc.market.entity.dto.Attachment;
+package com.pmc.market.model.shop.entity;
+
+import com.pmc.market.model.product.dto.Attachment;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +21,10 @@ public class ShopImage {
     private ImageType type;
 
     @ManyToOne
-    @JoinColumn(name= "shop_id")
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 
     @ManyToOne
-    @JoinColumn(name= "attachment_id")
+    @JoinColumn(name = "attachment_id")
     private Attachment attachment;
 }

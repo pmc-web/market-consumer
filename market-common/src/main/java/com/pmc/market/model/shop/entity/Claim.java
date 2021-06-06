@@ -1,6 +1,6 @@
-package com.pmc.market.model.entity;
+package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.entity.User;
+import com.pmc.market.model.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

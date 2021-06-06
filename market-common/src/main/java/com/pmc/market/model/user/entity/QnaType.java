@@ -1,4 +1,4 @@
-package com.pmc.market.entity;
+package com.pmc.market.model.user.entity;
 
 public enum QnaType {
     NORMAL("일반문의", 1);
@@ -6,7 +6,7 @@ public enum QnaType {
     private String qnaType;
     private int qnaLevel;
 
-    QnaType(String qnaType, int qnaLevel){
+    QnaType(String qnaType, int qnaLevel) {
         this.qnaType = qnaType;
         this.qnaLevel = qnaLevel;
     }

@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.model.user.entity.User;
 
 import java.util.List;
 

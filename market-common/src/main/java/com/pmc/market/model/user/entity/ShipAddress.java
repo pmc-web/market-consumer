@@ -1,6 +1,5 @@
-package com.pmc.market.entity;
+package com.pmc.market.model.user.entity;
 
-import com.pmc.market.entity.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,17 +10,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-public class ProductFavorite { // 상품 좋아요
-
+public class ShipAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String address;
+
+    private String detail;
+
+    private String zipCode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private ProductDto productDto;
 }

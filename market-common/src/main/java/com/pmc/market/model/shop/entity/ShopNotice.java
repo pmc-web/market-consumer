@@ -1,6 +1,6 @@
-package com.pmc.market.model.entity;
+package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.dto.NoticeRequestDto;
+import com.pmc.market.model.shop.dto.NoticeRequestDto;
 import lombok.*;
 
 import javax.persistence.*;

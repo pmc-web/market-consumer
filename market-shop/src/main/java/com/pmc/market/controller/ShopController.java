@@ -1,8 +1,8 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.User;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.service.ShopService;
 import io.swagger.annotations.Api;
