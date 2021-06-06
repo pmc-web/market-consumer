@@ -1,9 +1,10 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.vo.ProductCreateParamVo;
-import com.pmc.market.entity.vo.ProductUpdateParamVo;
-import com.pmc.market.entity.vo.ProductVo;
-import com.pmc.market.entity.vo.SearchProductParam;
+
+import com.pmc.market.model.product.vo.ProductCreateParamVo;
+import com.pmc.market.model.product.vo.ProductUpdateParamVo;
+import com.pmc.market.model.product.vo.ProductVo;
+import com.pmc.market.model.product.vo.SearchProductParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

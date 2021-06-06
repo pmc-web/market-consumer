@@ -1,9 +1,9 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.vo.ProductCreateParamVo;
-import com.pmc.market.entity.vo.ProductUpdateParamVo;
-import com.pmc.market.entity.vo.SearchProductParam;
 import com.pmc.market.model.ResponseMessage;
+import com.pmc.market.model.product.vo.ProductCreateParamVo;
+import com.pmc.market.model.product.vo.ProductUpdateParamVo;
+import com.pmc.market.model.product.vo.SearchProductParam;
 import com.pmc.market.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

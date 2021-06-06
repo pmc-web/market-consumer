@@ -1,4 +1,4 @@
-package com.pmc.market.entity.vo;
+package com.pmc.market.model.product.vo;
 
 public class SearchProductParam {
     String keyword;

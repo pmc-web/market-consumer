@@ -1,7 +1,7 @@
-package com.pmc.market.entity.vo;
+package com.pmc.market.model.product.vo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.pmc.market.entity.dto.ProductDto;
+import com.pmc.market.model.product.entity.Product;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.lang.Nullable;
 
@@ -16,11 +16,11 @@ public class ProductVo {
     private String description;
 
     @JsonIgnore
-    public ProductVo(ProductDto productDto) {
-        this.id = productDto.getId();
-        this.amount = productDto.getAmount();
-        this.price = productDto.getPrice();
-        this.description = productDto.getDescription();
-        this.name = productDto.getName();
+    public ProductVo(Product product) {
+        this.id = product.getId();
+        this.amount = product.getAmount();
+        this.price = product.getPrice();
+        this.description = product.getDescription();
+        this.name = product.getName();
     }
 }

@@ -1,7 +1,7 @@
-package com.pmc.market.entity.dto;
+package com.pmc.market.model.product.entity;
 
-import com.pmc.market.entity.vo.ProductCreateParamVo;
-import com.pmc.market.entity.vo.ProductUpdateParamVo;
+import com.pmc.market.model.product.vo.ProductCreateParamVo;
+import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,10 +13,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductDto {
-
+public class Product {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -30,14 +29,14 @@ public class ProductDto {
 
     private String description;
 
-    public ProductDto(ProductCreateParamVo param) {
+    public Product(ProductCreateParamVo param) {
         this.name = param.getName();
         this.price = param.getPrice();
         this.amount = param.getAmount();
         this.description = param.getDescription();
     }
 
-    public ProductDto(ProductUpdateParamVo param) {
+    public Product(ProductUpdateParamVo param) {
         this.name = param.getName();
         this.price = param.getPrice();
         this.amount = param.getAmount();

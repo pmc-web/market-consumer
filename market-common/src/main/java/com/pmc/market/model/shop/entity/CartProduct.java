@@ -1,6 +1,6 @@
 package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.product.dto.ProductDto;
+import com.pmc.market.model.product.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +23,6 @@ public class CartProduct {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductDto product;
+    private Product product;
 
 }
