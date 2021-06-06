@@ -6,7 +6,7 @@ import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.model.dto.NoticeResponseDto;
 import com.pmc.market.model.entity.Shop;
 import com.pmc.market.model.entity.ShopNotice;
-import com.pmc.market.service.ShopService;
+import com.pmc.market.service.ShopNoticeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +47,7 @@ public class ShopNoticeControllerTest {
             .shop(Shop.builder().build())
             .build();
     @MockBean
-    private ShopService shopService;
+    private ShopNoticeService shopNoticeService;
 
     @WithMockUser
     @Test
@@ -55,7 +55,7 @@ public class ShopNoticeControllerTest {
     void 마켓_공지사항_리스트() throws Exception {
         long id = 1L;
         List<ShopNotice> notices = new ArrayList<>();
-        when(shopService.getNoticeList(id)).thenReturn(notices);
+        when(shopNoticeService.getNoticeList(id)).thenReturn(notices);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -70,7 +70,7 @@ public class ShopNoticeControllerTest {
         long shopId = 1L;
 
         ObjectMapper objectMapper = new ObjectMapper();
-        when(shopService.insertNotice(shopId, noticeRequestDto)).thenReturn(NoticeResponseDto.of(notice));
+        when(shopNoticeService.insertNotice(shopId, noticeRequestDto)).thenReturn(NoticeResponseDto.from(notice));
         mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}/notice", shopId)
                 .content(objectMapper.writeValueAsString(noticeRequestDto))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -83,7 +83,7 @@ public class ShopNoticeControllerTest {
     @DisplayName("마켓 공지사항 상세")
     void 마켓_공지사항_단일조회() throws Exception {
         long id = 1L;
-        when(shopService.getNotice(id)).thenReturn(NoticeResponseDto.of(notice));
+        when(shopNoticeService.getNotice(id)).thenReturn(NoticeResponseDto.from(notice));
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/notice/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ public class ShopNoticeControllerTest {
     void 마켓_공지사항_수정() throws Exception {
         long id = 1L;
         ObjectMapper objectMapper = new ObjectMapper();
-        when(shopService.updateNotice(id, noticeRequestDto)).thenReturn(NoticeResponseDto.of(notice));
+        when(shopNoticeService.updateNotice(id, noticeRequestDto)).thenReturn(NoticeResponseDto.from(notice));
         mockMvc.perform(MockMvcRequestBuilders.put("/shops/notice/{id}", id)
                 .content(objectMapper.writeValueAsString(noticeRequestDto))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -109,7 +109,7 @@ public class ShopNoticeControllerTest {
     @DisplayName("마켓 공지사항 삭제")
     void 마켓_공지사항_삭제() throws Exception {
         long id = 1L;
-        doNothing().when(shopService).deleteNotice(id);
+        doNothing().when(shopNoticeService).deleteNotice(id);
         mockMvc.perform(MockMvcRequestBuilders.delete("/shops/notice/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

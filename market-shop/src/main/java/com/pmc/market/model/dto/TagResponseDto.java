@@ -20,7 +20,7 @@ public class TagResponseDto {
     private String tagName;
     private List<Long> shopIds = new ArrayList<>();
 
-    public static TagResponseDto of(Tag tag) {
+    public static TagResponseDto from(Tag tag) {
         return TagResponseDto.builder()
                 .id(tag.getId())
                 .tagName(tag.getName())

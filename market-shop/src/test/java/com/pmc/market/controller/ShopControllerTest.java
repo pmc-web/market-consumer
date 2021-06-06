@@ -167,9 +167,9 @@ public class ShopControllerTest {
                 .user(user)
                 .build();
         List<ShopResponseDto> shops = new ArrayList<>();
-        shops.add(ShopResponseDto.of(shop, 1));
-        shops.add(ShopResponseDto.of(shop2, 1));
-        shops.add(ShopResponseDto.of(shop3, 1));
+        shops.add(ShopResponseDto.from(shop, 1));
+        shops.add(ShopResponseDto.from(shop2, 1));
+        shops.add(ShopResponseDto.from(shop3, 1));
 
         when(shopService.findFavorite(3)).thenReturn(shops);
 
@@ -202,7 +202,7 @@ public class ShopControllerTest {
     @DisplayName("마켓 정보 조회 - 1 ")
     void 마켓_1개_조회_좋아요수포함() throws Exception {
 
-        ShopResponseDto shop = ShopResponseDto.of(Shop.builder().id(1L).build());
+        ShopResponseDto shop = ShopResponseDto.from(Shop.builder().id(1L).build());
         long id = 1L;
         when(shopService.getShopById(id)).thenReturn(shop);
 

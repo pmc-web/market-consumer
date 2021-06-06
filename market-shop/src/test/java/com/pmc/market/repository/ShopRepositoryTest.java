@@ -103,7 +103,7 @@ class ShopRepositoryTest {
         List<Shop> shops = shopRepository.findAllShop();
         for (Shop shop : shops) {
             List<ShopTag> shopTags = shop.getShopTags();
-            List<TagIdNameDto> map = shop.getShopTags().stream().map(shopTag -> TagIdNameDto.of(shopTag.getTag())).collect(Collectors.toList());
+            List<TagIdNameDto> map = shop.getShopTags().stream().map(shopTag -> TagIdNameDto.from(shopTag.getTag())).collect(Collectors.toList());
             List<Tag> tags = shopTags.stream().map(ShopTag::getTag).collect(Collectors.toList());
             map.forEach(t -> System.out.println(t.getId() + " " + t.getTagName()));
         }

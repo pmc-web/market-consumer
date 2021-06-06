@@ -6,20 +6,15 @@ import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
-import com.pmc.market.model.dto.NoticeRequestDto;
-import com.pmc.market.model.dto.NoticeResponseDto;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.entity.Category;
 import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.entity.ShopNotice;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
-import com.pmc.market.repository.NoticeRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,12 +33,11 @@ public class ShopServiceImpl implements ShopService {
     private final ShopRepository shopRepository;
     private final FavoriteCustomRepository favoriteCustomRepository;
     private final CategoryRepository categoryRepository;
-    private final NoticeRepository noticeRepository;
 
     @Transactional // lazy
     @Override
     public List<ShopResponseDto> findAll() {
-        return shopRepository.findAll().stream().map(ShopResponseDto::of).collect(Collectors.toList());
+        return shopRepository.findAll().stream().map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
@@ -69,7 +63,7 @@ public class ShopServiceImpl implements ShopService {
     public List<ShopResponseDto> findNew(int count) {
         Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
         Page<Shop> all = shopRepository.findAll(pageable);
-        List<ShopResponseDto> shops = all.getContent().stream().map(ShopResponseDto::of).collect(Collectors.toList());
+        List<ShopResponseDto> shops = all.getContent().stream().map(ShopResponseDto::from).collect(Collectors.toList());
         return shops;
     }
 
@@ -77,7 +71,7 @@ public class ShopServiceImpl implements ShopService {
     public ShopResponseDto getShopById(long id) {
         Shop shop = shopRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        return ShopResponseDto.of(shop);
+        return ShopResponseDto.from(shop);
     }
 
     @Override
@@ -85,13 +79,13 @@ public class ShopServiceImpl implements ShopService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
         return shopRepository.findByCategory(category).stream()
-                .map(ShopResponseDto::of).collect(Collectors.toList());
+                .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
     public List<ShopResponseDto> getShopsBySearch(String searchWord) {
         return shopRepository.findByName(searchWord).stream()
-                .map(ShopResponseDto::of).collect(Collectors.toList());
+                .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
@@ -118,43 +112,6 @@ public class ShopServiceImpl implements ShopService {
     public void deleteShop(long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
         shopRepository.delete(shop); // shop 삭제
-    }
-
-    @Override
-    public List<ShopNotice> getNoticeList(long shopId) {
-        return noticeRepository.findAllByShopId(shopId);
-    }
-
-    @Override
-    public NoticeResponseDto insertNotice(long id, NoticeRequestDto noticeRequestDto) {
-        Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        ShopNotice shopNotice = noticeRequestDto.toEntity(noticeRequestDto, shop);
-        noticeRepository.save(shopNotice);
-        return NoticeResponseDto.of(shopNotice);
-    }
-
-    @Override
-    public NoticeResponseDto getNotice(long noticeId) {
-        ShopNotice shopNotice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        return NoticeResponseDto.of(shopNotice);
-    }
-
-    @Override
-    public NoticeResponseDto updateNotice(long noticeId, NoticeRequestDto noticeRequestDto) {
-        ShopNotice shopNotice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        shopNotice.updateNotice(noticeRequestDto);
-        noticeRepository.save(shopNotice);
-        return NoticeResponseDto.of(shopNotice);
-    }
-
-    @Override
-    public void deleteNotice(long noticeId) {
-        try {
-            noticeRepository.deleteById(noticeId);
-        } catch (EmptyResultDataAccessException e) {
-            // select 쿼리 수를 줄이기 위해 id 조회를 하지 않고 jpa 에서 찾을 수 없다는 exception 발생할 때를 잡는다.
-            throw new EntityNotFoundException("해당 마켓을 찾을 수 없습니다.");
-        }
     }
 
 }
