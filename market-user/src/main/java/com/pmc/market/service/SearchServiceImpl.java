@@ -24,10 +24,17 @@ public class SearchServiceImpl implements SearchService {
         // count 가 0 인것 삭제
         List<Long> ids = searchRepository.findByCount(count);
         searchRepository.deleteAllByIdInQuery(ids);
+        // TODO : batch (updateDate - regDate)>=30 일 이상 차이나면 delete
     }
 
     @Override
     public void getPopularList(int limit) {
         List<Search> searches = searchRepository.findBySearchesOrderByCountDesc(PageRequest.of(0, limit));
+    }
+
+    @Override
+    public void addSearchList(String word) {
+        // Search - word 조회, count +1
+        // user_search 추가
     }
 }

@@ -34,4 +34,11 @@ INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '2');
 
 -- SEARCH
 INSERT INTO `market`.`search` (`count`, `word`, `reg_date`, update_date) VALUES ('1', '검색1', NOW(), NOW());
+INSERT INTO `market`.`search` (`count`, `word`, `reg_date`, update_date) VALUES ('1', '검색2', NOW(), NOW());
 -- USER_SEARCH
+INSERT INTO `market`.`user_search` (`search_id`, `user_id`) VALUES ('1', '1');
+INSERT INTO `market`.`user_search` (`search_id`, `user_id`) VALUES ('1', '2');
+
+
+-- SHIP-ADDRESS
+INSERT INTO `market`.`ship_address` (`id`, `address`, `detail`, `zip_code`, `user_id`) VALUES ('1', '서울시 광진구 화양동', '00빌라 00호', '05022', '1');

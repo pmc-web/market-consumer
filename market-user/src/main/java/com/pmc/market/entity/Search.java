@@ -34,5 +34,4 @@ public class Search {
         this.updateDate = LocalDateTime.now();
         this.count++;
     }
-    // TODO : batch (updateDate - regDate)>=30 일 이상 차이나면 delete
 }
