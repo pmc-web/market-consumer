@@ -1,6 +1,6 @@
 package com.pmc.market.model.user.entity;
 
-import com.pmc.market.model.product.dto.ProductDto;
+import com.pmc.market.model.product.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +23,5 @@ public class ProductFavorite { // 상품 좋아요
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private ProductDto productDto;
+    private Product product;
 }

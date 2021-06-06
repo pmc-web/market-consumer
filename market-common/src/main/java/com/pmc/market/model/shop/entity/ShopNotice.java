@@ -1,6 +1,5 @@
 package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.shop.dto.NoticeRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,9 +29,9 @@ public class ShopNotice {
     @Transient
     private boolean isNew;
 
-    public void updateNotice(NoticeRequestDto noticeRequestDto) {
-        this.title = noticeRequestDto.getTitle();
-        this.content = noticeRequestDto.getContent();
+    public void updateNotice(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     @PrePersist

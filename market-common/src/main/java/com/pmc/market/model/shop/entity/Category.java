@@ -1,5 +1,6 @@
 package com.pmc.market.model.shop.entity;
 
+import com.pmc.market.model.product.entity.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ public class Category { // product 에도 매핑
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL)
     private List<Shop> shops = new ArrayList<>();
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<Product> products = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 
 }

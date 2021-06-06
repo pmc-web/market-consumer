@@ -44,7 +44,7 @@ public class ShopNoticeServiceImpl implements ShopNoticeService {
     @Override
     public NoticeResponseDto updateNotice(long noticeId, NoticeRequestDto noticeRequestDto) {
         ShopNotice shopNotice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        shopNotice.updateNotice(noticeRequestDto);
+        shopNotice.updateNotice(noticeRequestDto.getTitle(), noticeRequestDto.getContent());
         noticeRepository.save(shopNotice);
         return NoticeResponseDto.from(shopNotice);
     }

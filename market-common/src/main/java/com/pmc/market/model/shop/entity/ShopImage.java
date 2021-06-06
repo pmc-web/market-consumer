@@ -1,6 +1,6 @@
 package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.product.dto.Attachment;
+import com.pmc.market.model.product.entity.Attachment;
 import lombok.*;
 
 import javax.persistence.*;

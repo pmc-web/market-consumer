@@ -98,7 +98,7 @@ public class ShopServiceImpl implements ShopService {
                     .orElseThrow(() -> new EntityNotFoundException("해당 카테고리를 찾을 수 없습니다."));
             shop.updateCategory(category);
         }
-        shop.update(shopRequestDto);
+        shopRequestDto.updateShop(shop);
 
         try {
             shopRepository.save(shop);

@@ -84,4 +84,18 @@ public class ShopRequestDto {
                 .category(category)
                 .build();
     }
+
+    public void updateShop(Shop shop) {
+        shop.setName(this.name);
+        shop.setPeriod(shop.getPeriod().plusYears(this.period));
+        shop.setFullDescription(this.fullDescription);
+        shop.setShortDescription(this.shortDescription);
+        shop.setBusinessName(this.businessName);
+        shop.setBusinessNumber(this.businessNumber);
+        shop.setOwner(this.owner);
+        shop.setTelephone(this.telephone);
+        shop.setDeliveryCost(this.deliveryCost);
+        shop.setQnaDescription(this.qnaDescription);
+        shop.setShipDescription(this.shipDescription);
+    }
 }

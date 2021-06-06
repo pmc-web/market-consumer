@@ -2,6 +2,7 @@ package com.pmc.market.model.product.entity;
 
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
+import com.pmc.market.model.shop.entity.Category;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +29,10 @@ public class Product {
     private Integer amount;
 
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Product(ProductCreateParamVo param) {
         this.name = param.getName();

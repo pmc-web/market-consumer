@@ -1,6 +1,5 @@
 package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
 
@@ -10,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 @Builder
 @Entity
 @Getter
@@ -82,24 +82,6 @@ public class Shop {
     public void removeFavoriteAll() {
 //        this.favorites.forEach(f -> f.delete());
         this.favorites = new ArrayList<>();
-    }
-
-    public void update(ShopRequestDto shopRequestDto) {
-        this.name = shopRequestDto.getName();
-        this.period = this.regDate.plusYears(shopRequestDto.getPeriod());
-        this.fullDescription = shopRequestDto.getFullDescription();
-        this.shortDescription = shopRequestDto.getShortDescription();
-        this.businessNumber = shopRequestDto.getBusinessNumber();
-        this.businessName = shopRequestDto.getBusinessName();
-        this.owner = shopRequestDto.getOwner();
-        this.telephone = shopRequestDto.getTelephone();
-        this.deliveryCost = shopRequestDto.getDeliveryCost();
-        this.qnaDescription = shopRequestDto.getQnaDescription();
-        this.shipDescription = shopRequestDto.getShipDescription();
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void updateCategory(Category category) {
