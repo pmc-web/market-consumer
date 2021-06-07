@@ -33,23 +33,28 @@ public class ShipAddressController {
     public ResponseEntity<?> updateShipAddress(@ApiParam("유저 id") @PathVariable("userId") long userId,
                                                @ApiParam("주소 id") @PathVariable("addressId") long addressId,
                                                @RequestBody @Valid ShipAddressRequestDto request) {
-//        shipAddressService.addShipAddress(id, request);
+        shipAddressService.updateShipAddress(addressId, request);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation(value = "유저의 배송지 목록")
     @GetMapping("/{userId}/address")
     public ResponseEntity<?> getShipAddress(@ApiParam("유저 id") @PathVariable("userId") long id) {
-//        shipAddressService.getShipAddressList(id);
-        return ResponseEntity.ok(ResponseMessage.success());
+        return ResponseEntity.ok(ResponseMessage.success(shipAddressService.getShipAddressList(id)));
     }
 
     @ApiOperation(value = "배송지 삭제")
     @DeleteMapping("/{userId}/address/{addressId}")
     public ResponseEntity<?> deleteShipAddress(@ApiParam("유저 id") @PathVariable("userId") long userId,
                                                @ApiParam("주소 id") @PathVariable("addressId") long addressId) {
-//        shipAddressService.deleteShipAddress(userId, addressId);
+        shipAddressService.deleteShipAddress(userId, addressId);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
+    @ApiOperation(value = "기본 배송지로 설정")
+    @PatchMapping("/{userId}/address/{addressId}/default")
+    public ResponseEntity<?> setDefaultAddress(@ApiParam("유저 id") @PathVariable("userId") long userId,
+                                               @ApiParam("주소 id") @PathVariable("addressId") long addressId) {
+        return ResponseEntity.ok(shipAddressService.setDefaultAddress(userId, addressId));
+    }
 }

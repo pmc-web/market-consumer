@@ -28,12 +28,19 @@ public class ShipAddressRequestDto {
     @NotEmpty
     private String zipCode;
 
+    @ApiModelProperty(value = "주소 이름")
+    private String addressName;
+
+    @ApiModelProperty(value = "기본 주소 설정 여부")
+    private Boolean isDefault;
+
     public ShipAddress toEntity(ShipAddressRequestDto request, User user) {
         return ShipAddress.builder()
                 .address(request.getAddress())
                 .detail(request.getDetail())
                 .zipCode(request.getZipCode())
                 .user(user)
+                .isDefault(request.getIsDefault())
                 .build();
     }
 }

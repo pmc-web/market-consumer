@@ -41,4 +41,5 @@ INSERT INTO `market`.`user_search` (`search_id`, `user_id`) VALUES ('1', '2');
 
 
 -- SHIP-ADDRESS
-INSERT INTO `market`.`ship_address` (`id`, `address`, `detail`, `zip_code`, `user_id`) VALUES ('1', '서울시 광진구 화양동', '00빌라 00호', '05022', '1');
+INSERT INTO `market`.`ship_address` ( `address`, `detail`, `zip_code`, `user_id`, `address_name`)
+VALUES ('서울시 광진구 화양동', '00빌라 00호', '05022', '3', '집');

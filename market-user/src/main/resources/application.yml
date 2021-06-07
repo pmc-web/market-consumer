@@ -33,8 +33,7 @@ server:
 email:
   admin:
     account: certification0test@gmail.com
-    password: ENC(GdWyNDQs0S10hpfizKtLSVb5irexBOKm)
-#    password: PCMmanager!
+    password: ENC(juT9Lf6or0hxWSB3F69eE2Lmekb2jEubhqWVtogkEyI=)
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
