@@ -55,13 +55,13 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> findFavorite(int count) {
-        return favoriteCustomRepository.findShopsMostFavoriteCount(count);
+    public List<ShopResponseDto> findFavorite(int pageNumber, int pageSize) {
+        return favoriteCustomRepository.findShopsMostFavoriteCount(pageNumber, pageSize);
     }
 
     @Override
-    public List<ShopResponseDto> findNew(int count) {
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
+    public List<ShopResponseDto> findNew(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "regDate"));
         Page<Shop> all = shopRepository.findAll(pageable);
         List<ShopResponseDto> shops = all.getContent().stream().map(ShopResponseDto::from).collect(Collectors.toList());
         return shops;

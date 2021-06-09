@@ -64,18 +64,20 @@ class ShopServiceTest {
     @DisplayName("가장 인기 있는 마켓 count 개 조회")
     @Test
     void findFavorite_인기마켓_리스트() {
-        int count = 3;
-        List<ShopResponseDto> favoriteShopDtoList = shopService.findFavorite(count);
-        assertTrue(favoriteShopDtoList.size() == count);
+        int size = 3;
+        int page = 1;
+        List<ShopResponseDto> favoriteShopDtoList = shopService.findFavorite(page, size);
+        assertTrue(favoriteShopDtoList.size() <= size);
     }
 
     @Transactional
     @DisplayName("신규 마켓 리스트 - 서비스")
     @Test
     void findNew_신규마켓_리스트() {
-        int count = 6;
-        List<ShopResponseDto> shopResponseDtos = shopService.findNew(count);
-        assertEquals(shopResponseDtos.size(), count);
+        int page = 2;
+        int size = 3;
+        List<ShopResponseDto> shopResponseDtos = shopService.findNew(page, size);
+        assertTrue(shopResponseDtos.size() <= size);
     }
 
     @Transactional
