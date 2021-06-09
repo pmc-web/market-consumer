@@ -1,4 +1,4 @@
-package com.pmc.market.model.shop.entity;
+package com.pmc.market.model.user.entity;
 
 import com.pmc.market.model.product.entity.Product;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class CartProduct {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
