@@ -33,7 +33,7 @@ server:
 email:
   admin:
     account: certification0test@gmail.com
-    password: ENC(GdWyNDQs0S10hpfizKtLSVb5irexBOKm)
+    password: afdzgpvhtjklqvjn
 #    password: PCMmanager!
 jasypt:
   encryptor:

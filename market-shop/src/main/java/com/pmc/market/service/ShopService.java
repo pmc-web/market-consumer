@@ -12,9 +12,9 @@ public interface ShopService {
 
     void makeShop(ShopRequestDto shopRequestDto, User user);
 
-    List<ShopResponseDto> findFavorite(int count);
+    List<ShopResponseDto> findFavorite(int pageNumber, int pageSize);
 
-    List<ShopResponseDto> findNew(int count);
+    List<ShopResponseDto> findNew(int pageNumber, int pageSize);
 
     ShopResponseDto getShopById(long id);
 
