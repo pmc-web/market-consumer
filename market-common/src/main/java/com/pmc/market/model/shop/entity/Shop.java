@@ -1,5 +1,6 @@
 package com.pmc.market.model.shop.entity;
 
+import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
 
@@ -68,6 +69,9 @@ public class Shop {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ShopTag> shopTags = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 
     public void addFavorite(final Favorite favorite) {
         this.favorites.add(favorite);
