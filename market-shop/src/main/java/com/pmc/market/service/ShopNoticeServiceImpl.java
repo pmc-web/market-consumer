@@ -3,8 +3,8 @@ package com.pmc.market.service;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.model.dto.NoticeResponseDto;
-import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.entity.ShopNotice;
+import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.shop.entity.ShopNotice;
 import com.pmc.market.repository.NoticeRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public class ShopNoticeServiceImpl implements ShopNoticeService {
     @Override
     public NoticeResponseDto updateNotice(long noticeId, NoticeRequestDto noticeRequestDto) {
         ShopNotice shopNotice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        shopNotice.updateNotice(noticeRequestDto);
+        shopNotice.updateNotice(noticeRequestDto.getTitle(), noticeRequestDto.getContent());
         noticeRepository.save(shopNotice);
         return NoticeResponseDto.from(shopNotice);
     }

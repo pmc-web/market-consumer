@@ -2,7 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.model.entity.Category;
+import com.pmc.market.model.shop.entity.Category;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})

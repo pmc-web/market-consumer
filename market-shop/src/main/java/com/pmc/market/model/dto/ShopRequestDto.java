@@ -1,8 +1,8 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.entity.User;
-import com.pmc.market.model.entity.Category;
-import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.shop.entity.Category;
+import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.user.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -83,5 +83,19 @@ public class ShopRequestDto {
                 .shipDescription(shopRequestDto.shipDescription)
                 .category(category)
                 .build();
+    }
+
+    public void updateShop(Shop shop) {
+        shop.setName(this.name);
+        shop.setPeriod(shop.getPeriod().plusYears(this.period));
+        shop.setFullDescription(this.fullDescription);
+        shop.setShortDescription(this.shortDescription);
+        shop.setBusinessName(this.businessName);
+        shop.setBusinessNumber(this.businessNumber);
+        shop.setOwner(this.owner);
+        shop.setTelephone(this.telephone);
+        shop.setDeliveryCost(this.deliveryCost);
+        shop.setQnaDescription(this.qnaDescription);
+        shop.setShipDescription(this.shipDescription);
     }
 }

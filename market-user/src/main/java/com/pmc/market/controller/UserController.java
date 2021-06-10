@@ -1,12 +1,12 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.entity.Status;
-import com.pmc.market.entity.User;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.UserCreateRequestDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserStatusUpdateRequestDto;
 import com.pmc.market.model.dto.UserUpdateRequestDto;
+import com.pmc.market.model.user.entity.Status;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

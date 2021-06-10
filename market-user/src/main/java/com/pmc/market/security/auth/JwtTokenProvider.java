@@ -1,8 +1,8 @@
 package com.pmc.market.security.auth;
 
-import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.model.user.entity.User;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

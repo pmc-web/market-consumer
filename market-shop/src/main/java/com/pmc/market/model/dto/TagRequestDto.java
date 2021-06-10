@@ -1,6 +1,6 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.entity.Tag;
+import com.pmc.market.model.shop.entity.Tag;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
