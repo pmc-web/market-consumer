@@ -1,13 +1,13 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.ShipAddress;
-import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShipAddressRequestDto;
 import com.pmc.market.model.dto.ShipAddressResponseDto;
+import com.pmc.market.model.user.entity.ShipAddress;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.ShipAddressRepository;
 import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

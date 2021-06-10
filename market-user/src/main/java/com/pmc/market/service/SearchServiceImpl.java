@@ -1,6 +1,6 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Search;
+import com.pmc.market.model.user.entity.Search;
 import com.pmc.market.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

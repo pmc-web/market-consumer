@@ -1,6 +1,6 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.entity.ShipAddress;
+import com.pmc.market.model.user.entity.ShipAddress;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
