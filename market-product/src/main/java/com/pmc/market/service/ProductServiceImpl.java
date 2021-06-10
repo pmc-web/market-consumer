@@ -1,12 +1,13 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.vo.ProductCreateParamVo;
-import com.pmc.market.entity.vo.ProductUpdateParamVo;
-import com.pmc.market.entity.vo.ProductVo;
-import com.pmc.market.entity.vo.SearchProductParam;
+
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
-import com.pmc.market.entity.dto.ProductDto;
+import com.pmc.market.model.product.entity.Product;
+import com.pmc.market.model.product.vo.ProductCreateParamVo;
+import com.pmc.market.model.product.vo.ProductUpdateParamVo;
+import com.pmc.market.model.product.vo.ProductVo;
+import com.pmc.market.model.product.vo.SearchProductParam;
 import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +30,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductVo create(ProductCreateParamVo param) {
-        ProductDto productDto = new ProductDto(param);
-        return new ProductVo(productRepository.save(productDto));
+        Product product = new Product(param);
+        return new ProductVo(productRepository.save(product));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductVo update(ProductUpdateParamVo param) {
-        ProductDto productDto = new ProductDto(param);
+        Product productDto = new Product(param);
         return new ProductVo(productRepository.save(productDto));
     }
 }

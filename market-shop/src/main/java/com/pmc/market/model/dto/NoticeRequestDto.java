@@ -1,7 +1,7 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.entity.Shop;
-import com.pmc.market.model.entity.ShopNotice;
+import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.shop.entity.ShopNotice;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

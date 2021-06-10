@@ -1,6 +1,6 @@
 package com.pmc.market.security.auth;
 
-import com.pmc.market.entity.User;
+import com.pmc.market.model.user.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;

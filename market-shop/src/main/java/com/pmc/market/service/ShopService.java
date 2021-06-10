@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.model.user.entity.User;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ public interface ShopService {
 
     void makeShop(ShopRequestDto shopRequestDto, User user);
 
-    List<ShopResponseDto> findFavorite(int count);
+    List<ShopResponseDto> findFavorite(int pageNumber, int pageSize);
 
-    List<ShopResponseDto> findNew(int count);
+    List<ShopResponseDto> findNew(int pageNumber, int pageSize);
 
     ShopResponseDto getShopById(long id);
 

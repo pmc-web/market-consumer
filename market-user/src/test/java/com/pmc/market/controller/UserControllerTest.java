@@ -1,8 +1,8 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.UserApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

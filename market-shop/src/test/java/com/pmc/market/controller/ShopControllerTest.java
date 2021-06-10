@@ -2,12 +2,12 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.model.entity.Favorite;
-import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.shop.entity.Favorite;
+import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -171,7 +171,7 @@ public class ShopControllerTest {
         shops.add(ShopResponseDto.from(shop2, 1));
         shops.add(ShopResponseDto.from(shop3, 1));
 
-        when(shopService.findFavorite(3)).thenReturn(shops);
+        when(shopService.findFavorite(0, 0)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/favorite")
                 .param("count", String.valueOf(3))
@@ -185,13 +185,15 @@ public class ShopControllerTest {
     @Test
     @DisplayName("신상 마켓 N개")
     void 쇼핑몰_리스트_new() throws Exception {
-        int count = 6;
+        int page = 1;
+        int size = 3;
         List<ShopResponseDto> shops = new ArrayList<>();
-        for (int i = 0; i < count; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
-        when(shopService.findNew(count)).thenReturn(shops);
+        for (int i = 0; i < size; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
+        when(shopService.findNew(page, size)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
-                .param("count", String.valueOf(count))
+                .param("pageNumber", String.valueOf(page))
+                .param("pageSize", String.valueOf(size))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

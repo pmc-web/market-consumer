@@ -1,6 +1,6 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.model.entity.Category;
+import com.pmc.market.model.shop.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

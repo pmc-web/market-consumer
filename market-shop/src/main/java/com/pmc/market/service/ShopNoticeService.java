@@ -2,7 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.model.dto.NoticeResponseDto;
-import com.pmc.market.model.entity.ShopNotice;
+import com.pmc.market.model.shop.entity.ShopNotice;
 
 import java.util.List;
 

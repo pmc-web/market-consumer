@@ -1,6 +1,6 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.model.entity.Favorite;
+import com.pmc.market.model.shop.entity.Favorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

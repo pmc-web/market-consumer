@@ -1,15 +1,15 @@
 package com.pmc.market.service;
 
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.model.entity.Category;
-import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.shop.entity.Category;
+import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
 import com.pmc.market.repository.ShopRepository;
@@ -55,13 +55,13 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> findFavorite(int count) {
-        return favoriteCustomRepository.findShopsMostFavoriteCount(count);
+    public List<ShopResponseDto> findFavorite(int pageNumber, int pageSize) {
+        return favoriteCustomRepository.findShopsMostFavoriteCount(pageNumber, pageSize);
     }
 
     @Override
-    public List<ShopResponseDto> findNew(int count) {
-        Pageable pageable = PageRequest.of(0, count, Sort.by(Sort.Direction.ASC, "regDate"));
+    public List<ShopResponseDto> findNew(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "regDate"));
         Page<Shop> all = shopRepository.findAll(pageable);
         List<ShopResponseDto> shops = all.getContent().stream().map(ShopResponseDto::from).collect(Collectors.toList());
         return shops;
@@ -98,7 +98,7 @@ public class ShopServiceImpl implements ShopService {
                     .orElseThrow(() -> new EntityNotFoundException("해당 카테고리를 찾을 수 없습니다."));
             shop.updateCategory(category);
         }
-        shop.update(shopRequestDto);
+        shopRequestDto.updateShop(shop);
 
         try {
             shopRepository.save(shop);

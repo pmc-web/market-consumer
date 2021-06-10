@@ -1,9 +1,9 @@
 package com.pmc.market.service;
 
 import com.pmc.market.UserApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

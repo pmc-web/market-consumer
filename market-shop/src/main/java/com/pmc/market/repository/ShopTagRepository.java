@@ -1,6 +1,6 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.model.entity.ShopTag;
+import com.pmc.market.model.shop.entity.ShopTag;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

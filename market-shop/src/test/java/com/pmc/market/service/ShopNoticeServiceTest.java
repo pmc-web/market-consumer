@@ -4,7 +4,7 @@ import com.pmc.market.ShopApplication;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.model.dto.NoticeResponseDto;
-import com.pmc.market.model.entity.ShopNotice;
+import com.pmc.market.model.shop.entity.ShopNotice;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
