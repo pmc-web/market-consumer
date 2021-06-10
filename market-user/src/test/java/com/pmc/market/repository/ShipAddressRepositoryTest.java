@@ -1,8 +1,8 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.UserApplication;
-import com.pmc.market.entity.ShipAddress;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.user.entity.ShipAddress;
+import com.pmc.market.model.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

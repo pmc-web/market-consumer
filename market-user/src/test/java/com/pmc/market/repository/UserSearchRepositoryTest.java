@@ -1,7 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.UserApplication;
-import com.pmc.market.entity.UserSearch;
+import com.pmc.market.model.user.entity.UserSearch;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

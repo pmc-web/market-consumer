@@ -1,7 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.UserApplication;
-import com.pmc.market.entity.Search;
+import com.pmc.market.model.user.entity.Search;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
