@@ -32,3 +32,10 @@ INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '1');
 INSERT INTO `market`.`shop_tag` (shop_id, tag_id) VALUES ('1', '2');
 
 
+-- PRODUCT
+INSERT INTO `market`.`product` ( `amount`, `description`, `name`, `price`, `category_id`, `shop_id`)
+ VALUES ( '100', '핸드메이스 반지입니다.', '반지A', '10000', '1', '1');
+INSERT INTO `market`.`product` ( `amount`, `description`, `name`, `price`, `category_id`, `shop_id`)
+VALUES ( '100', '핸드메이스 반지입니다.', '반지B', '12000', '1', '1');
+INSERT INTO `market`.`product` ( `amount`, `description`, `name`, `price`, `category_id`, `shop_id`)
+VALUES ( '100', '핸드메이스 반지입니다.', '반지C', '12000', '1', '1');
