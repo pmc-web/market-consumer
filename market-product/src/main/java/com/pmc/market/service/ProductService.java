@@ -20,5 +20,5 @@ public interface ProductService {
 
     Page<ProductVo> get(SearchProductParam searchParam, Pageable pageable);
 
-    List<ProductVo> getTodayPopularProducts(int limit);
+    List<ProductVo> getTodayPopularProducts(Pageable pageable);
 }
