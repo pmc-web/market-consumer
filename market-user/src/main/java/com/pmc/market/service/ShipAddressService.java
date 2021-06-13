@@ -1,6 +1,5 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShipAddressRequestDto;
 import com.pmc.market.model.dto.ShipAddressResponseDto;
 
@@ -15,5 +14,5 @@ public interface ShipAddressService {
 
     void deleteShipAddress(long userId, long addressId);
 
-    ResponseMessage setDefaultAddress(long userId, long addressId);
+    boolean setDefaultAddress(long userId, long addressId);
 }
