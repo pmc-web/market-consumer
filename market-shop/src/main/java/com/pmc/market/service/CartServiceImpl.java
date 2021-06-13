@@ -1,11 +1,14 @@
 package com.pmc.market.service;
 
+import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
+import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.model.dto.CartProductRequestDto;
 import com.pmc.market.model.dto.CartResponseDto;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.Cart;
+import com.pmc.market.model.user.entity.CartProduct;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -51,28 +54,37 @@ public class CartServiceImpl implements CartService {
         return CartResponseDto.from(cart);
     }
 
+    @Transactional
     @Override
     public void addToCart(long userId, CartProductRequestDto requestDto) {
         Optional<Cart> isCart = cartRepository.findByUserIdAndShopId(userId, requestDto.getShopId());
         Cart cart;
-        if (!isCart.isPresent()) cart = createCart(userId, requestDto.getShopId());
-        else cart = isCart.get();
+        if (!isCart.isPresent()) {
+            cart = createCart(userId, requestDto.getShopId());
+            cartRepository.save(cart);
+        } else cart = isCart.get();
         Product product = productRepository.findById(requestDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다,"));
         cartProductRepository.save(requestDto.toEntity(requestDto, cart, product));
     }
 
     @Override
     public void deleteCart(long cartId) {
-
+        cartRepository.findById(cartId).orElseThrow(() -> new EntityNotFoundException("해당 장바구니가 없습니다."));
+        cartRepository.deleteById(cartId);
     }
 
     @Override
     public void deleteProductToCart(long cartId, long cartProductId) {
-
+        CartProduct cartProduct = cartProductRepository.findById(cartProductId).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다"));
+        if (!cartProduct.getCart().getId().equals(cartId))
+            throw new BusinessException("cartId - 입력값이 올바르지 않습니다", ErrorCode.INVALID_INPUT_VALUE);
+        cartProductRepository.deleteById(cartProductId);
     }
 
     @Override
     public void updateCartProduct(long cartId, CartProductRequestDto cartProductRequestDto) {
-
+        CartProduct cartProduct = cartProductRepository.findById(cartId).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
+        cartProductRequestDto.updateCart(cartProduct);
+        cartProductRepository.save(cartProduct);
     }
 }

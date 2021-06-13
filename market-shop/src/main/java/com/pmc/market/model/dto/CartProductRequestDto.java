@@ -51,4 +51,11 @@ public class CartProductRequestDto {
                 .size(requestDto.getSize())
                 .build();
     }
+
+    public void updateCart(CartProduct cartProduct) {
+        cartProduct.setColor(this.color);
+        cartProduct.setQuantity(this.quantity);
+        cartProduct.setSize(this.size);
+        cartProduct.setTotalPrice(this.totalPrice);
+    }
 }

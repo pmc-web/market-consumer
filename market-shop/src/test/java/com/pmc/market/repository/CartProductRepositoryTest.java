@@ -37,5 +37,10 @@ class CartProductRepositoryTest {
         cartProductRepository.save(cartProduct);
     }
 
-
+    @DisplayName("장바구니에서 물건 삭제")
+    @Test
+    void cartProductDelete() {
+        long cartProductId = 6L;
+        cartProductRepository.deleteById(cartProductId);
+    }
 }

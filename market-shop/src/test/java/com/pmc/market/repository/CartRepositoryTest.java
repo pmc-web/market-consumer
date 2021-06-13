@@ -57,4 +57,11 @@ class CartRepositoryTest {
         List<Cart> carts = cartRepository.findByUserId(userId);
         assertTrue(carts.size() > 0);
     }
+
+    @DisplayName("카드 삭제")
+    @Test
+    void deleteCart() {
+        long cartId = 3L;
+        cartRepository.deleteById(cartId);
+    }
 }

@@ -1,10 +1,7 @@
 package com.pmc.market.model.user.entity;
 
 import com.pmc.market.model.product.entity.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,13 +27,17 @@ public class CartProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Setter
     @NotNull
     private Integer quantity;
 
+    @Setter
     @NotNull
     private Integer totalPrice;
 
+    @Setter
     private String size;
 
+    @Setter
     private String color;
 }
