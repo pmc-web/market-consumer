@@ -3,7 +3,6 @@ package com.pmc.market.service;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
-import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShipAddressRequestDto;
 import com.pmc.market.model.dto.ShipAddressResponseDto;
 import com.pmc.market.model.user.entity.ShipAddress;
@@ -48,15 +47,15 @@ public class ShipAddressServiceImpl implements ShipAddressService {
     }
 
     @Override
-    public ResponseMessage setDefaultAddress(long userId, long addressId) {
+    public boolean setDefaultAddress(long userId, long addressId) {
         // 현재 기본 배송지
         Optional<ShipAddress> isDefault = Optional.ofNullable(shipAddressRepository.findUserDefaultAddress(userId));
         if (isDefault.isEmpty()) throw new BusinessException("기본 배송지를 설정해주세요", ErrorCode.INVALID_INPUT_VALUE);
         if (isDefault.get().getId() == addressId) {
-            return ResponseMessage.fail("이미 기본 배송지 입니다.");
+            return false;
         }
         shipAddressRepository.setDefault(isDefault.get().getId(), false);
         shipAddressRepository.setDefault(addressId, true);
-        return ResponseMessage.success();
+        return true;
     }
 }
