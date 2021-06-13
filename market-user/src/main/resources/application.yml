@@ -27,7 +27,7 @@ spring:
     port: 6379
 
 app:
-  host: http://localhost:8086
+  host: http://34.64.116.174:8086
 server:
   port: 8086
 email:
