@@ -1,5 +1,6 @@
 package com.pmc.market.model.user.entity;
 
+import com.pmc.market.model.order.entity.Purchase;
 import lombok.*;
 
 import javax.persistence.*;
@@ -53,6 +54,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<ShipAddress> shipAddresses = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Purchase> purchases = new ArrayList<>();
 
 //    @OneToMany(fetch = FetchType.LAZY) // TODO: shop entity를 가져올 수 없는데 어떡하지... 
 //    private List<Claims> claims = new ArrayList<>();
