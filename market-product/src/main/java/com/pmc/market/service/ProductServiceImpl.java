@@ -1,13 +1,8 @@
 package com.pmc.market.service;
 
-
-import com.pmc.market.error.exception.BusinessException;
-import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.vo.ProductCreateParamVo;
-import com.pmc.market.model.product.vo.ProductUpdateParamVo;
-import com.pmc.market.model.product.vo.ProductVo;
-import com.pmc.market.model.product.vo.SearchProductParam;
+import com.pmc.market.model.product.vo.*;
 import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -37,20 +31,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductVo getById(Long productId) {
         return new ProductVo(productRepository.findById(productId)
-                .orElseThrow(() -> new BusinessException("존재하지 않는 상품입니다.", ErrorCode.INVALID_INPUT_VALUE)));
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다.")));
     }
 
     @Override
     public Page<ProductVo> get(SearchProductParam searchParam, Pageable pageable) {
-        List<ProductVo> productList = productRepository.findAll()
+        List<ProductVo> productList = productRepository.findAll(pageable)
                 .stream().map(ProductVo::new).collect(Collectors.toList());
         return new PageImpl<>(productList, pageable, productList.size());
     }
 
     @Override
-    public List<ProductVo> getTodayPopularProducts(int limit) {
-        // FIXME
-        return productRepository.findAll().stream().map(ProductVo::new).collect(Collectors.toList());
+    public List<ProductVo> getTodayPopularProducts(Pageable pageable) {
+        return productRepository.findAll(pageable).stream().map(ProductVo::new).collect(Collectors.toList());
     }
 
     @Override
