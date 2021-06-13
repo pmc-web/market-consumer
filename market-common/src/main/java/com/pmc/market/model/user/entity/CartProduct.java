@@ -2,14 +2,17 @@ package com.pmc.market.model.user.entity;
 
 import com.pmc.market.model.product.entity.Product;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
+@Getter
 @Entity
 public class CartProduct {
 
@@ -17,12 +20,23 @@ public class CartProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @NotNull
+    private Integer quantity;
+
+    @NotNull
+    private Integer totalPrice;
+
+    private String size;
+
+    private String color;
 }
