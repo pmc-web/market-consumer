@@ -4,6 +4,7 @@ import com.pmc.market.model.dto.SearchResponseDto;
 import com.pmc.market.model.user.entity.Search;
 import com.pmc.market.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -24,6 +26,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     private void batchDelete() {
+        log.info("batchDelete TASK WORKING ---------");
         searchRepository.deleteAllByDate(LocalDateTime.now().minusYears(DELETE_YEAR_BASE));
     }
 
