@@ -1,7 +1,11 @@
 package com.pmc.market.service;
 
+import com.pmc.market.model.dto.SearchResponseDto;
+
+import java.util.List;
+
 public interface SearchService {
-    void getPopularList(int limit);
+    List<SearchResponseDto> getPopularList(long daysAgo, int limit);
 
     void addSearchList(String word);
 }

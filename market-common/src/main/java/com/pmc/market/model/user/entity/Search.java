@@ -2,14 +2,17 @@ package com.pmc.market.model.user.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,19 +22,8 @@ public class Search {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String word;
-
-    private long count;
+    private String keyword;
 
     private LocalDateTime regDate;
 
-    private LocalDateTime updateDate;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "search", cascade = CascadeType.ALL)
-    private List<UserSearch> searches = new ArrayList<>();
-
-    public void updateSearch() {
-        this.updateDate = LocalDateTime.now();
-        this.count++;
-    }
 }
