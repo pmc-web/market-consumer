@@ -16,6 +16,6 @@ spring:
     database: mysql
 
 app:
-  host: http://localhost:8083
+  host: http://34.64.116.174:8083
 server:
   port: 8083

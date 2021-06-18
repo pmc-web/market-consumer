@@ -13,18 +13,21 @@ import java.util.List;
 @Entity
 @Getter
 @AllArgsConstructor
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Purchase { // ORDER 가 예약어기 때문에 변경
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    private String address;
+    private String shipAddress;
 
     private String zipCode;
 
-    private Integer payment;
+    @Enumerated(EnumType.STRING)
+    private Pay pay; // 결제 방법
+
+    private String payInfo; // 결제 id 정보
 
     private Integer amount;
 
@@ -51,7 +54,6 @@ public class Purchase { // ORDER 가 예약어기 때문에 변경
     @JoinColumn(name = "user_id")
     private User user;
 
-    // TODO : order product 말고 cart product 로 해야하는 거 아닌가?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<OrderProduct> products = new ArrayList<>();
 }

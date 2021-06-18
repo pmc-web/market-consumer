@@ -95,6 +95,7 @@ project(':market-order') {
     dependencies {
         compile project(':market-common')
         compile project(':market-product')
+        compile project(':market-shop')
     }
 }
 project(':market-product') {
@@ -115,6 +116,7 @@ project(':market-shop') {
     dependencies {
         compile project(':market-common')
         compile project(':market-user')
+        compile project(':market-product') // ?
     }
 }
 project(':market-user') {

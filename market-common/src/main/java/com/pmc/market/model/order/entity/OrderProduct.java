@@ -30,4 +30,6 @@ public class OrderProduct {
 
     private String size;
     private String color;
+    private Integer price;
+    private Integer quantity;
 }
