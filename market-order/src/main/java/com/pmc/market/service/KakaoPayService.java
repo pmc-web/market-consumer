@@ -1,11 +1,14 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.dto.OrderRequestDto;
+import com.pmc.market.model.vo.KakaoPayApprovalVo;
+import com.pmc.market.model.vo.KakaoPayCancelVo;
+import com.pmc.market.model.vo.KakaoPayRequestVo;
 
 public interface KakaoPayService {
-    void orderKakaoPay();
+    void orderKakaoPay(KakaoPayRequestVo request);
 
-    void requestOrder(OrderRequestDto orderRequestDto);
+    KakaoPayApprovalVo approve(String pgToken);
 
-    void approve(String pgToken);
+    KakaoPayCancelVo cancel();
+
 }

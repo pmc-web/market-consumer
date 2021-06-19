@@ -56,4 +56,8 @@ public class Purchase { // ORDER 가 예약어기 때문에 변경
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<OrderProduct> products = new ArrayList<>();
+
+    public void setProducts(List<OrderProduct> orderProducts) {
+        this.products = orderProducts;
+    }
 }
