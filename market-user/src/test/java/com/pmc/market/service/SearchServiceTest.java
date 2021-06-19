@@ -1,6 +1,7 @@
-package com.pmc.market.repository;
+package com.pmc.market.service;
 
 import com.pmc.market.UserApplication;
+import com.pmc.market.model.dto.SearchResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,28 +9,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {UserApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SearchRepositoryTest {
+class SearchServiceTest {
 
     @Autowired
-    private SearchRepository searchRepository;
+    SearchService searchService;
 
-    @DisplayName("인기검색어")
+    @DisplayName("인기검색어 리스트")
     @Test
-    void popular() {
+    void getPopularList() {
         long days = 7L;
-        int limit = 1;
-        List<Object[]> result = searchRepository.findPopularKeyword(LocalDateTime.now().minusDays(days), limit);
-        result.stream().forEach(s -> System.out.println(s[0] + " " + s[1]));
+        int limit = 10;
+        List<SearchResponseDto> responseDtos = searchService.getPopularList(days, limit);
+        assertTrue(responseDtos.size() > 0);
     }
 
-    @DisplayName("날짜 지정 삭제")
+    @DisplayName("검색어 추가")
     @Test
-    void deleteAllByDateAndIdInQuery() {
-        searchRepository.deleteAllByDate(LocalDateTime.now().minusDays(1));
+    void addSearchList() {
+        String keyword = "검색어1";
+        searchService.addSearchList(keyword);
     }
 }
