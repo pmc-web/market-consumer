@@ -47,3 +47,7 @@ INSERT INTO `market`.`product` ( `amount`, `description`, `name`, `price`, `cate
 VALUES ( '100', '핸드메이스 반지입니다.', '반지C', '12000', '1', '1');
 
 
+-- CART
+INSERT INTO `market`.`cart` (`reg_date`, `shop_id`, `user_id`) VALUES (NOW(), '2', '3');
+
+-- CART_PRODUCT

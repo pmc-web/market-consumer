@@ -2,7 +2,6 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.UserApplication;
-import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShipAddressRequestDto;
 import com.pmc.market.model.dto.ShipAddressResponseDto;
 import com.pmc.market.model.user.entity.ShipAddress;
@@ -115,7 +114,7 @@ class ShipAddressControllerTest {
     void setDefaultAddress() throws Exception {
         long userId = 1L;
         long addressId = 2L;
-        when(shipAddressService.setDefaultAddress(userId, addressId)).thenReturn(ResponseMessage.success());
+        when(shipAddressService.setDefaultAddress(userId, addressId)).thenReturn(true);
         mockMvc.perform(MockMvcRequestBuilders.patch("/users/{userId}/address/{addressId}/default", userId, addressId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -73,7 +73,7 @@ class NoticeRepositoryTest {
                 .title(title)
                 .content("수정된 공지사항 내용")
                 .build();
-        shopNotice.updateNotice(noticeRequestDto);
+        shopNotice.updateNotice(noticeRequestDto.getTitle(), noticeRequestDto.getContent());
         noticeRepository.save(shopNotice);
         assertTrue(shopNotice.getTitle().equals(title));
     }

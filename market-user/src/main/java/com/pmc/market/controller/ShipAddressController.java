@@ -55,6 +55,8 @@ public class ShipAddressController {
     @PatchMapping("/{userId}/address/{addressId}/default")
     public ResponseEntity<?> setDefaultAddress(@ApiParam("유저 id") @PathVariable("userId") long userId,
                                                @ApiParam("주소 id") @PathVariable("addressId") long addressId) {
-        return ResponseEntity.ok(shipAddressService.setDefaultAddress(userId, addressId));
+        boolean isSuccess = shipAddressService.setDefaultAddress(userId, addressId);
+        if (isSuccess) return ResponseEntity.ok(ResponseMessage.success());
+        return ResponseEntity.ok(ResponseMessage.fail("이미 기본 배송지 입니다."));
     }
 }
