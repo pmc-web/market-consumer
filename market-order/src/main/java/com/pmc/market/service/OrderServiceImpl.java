@@ -2,6 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.OrderRequestDto;
+import com.pmc.market.model.dto.OrderResponseDto;
 import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.model.order.entity.OrderProduct;
 import com.pmc.market.model.order.entity.Pay;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -32,7 +34,19 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderProductRepository orderProductRepository;
     private final UserRepository userRepository;
+
     private final KakaoPayService kakaoPayService;
+
+    public void addOrderProducts(List<ProductRequestDto> requestDtos, Purchase purchase) {
+        List<OrderProduct> orderProducts = new ArrayList<>();
+        for (ProductRequestDto productDto : requestDtos) {
+            Product product = productRepository.findById(productDto.getProductId())
+                    .orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
+            orderProducts.add(productDto.toEntity(productDto, product, purchase));
+        }
+        orderProductRepository.saveAll(orderProducts);
+        purchase.setProducts(orderProducts);
+    }
 
     @Override
     @Transactional
@@ -55,18 +69,21 @@ public class OrderServiceImpl implements OrderService {
         if (orderRequestDto.getPay().equals(Pay.KAKAO_PAY))
             kakaoPayService.orderKakaoPay(KakaoPayRequestVo.from(purchase));
         else {
-
+            log.info("IAMPORT 사용 결제");
         }
     }
 
-    public void addOrderProducts(List<ProductRequestDto> requestDtos, Purchase purchase) {
-        List<OrderProduct> orderProducts = new ArrayList<>();
-        for (ProductRequestDto productDto : requestDtos) {
-            Product product = productRepository.findById(productDto.getProductId())
-                    .orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
-            orderProducts.add(productDto.toEntity(productDto, product, purchase));
-        }
-        orderProductRepository.saveAll(orderProducts);
-        purchase.setProducts(orderProducts);
+    @Override
+    public List<OrderResponseDto> getUserOrderList(User user) {
+        return orderRepository.findByUserOrderByRegDateDesc(user).stream()
+                .map(OrderResponseDto::from)
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public OrderResponseDto getOrder(long orderId) {
+        return OrderResponseDto.from(orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다.")));
+    }
+
 }

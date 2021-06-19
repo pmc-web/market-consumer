@@ -2,6 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.exception.KakaoPayException;
+import com.pmc.market.model.order.entity.OrderStatus;
 import com.pmc.market.model.order.entity.Purchase;
 import com.pmc.market.model.vo.KakaoPayApprovalVo;
 import com.pmc.market.model.vo.KakaoPayCancelVo;
@@ -117,7 +118,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 
             Purchase purchase = orderRepository.findByPayInfo(kakaoPayApprovalVO.getTid())
                     .orElseThrow(() -> new EntityNotFoundException("구매 이력이 없습니다."));
-            orderRepository.updateKakaoOrderInfo(purchase.getId(), kakaoPayApprovalVO.getTid(), LocalDateTime.now());
+            orderRepository.updateKakaoOrderInfo(purchase.getId(), kakaoPayApprovalVO.getTid(), LocalDateTime.now(), OrderStatus.PAYMENT_COMPLETE);
 
             return kakaoPayApprovalVO;
         } catch (RestClientException e) {
