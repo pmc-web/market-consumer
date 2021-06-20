@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.pmc.market"))
                 .paths(PathSelectors.any())
                 .build()
-                .groupName("market-shop")
+                .groupName("market-order")
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()));
@@ -37,17 +37,13 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("PMC Second Project")
-                .description("Market Consumer SHOP Rest API")
+                .description("Market Consumer ORDER Rest API")
                 .version("1.0")
                 .build();
     }
 
     private SecurityContext securityContext() {
-        return springfox
-                .documentation
-                .spi.service
-                .contexts
-                .SecurityContext
+        return SecurityContext
                 .builder()
                 .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
     }

@@ -1,4 +1,4 @@
-package com.pmc.market.model.entity;
+package com.pmc.market.model.order.entity;
 
 import lombok.Getter;
 

@@ -20,7 +20,7 @@ swagger:
     refreshrate: 5000
 
 app:
-  host: http://localhost:8088
+  host: http://34.64.116.174:8088
 
 server:
   port: 8088
