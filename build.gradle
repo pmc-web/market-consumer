@@ -116,7 +116,7 @@ project(':market-shop') {
     dependencies {
         compile project(':market-common')
         compile project(':market-user')
-        compile project(':market-product') // ?
+        compile project(':market-product')
     }
 }
 project(':market-user') {
