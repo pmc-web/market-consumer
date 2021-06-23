@@ -24,7 +24,7 @@ public class OrderProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "review_id")
     private Review review;
 
@@ -32,4 +32,8 @@ public class OrderProduct {
     private String color;
     private Integer price;
     private Integer quantity;
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
 }

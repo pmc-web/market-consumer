@@ -2,10 +2,10 @@ package com.pmc.market.service;
 
 import com.pmc.market.OrderApplication;
 import com.pmc.market.model.dto.OrderRequestDto;
-import com.pmc.market.model.dto.OrderResponseDto;
 import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.model.order.entity.Pay;
 import com.pmc.market.model.user.entity.User;
+import com.pmc.market.model.vo.OrderResponseVo;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,7 +68,7 @@ class OrderServiceTest {
     void getUserOrderList() {
         User user = userRepository.findById(1L).get();
 
-        List<OrderResponseDto> list = orderService.getUserOrderList(user);
+        List<OrderResponseVo> list = orderService.getUserOrderList(user);
 
         assertTrue(list.size() > 0);
     }
@@ -77,7 +77,7 @@ class OrderServiceTest {
     @Test
     @Transactional
     void findOrderById() {
-        OrderResponseDto responseDto = orderService.getOrder(1L);
+        OrderResponseVo responseDto = orderService.getOrder(1L);
         assertEquals(responseDto.getPurchaseId(), 1L);
     }
 }

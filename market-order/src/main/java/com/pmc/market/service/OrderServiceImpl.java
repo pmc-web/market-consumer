@@ -2,7 +2,6 @@ package com.pmc.market.service;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.OrderRequestDto;
-import com.pmc.market.model.dto.OrderResponseDto;
 import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.model.order.entity.OrderProduct;
 import com.pmc.market.model.order.entity.Pay;
@@ -10,7 +9,8 @@ import com.pmc.market.model.order.entity.Purchase;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.User;
-import com.pmc.market.model.vo.KakaoPayRequestVo;
+import com.pmc.market.model.vo.OrderResponseVo;
+import com.pmc.market.model.vo.kakao.KakaoPayRequestVo;
 import com.pmc.market.repository.*;
 import com.pmc.market.security.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -74,15 +74,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponseDto> getUserOrderList(User user) {
+    public List<OrderResponseVo> getUserOrderList(User user) {
         return orderRepository.findByUserOrderByRegDateDesc(user).stream()
-                .map(OrderResponseDto::from)
+                .map(OrderResponseVo::from)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OrderResponseDto getOrder(long orderId) {
-        return OrderResponseDto.from(orderRepository.findById(orderId)
+    public OrderResponseVo getOrder(long orderId) {
+        return OrderResponseVo.from(orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다.")));
     }
 

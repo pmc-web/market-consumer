@@ -34,4 +34,8 @@ public interface OrderRepository extends JpaRepository<Purchase, Long> {
     @Transactional
     @Query("update Purchase p set p.updateDate = :updateDate, status = :status where p.id = :id")
     void updateStatus(@Param("id") long id, @Param("updateDate") LocalDate now, @Param("status") OrderStatus status);
+
+    @Query("select p from Purchase p where p.shop.id = :shopId order by p.regDate desc")
+    List<Purchase> findByShopId(long shopId);
+
 }

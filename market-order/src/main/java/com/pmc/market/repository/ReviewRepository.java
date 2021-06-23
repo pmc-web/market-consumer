@@ -1,15 +1,14 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.model.user.entity.CartProduct;
+import com.pmc.market.model.product.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface CartProductRepository extends JpaRepository<CartProduct, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Transactional
     @Modifying
-    void deleteById(long cartProductId);
+    void deleteById(long id);
 }

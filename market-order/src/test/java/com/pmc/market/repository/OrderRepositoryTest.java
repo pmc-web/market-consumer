@@ -58,4 +58,11 @@ class OrderRepositoryTest {
         Optional<Purchase> purchase = orderRepository.findById(6L);
         assertThat(purchase.get()).isNotEqualTo(null);
     }
+
+    @DisplayName("shopId 조회")
+    @Test
+    void findByShopId() {
+        List<Purchase> purchases = orderRepository.findByShopId(1L);
+        assertTrue(purchases.size() > 0);
+    }
 }

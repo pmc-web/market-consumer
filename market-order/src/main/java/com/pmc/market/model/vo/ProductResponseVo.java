@@ -1,4 +1,4 @@
-package com.pmc.market.model.dto;
+package com.pmc.market.model.vo;
 
 import com.pmc.market.model.order.entity.OrderProduct;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class ProductResponseDto {
+public class ProductResponseVo {
     private Long productId;
     private Long orderProductId;
     private String productName;
@@ -20,8 +20,8 @@ public class ProductResponseDto {
     private Integer cost;
     private Integer totalCost;
 
-    public static ProductResponseDto from(OrderProduct orderProduct) {
-        return ProductResponseDto.builder()
+    public static ProductResponseVo from(OrderProduct orderProduct) {
+        return ProductResponseVo.builder()
                 .productId(orderProduct.getProduct().getId())
                 .orderProductId(orderProduct.getId())
                 .productName(orderProduct.getProduct().getName())
