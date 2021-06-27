@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -21,6 +22,18 @@ import javax.validation.Valid;
 @RequestMapping("/orders/reviews")
 public class ReviewController {
     private final ReviewService reviewService;
+
+    @ApiOperation("리뷰 사진 올리기")
+    @PostMapping
+    public ResponseEntity<?> uploadReviewMultiImage(@RequestParam("files") MultipartFile file) {
+//        String fileName = service.storeFile(file);
+//
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/downloadFile/")
+//                .path(fileName)
+//                .toUriString();
+        return ResponseEntity.ok().build();
+    }
 
     @ApiOperation("리뷰쓰기")
     @PostMapping

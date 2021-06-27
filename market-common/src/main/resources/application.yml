@@ -21,4 +21,4 @@ spring:
     gcp:
       storage:
         credentials:
-          loacation: classpath:src/main/resources/market-universe-312410-afbbdbc7a170.json
+          location: classpath:market-universe-312410-afbbdbc7a170.json

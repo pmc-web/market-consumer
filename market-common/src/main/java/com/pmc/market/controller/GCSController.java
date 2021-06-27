@@ -1,6 +1,9 @@
 package com.pmc.market.controller;
 
-import com.pmc.market.model.DownloadRequestDto;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobInfo;
+import com.pmc.market.model.image.dto.DownloadRequestDto;
+import com.pmc.market.model.image.dto.UploadRequestDto;
 import com.pmc.market.service.GCSService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Blob;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,8 +19,14 @@ public class GCSController {
 
     private final GCSService gcsService;
 
-    @PostMapping("gcs/download")
-    public ResponseEntity<?> loadDownloadFromStroage(@RequestBody DownloadRequestDto downloadReqDto) {
+    @PostMapping("/gcs/upload")
+    public ResponseEntity<?> uploadToStorage(@RequestBody UploadRequestDto uploadRequestDto) throws IOException {
+        BlobInfo blobInfo = gcsService.uploadFileToGCS(uploadRequestDto);
+        return ResponseEntity.ok(blobInfo.toString());
+    }
+
+    @PostMapping("/gcs/download")
+    public ResponseEntity<?> loadDownloadFromStorage(@RequestBody DownloadRequestDto downloadReqDto) {
         Blob fileFormGCS = gcsService.downloadFileFromGCS(downloadReqDto);
         return ResponseEntity.ok(fileFormGCS.toString());
     }
