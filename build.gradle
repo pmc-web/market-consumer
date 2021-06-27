@@ -66,6 +66,10 @@ subprojects {
         implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
         compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 
+        // gcp storage
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+
     }
 
     clean {
