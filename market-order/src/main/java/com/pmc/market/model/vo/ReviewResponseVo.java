@@ -15,12 +15,14 @@ public class ReviewResponseVo {
     private String title;
     private String content;
     private String image;
+    private String author;
 
     public static ReviewResponseVo of(Review review) {
         return ReviewResponseVo.builder()
                 .reviewId(review.getId())
                 .title(review.getTitle())
                 .content(review.getContent())
+                .author(review.getUser().getName())
                 .build();
     }
 }

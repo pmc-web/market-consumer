@@ -20,7 +20,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
-@Api(value = "Product Controller", tags = "상품 컨트롤러")
+@Api(value = "Product Controller", tags = "상품 관련")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/products")

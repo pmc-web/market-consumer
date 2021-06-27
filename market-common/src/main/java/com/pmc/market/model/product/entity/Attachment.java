@@ -2,12 +2,12 @@ package com.pmc.market.model.product.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,4 +20,8 @@ public class Attachment {
 
     @Column
     private String path;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProductQnA productQnA;
+
 }

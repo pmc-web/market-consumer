@@ -2,10 +2,10 @@ package com.pmc.market.model.user.entity;
 
 
 import com.pmc.market.model.order.entity.Purchase;
-import com.pmc.market.model.shop.entity.Claim;
+import com.pmc.market.model.product.entity.ProductQnA;
+import com.pmc.market.model.product.entity.Review;
 import com.pmc.market.model.shop.entity.Favorite;
 import com.pmc.market.model.shop.entity.Shop;
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -58,19 +58,19 @@ public class User {
     private List<ShipAddress> shipAddresses = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Claim> claims = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Purchase> purchases = new ArrayList<>();
 
-//    @OneToMany(fetch = FetchType.LAZY) // TODO: shop entity를 가져올 수 없는데 어떡하지... 
-//    private List<Claims> claims = new ArrayList<>()
-  
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Favorite> favoriteShop = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Shop> shops = new ArrayList<>(); // 원칙상으로는 one to one
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ProductQnA> qnAS = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
     public void setStatus(Status status) {
         this.status = status;
