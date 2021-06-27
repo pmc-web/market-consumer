@@ -1,9 +1,9 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.OrderApplication;
-import com.pmc.market.model.dto.OrderResponseDto;
 import com.pmc.market.model.order.entity.Pay;
 import com.pmc.market.model.user.entity.User;
+import com.pmc.market.model.vo.OrderResponseVo;
 import com.pmc.market.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,8 +41,8 @@ class OrderControllerTest {
     @Test
     void getOrderList() throws Exception {
         User user = User.builder().build();
-        List<OrderResponseDto> orderList = new ArrayList<>();
-        orderList.add(OrderResponseDto
+        List<OrderResponseVo> orderList = new ArrayList<>();
+        orderList.add(OrderResponseVo
                 .builder()
                 .pay(Pay.KAKAO_PAY)
                 .regDate(LocalDateTime.now())
@@ -60,7 +60,7 @@ class OrderControllerTest {
     @WithMockUser
     @Test
     void getOrderById() throws Exception {
-        when(orderService.getOrder(1L)).thenReturn(OrderResponseDto.builder().build());
+        when(orderService.getOrder(1L)).thenReturn(OrderResponseVo.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/{orderId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

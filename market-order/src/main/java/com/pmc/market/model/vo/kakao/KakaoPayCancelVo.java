@@ -1,4 +1,4 @@
-package com.pmc.market.model.vo;
+package com.pmc.market.model.vo.kakao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

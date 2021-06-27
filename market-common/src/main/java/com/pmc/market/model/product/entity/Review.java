@@ -1,17 +1,11 @@
 package com.pmc.market.model.product.entity;
 
-import com.pmc.market.model.order.entity.OrderProduct;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -21,19 +15,21 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column
     private String title;
 
+    @Setter
     @Column
     private String content;
 
     @Column
     private LocalDateTime regDate;
 
+    @Setter
     @Column
     private LocalDateTime updateDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "review", cascade = CascadeType.ALL)
-    private List<OrderProduct> products = new ArrayList<>();
-
+//    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY) // 양방향
+//    private OrderProduct orderProduct;
 }

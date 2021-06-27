@@ -1,4 +1,4 @@
-package com.pmc.market.model.vo;
+package com.pmc.market.model.vo.kakao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CancelAvailableAmountVo {
+public class CanceledAmountVo {
     private Integer total, tax_free, vat, point, discount;
 }

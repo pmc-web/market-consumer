@@ -1,4 +1,4 @@
-package com.pmc.market.model.vo;
+package com.pmc.market.model.vo.kakao;
 
 import com.pmc.market.model.order.entity.Purchase;
 import lombok.*;

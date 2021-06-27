@@ -1,4 +1,4 @@
-package com.pmc.market.model.dto;
+package com.pmc.market.model.vo;
 
 import com.pmc.market.model.order.entity.Pay;
 import com.pmc.market.model.order.entity.Purchase;
@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Builder
-public class OrderResponseDto {
+public class OrderResponseVo {
     private Long purchaseId;
     private LocalDateTime regDate;
     private Pay pay;
-    private List<ProductResponseDto> products = new ArrayList<>();
+    private List<ProductResponseVo> products = new ArrayList<>();
 
-    public static OrderResponseDto from(Purchase purchase) {
-        return OrderResponseDto.builder()
+    public static OrderResponseVo from(Purchase purchase) {
+        return OrderResponseVo.builder()
                 .purchaseId(purchase.getId())
                 .regDate(purchase.getRegDate())
                 .pay(purchase.getPay())
-                .products(purchase.getProducts().stream().map(ProductResponseDto::from).collect(Collectors.toList()))
+                .products(purchase.getProducts().stream().map(ProductResponseVo::from).collect(Collectors.toList()))
                 .build();
     }
 }
