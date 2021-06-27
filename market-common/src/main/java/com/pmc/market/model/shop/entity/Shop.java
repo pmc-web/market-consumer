@@ -77,6 +77,10 @@ public class Shop {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Purchase> purchases = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopImage_id")
+    private ShopImage shopImages;
+
     public void addFavorite(final Favorite favorite) {
         this.favorites.add(favorite);
         favorite.setShop(this);
