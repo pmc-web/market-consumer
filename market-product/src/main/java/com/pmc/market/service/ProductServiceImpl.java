@@ -2,7 +2,13 @@ package com.pmc.market.service;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.vo.*;
+import com.pmc.market.model.product.entity.ProductFavorite;
+import com.pmc.market.model.product.vo.ProductCreateParamVo;
+import com.pmc.market.model.product.vo.ProductUpdateParamVo;
+import com.pmc.market.model.product.vo.ProductVo;
+import com.pmc.market.model.product.vo.SearchProductParam;
+import com.pmc.market.model.user.entity.User;
+import com.pmc.market.repository.ProductFavoriteRepository;
 import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +27,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductFavoriteRepository productFavoriteRepository;
 
     @Override
     @Transactional
@@ -34,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다.")));
     }
 
+    // TODO : FIX , pageable -> pageSize +1 시키기
     @Override
     public Page<ProductVo> get(SearchProductParam searchParam, Pageable pageable) {
         List<ProductVo> productList = productRepository.findAll(pageable)
@@ -43,7 +52,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductVo> getTodayPopularProducts(Pageable pageable) {
+
         return productRepository.findAll(pageable).stream().map(ProductVo::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public void likeUpdateProduct(Long productId, User user) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 상품을 찾을 수 없습니다."));
+        Optional<ProductFavorite> isFavorite = productFavoriteRepository.findByUserIdAndProductId(user.getId(), productId);
+        if (isFavorite.isPresent()) {
+            productFavoriteRepository.delete(isFavorite.get());
+            return;
+        }
+        ProductFavorite favorite = ProductFavorite.builder()
+                .product(product)
+                .user(user)
+                .build();
+        productFavoriteRepository.save(favorite);
+
     }
 
     @Override

@@ -11,8 +11,10 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -83,4 +85,10 @@ public class ShopController {
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
+    @ApiOperation("마켓 좋아요, 좋아요 해제")
+    @PatchMapping("/{id}/like")
+    public ResponseEntity<?> likeShop(@ApiParam("마켓 id") @PathVariable long id, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+        shopService.likeUpdateShop(id, user.getUser());
+        return ResponseEntity.ok(ResponseMessage.success());
+    }
 }

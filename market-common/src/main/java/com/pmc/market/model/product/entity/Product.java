@@ -44,6 +44,10 @@ public class Product {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductQnA> qnAS = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductFavorite> favoriteProduct = new ArrayList<>();
+
+
     public Product(ProductCreateParamVo param) {
         this.name = param.getName();
         this.price = param.getPrice();

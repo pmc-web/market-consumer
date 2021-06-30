@@ -66,7 +66,7 @@ public class ProductController {
     @PutMapping("/{productId}/like")
     @ApiOperation("상품 좋아요")
     public ResponseEntity<?> likeProduct(@PathVariable Long productId, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
-        // FIXME
+        productService.likeUpdateProduct(productId, user.getUser());
         return ResponseEntity.ok(ResponseMessage.success());
     }
 }

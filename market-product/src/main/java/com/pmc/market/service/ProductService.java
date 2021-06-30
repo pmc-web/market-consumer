@@ -5,6 +5,7 @@ import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import com.pmc.market.model.product.vo.ProductVo;
 import com.pmc.market.model.product.vo.SearchProductParam;
+import com.pmc.market.model.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +22,6 @@ public interface ProductService {
     Page<ProductVo> get(SearchProductParam searchParam, Pageable pageable);
 
     List<ProductVo> getTodayPopularProducts(Pageable pageable);
+
+    void likeUpdateProduct(Long productId, User user);
 }
