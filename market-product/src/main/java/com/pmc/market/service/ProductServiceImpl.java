@@ -51,8 +51,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductVo> getTodayPopularProducts(PageRequest pageable) {
-
-        return productRepository.findAll(pageable.of()).stream().map(ProductVo::new).collect(Collectors.toList());
+        return productFavoriteRepository.findProductMostFavoriteCount(pageable.of()).getContent().stream()
+                .map(product -> ProductVo.of((Product) product[1], (long) product[0]))
+                .collect(Collectors.toList());
     }
 
     @Transactional
