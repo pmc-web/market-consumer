@@ -1,6 +1,7 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.annotation.PageableParams;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
@@ -11,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,7 +46,7 @@ public class ProductController {
     @PageableParams
     public ResponseEntity<?> findProducts(
             @ApiParam(name = "keyword", value = "상품 검색 키워드") @RequestParam(required = false) SearchProductParam searchParam
-            , @PageableDefault @ApiIgnore Pageable pageable) {
+            , @PageableDefault @ApiIgnore PageRequest pageable) {
         return ResponseEntity.ok(ResponseMessage.success(productService.get(searchParam, pageable)));
     }
 
@@ -59,11 +59,11 @@ public class ProductController {
     @GetMapping("/popular")
     @ApiOperation("오늘의 인기 상품")
     @PageableParams
-    public ResponseEntity<?> findOneProduct(@PageableDefault @ApiIgnore Pageable pageable) {
+    public ResponseEntity<?> findOneProduct(@PageableDefault @ApiIgnore PageRequest pageable) {
         return ResponseEntity.ok(ResponseMessage.success(productService.getTodayPopularProducts(pageable)));
     }
 
-    @PutMapping("/{productId}/like")
+    @PatchMapping("/{productId}/like")
     @ApiOperation("상품 좋아요")
     public ResponseEntity<?> likeProduct(@PathVariable Long productId, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
         productService.likeUpdateProduct(productId, user.getUser());

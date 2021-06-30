@@ -1,6 +1,7 @@
 package com.pmc.market.service;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.product.entity.ProductFavorite;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
@@ -13,7 +14,6 @@ import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,18 +42,17 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상품입니다.")));
     }
 
-    // TODO : FIX , pageable -> pageSize +1 시키기
     @Override
-    public Page<ProductVo> get(SearchProductParam searchParam, Pageable pageable) {
-        List<ProductVo> productList = productRepository.findAll(pageable)
+    public Page<ProductVo> get(SearchProductParam searchParam, PageRequest pageable) {
+        List<ProductVo> productList = productRepository.findAll(pageable.of())
                 .stream().map(ProductVo::new).collect(Collectors.toList());
-        return new PageImpl<>(productList, pageable, productList.size());
+        return new PageImpl<>(productList, pageable.of(), productList.size());
     }
 
     @Override
-    public List<ProductVo> getTodayPopularProducts(Pageable pageable) {
+    public List<ProductVo> getTodayPopularProducts(PageRequest pageable) {
 
-        return productRepository.findAll(pageable).stream().map(ProductVo::new).collect(Collectors.toList());
+        return productRepository.findAll(pageable.of()).stream().map(ProductVo::new).collect(Collectors.toList());
     }
 
     @Transactional
