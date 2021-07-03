@@ -133,4 +133,11 @@ class ShopServiceTest {
         shopService.deleteShop(id);
         assertFalse(shopRepository.findById(id).isPresent());
     }
+
+    @Test
+    void 좋아요_업데이트() {
+        long shopId = 3L;
+        User user = userRepository.findById(1L).get();
+        shopService.likeUpdateShop(shopId, user);
+    }
 }

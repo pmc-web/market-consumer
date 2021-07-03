@@ -2,6 +2,7 @@ package com.pmc.market.model.user.entity;
 
 
 import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.product.entity.ProductFavorite;
 import com.pmc.market.model.product.entity.ProductQnA;
 import com.pmc.market.model.product.entity.Review;
 import com.pmc.market.model.shop.entity.Favorite;
@@ -61,7 +62,10 @@ public class User {
     private List<Purchase> purchases = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Favorite> favoriteShop = new ArrayList<>();
+    private List<Favorite> favoriteShops = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ProductFavorite> favoriteProducts = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Shop> shops = new ArrayList<>(); // 원칙상으로는 one to one

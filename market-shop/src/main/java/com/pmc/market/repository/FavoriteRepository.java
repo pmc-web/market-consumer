@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -20,4 +21,8 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     void deleteAllByIdInQuery(@Param("ids") List<Long> ids);
 
     List<Favorite> findByShop_Id(long id);
+
+    @Query("select f from Favorite f where f.shop.id =:shopId and f.user.id =:userId")
+    Optional<Favorite> findByUserIdAndShopId(long shopId, long userId);
+
 }

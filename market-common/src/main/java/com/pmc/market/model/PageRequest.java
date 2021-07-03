@@ -23,7 +23,11 @@ public final class PageRequest {
     }
 
     // getter
-    public org.springframework.data.domain.PageRequest of() {
+    public org.springframework.data.domain.PageRequest of(Sort.Direction direction) {
         return org.springframework.data.domain.PageRequest.of(page - 1, size, direction, "id");
+    }
+
+    public org.springframework.data.domain.PageRequest of() {
+        return org.springframework.data.domain.PageRequest.of(page - 1, size);
     }
 }
