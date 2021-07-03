@@ -2,6 +2,7 @@ package com.pmc.market.model.shop.entity;
 
 import com.pmc.market.model.order.entity.Purchase;
 import com.pmc.market.model.product.entity.Product;
+import com.pmc.market.model.product.entity.ProductQnA;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
 
@@ -76,6 +77,13 @@ public class Shop {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Purchase> purchases = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<ProductQnA> qnAS = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopImage_id")
+    private ShopImage shopImages;
 
     public void addFavorite(final Favorite favorite) {
         this.favorites.add(favorite);
