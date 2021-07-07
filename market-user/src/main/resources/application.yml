@@ -25,7 +25,11 @@ spring:
   redis:
     host: localhost
     port: 6379
-
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-afbbdbc7a170.json
 app:
   host: http://34.64.116.174:8086
 server:

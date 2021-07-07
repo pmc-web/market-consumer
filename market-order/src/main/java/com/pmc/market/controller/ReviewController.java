@@ -24,21 +24,16 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @ApiOperation("리뷰 사진 올리기")
-    @PostMapping
-    public ResponseEntity<?> uploadReviewMultiImage(@RequestParam("files") MultipartFile file) {
-//        String fileName = service.storeFile(file);
-//
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/downloadFile/")
-//                .path(fileName)
-//                .toUriString();
-        return ResponseEntity.ok().build();
+    @PostMapping("/images")
+    public ResponseEntity<?> uploadReviewMultiImage(@RequestParam("files") MultipartFile[] files) {
+//        reviewService.uploadFiles(files); // postman 으로 됨
+        return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("리뷰쓰기")
     @PostMapping
-    public ResponseEntity<?> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto) {
-        reviewService.makeReview(reviewRequestDto);
+    public ResponseEntity<?> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @RequestParam("files") MultipartFile[] files) {
+        reviewService.makeReview(reviewRequestDto, files);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 

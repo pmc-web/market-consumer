@@ -1,9 +1,12 @@
 package com.pmc.market.model.product.entity;
 
+import com.pmc.market.model.image.entity.Attachment;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -29,6 +32,9 @@ public class Review {
     @Setter
     @Column
     private LocalDateTime updateDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "review", cascade = CascadeType.ALL)
+    private List<Attachment> attachments = new ArrayList<>();
 
 //    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY) // 양방향
 //    private OrderProduct orderProduct;
