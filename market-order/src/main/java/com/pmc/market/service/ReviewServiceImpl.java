@@ -111,6 +111,7 @@ public class ReviewServiceImpl implements ReviewService {
                 throw new BusinessException("파일 업로드중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
             }
         }
+        attachmentRepository.saveAll(attachments);
         return attachments;
     }
 

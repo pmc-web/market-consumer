@@ -15,7 +15,7 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
     @Column
@@ -23,4 +23,12 @@ public class Delivery {
 
     @OneToOne(mappedBy = "delivery")
     private Purchase purchase;
+
+    public void updateStatus(DeliveryStatus status) {
+        this.status = status;
+    }
+
+    public void updateShippingNumber(String shippingNumber) {
+        this.shippingNumber = shippingNumber;
+    }
 }
