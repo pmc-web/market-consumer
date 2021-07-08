@@ -7,11 +7,13 @@ import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.shop.entity.Category;
+import com.pmc.market.model.shop.entity.Favorite;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.Role;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.CategoryRepository;
 import com.pmc.market.repository.FavoriteCustomRepository;
+import com.pmc.market.repository.FavoriteRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +22,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,6 +37,7 @@ public class ShopServiceImpl implements ShopService {
     private final ShopRepository shopRepository;
     private final FavoriteCustomRepository favoriteCustomRepository;
     private final CategoryRepository categoryRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Transactional // lazy
     @Override
@@ -112,6 +117,28 @@ public class ShopServiceImpl implements ShopService {
     public void deleteShop(long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
         shopRepository.delete(shop); // shop 삭제
+    }
+
+    @Transactional
+    @Override
+    public void likeUpdateShop(long shopId, User user) {
+        Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
+        Optional<Favorite> isFavorite = favoriteRepository.findByUserIdAndShopId(shopId, user.getId());
+        if (isFavorite.isPresent()) { // 해제
+            Favorite favorite = isFavorite.get();
+            favoriteRepository.delete(favorite);
+            return;
+        }
+
+        Favorite favorite = Favorite.builder()
+                .shop(shop)
+                .user(user)
+                .reg_date(LocalDateTime.now())
+                .build();
+
+        favoriteRepository.save(favorite);
+        shop.addFavorite(favorite);
+        shopRepository.save(shop);
     }
 
 }

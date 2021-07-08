@@ -80,6 +80,9 @@ public class Shop {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ShopAttachment> attachments = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<ProductQnA> qnAS = new ArrayList<>();
+
     public void addFavorite(final Favorite favorite) {
         this.favorites.add(favorite);
         favorite.setShop(this);

@@ -20,11 +20,7 @@ public class ShopImage {
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attachment_id")
     private Attachment attachment;
 }

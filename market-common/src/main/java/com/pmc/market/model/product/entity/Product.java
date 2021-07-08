@@ -1,6 +1,5 @@
 package com.pmc.market.model.product.entity;
 
-import com.pmc.market.model.image.entity.Attachment;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import com.pmc.market.model.shop.entity.Category;
@@ -9,8 +8,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Builder
 @Getter
@@ -44,6 +41,13 @@ public class Product {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<Attachment> attachments = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductQnA> qnAS = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductFavorite> favoriteProduct = new ArrayList<>();
+
 
     public Product(ProductCreateParamVo param) {
         this.name = param.getName();

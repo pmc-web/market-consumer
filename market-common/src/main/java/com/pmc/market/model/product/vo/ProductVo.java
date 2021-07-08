@@ -2,9 +2,17 @@ package com.pmc.market.model.product.vo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.pmc.market.model.product.entity.Product;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.lang.Nullable;
 
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ProductVo {
     private Long id;
@@ -14,6 +22,9 @@ public class ProductVo {
     private Integer amount;
     @Nullable
     private String description;
+    private long likes;
+    private String size;
+    private String color;
 
     @JsonIgnore
     public ProductVo(Product product) {
@@ -22,5 +33,17 @@ public class ProductVo {
         this.price = product.getPrice();
         this.description = product.getDescription();
         this.name = product.getName();
+        this.likes = product.getFavoriteProduct().size();
+    }
+
+    public static ProductVo of(Product product, long likes) {
+        return ProductVo.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .amount(product.getAmount())
+                .price(product.getPrice())
+                .likes(likes)
+                .build();
     }
 }

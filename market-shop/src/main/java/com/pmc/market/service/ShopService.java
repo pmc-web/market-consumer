@@ -26,4 +26,5 @@ public interface ShopService {
 
     void deleteShop(long id);
 
+    void likeUpdateShop(long shopId, User user);
 }

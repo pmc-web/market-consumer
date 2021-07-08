@@ -280,4 +280,16 @@ public class ShopControllerTest {
                 .andDo(print());
     }
 
+    @WithMockUser
+    @DisplayName("마켓 좋아요")
+    @Test
+    void likeShop() throws Exception {
+        long id = 7L;
+        doNothing().when(shopService).likeUpdateShop(id, User.builder().id(1L).build());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/{id}/like", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

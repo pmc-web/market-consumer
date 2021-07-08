@@ -1,12 +1,10 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
+import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.TagIdNameDto;
-import com.pmc.market.model.shop.entity.Category;
-import com.pmc.market.model.shop.entity.Shop;
-import com.pmc.market.model.shop.entity.ShopTag;
-import com.pmc.market.model.shop.entity.Tag;
+import com.pmc.market.model.shop.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -153,11 +152,18 @@ class ShopRepositoryTest {
         assertNotEquals(prev, now);
     }
 
-    @DisplayName("좋아요 삭제")
+    @DisplayName("마켓 삭제")
     @Test
     void 마켓_삭제() {
         shopRepository.deleteById(8L);
         // delete 3 : shop1+favorite 2
     }
 
+    @DisplayName("좋아요")
+    @Test
+    void findFavorite() {
+        Favorite favorite = favoriteRepository.findByUserIdAndShopId(1L, 1L)
+                .orElseThrow(() -> new EntityNotFoundException("좋아요한 항목이 없습니다."));
+        assertThat(favorite).isNotNull();
+    }
 }
