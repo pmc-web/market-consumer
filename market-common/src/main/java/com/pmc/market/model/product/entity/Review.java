@@ -1,9 +1,13 @@
 package com.pmc.market.model.product.entity;
 
+import com.pmc.market.model.image.entity.Attachment;
+import com.pmc.market.model.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor

@@ -2,6 +2,7 @@ package com.pmc.market.model.shop.entity;
 
 import com.pmc.market.model.order.entity.Purchase;
 import com.pmc.market.model.product.entity.Product;
+import com.pmc.market.model.product.entity.ProductQnA;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
 

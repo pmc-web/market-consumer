@@ -1,5 +1,6 @@
 package com.pmc.market.model.product.entity;
 
+import com.pmc.market.model.image.entity.Attachment;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import com.pmc.market.model.shop.entity.Category;
@@ -8,6 +9,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
