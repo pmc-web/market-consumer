@@ -1,5 +1,7 @@
-package com.pmc.market.model.product.entity;
+package com.pmc.market.model.image.entity;
 
+import com.pmc.market.model.product.entity.Product;
+import com.pmc.market.model.product.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +24,11 @@ public class Attachment {
     private String path;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private ProductQnA productQnA;
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
 }

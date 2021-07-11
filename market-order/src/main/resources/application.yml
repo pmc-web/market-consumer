@@ -14,6 +14,11 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-afbbdbc7a170.json
 
 app:
   host: http://localhost:8082
@@ -25,3 +30,6 @@ kakao:
   admin-key: ENC(F6m7ZwiJwm2Flgd8GXMi5F7qsPTH3sudYyFxJ3YICUbVoRb2sncmvn8Fx511wrBV)
   pay:
     ready-url: https://kapi.kakao.com/v1/payment/ready
+
+gcp:
+  bucket: market-universe-storage

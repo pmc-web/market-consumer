@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -22,10 +23,17 @@ import javax.validation.Valid;
 public class ReviewController {
     private final ReviewService reviewService;
 
+    @ApiOperation("리뷰 사진 올리기")
+    @PostMapping("/images")
+    public ResponseEntity<?> uploadReviewMultiImage(@RequestParam("files") MultipartFile[] files) {
+//        reviewService.uploadFiles(files); // postman 으로 됨
+        return ResponseEntity.ok(ResponseMessage.success());
+    }
+
     @ApiOperation("리뷰쓰기")
     @PostMapping
-    public ResponseEntity<?> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto) {
-        reviewService.makeReview(reviewRequestDto);
+    public ResponseEntity<?> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @RequestParam("files") MultipartFile[] files) {
+        reviewService.makeReview(reviewRequestDto, files);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 

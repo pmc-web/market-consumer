@@ -79,11 +79,10 @@ public class Shop {
     private List<Purchase> purchases = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<ProductQnA> qnAS = new ArrayList<>();
+    private List<ShopAttachment> attachments = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shopImage_id")
-    private ShopImage shopImages;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<ProductQnA> qnAS = new ArrayList<>();
 
     public void addFavorite(final Favorite favorite) {
         this.favorites.add(favorite);

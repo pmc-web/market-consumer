@@ -1,26 +1,23 @@
 package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.image.entity.Attachment;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 
 @Builder
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShopImage {
+public class ShopAttachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private ImageType type;
+    private String path;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attachment_id")
-    private Attachment attachment;
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 }

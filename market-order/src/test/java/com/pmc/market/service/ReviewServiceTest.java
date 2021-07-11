@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -26,6 +28,10 @@ class ReviewServiceTest {
     @Autowired
     ReviewService reviewService;
 
+    MockMultipartFile[] files = {
+            new MockMultipartFile("image", "image.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "image.png".getBytes())};
+
+
     ReviewRequestDto request = ReviewRequestDto.builder()
             .title("리뷰입니다.")
             .content("리뷰내용입니다.내용입니다.")
@@ -36,7 +42,7 @@ class ReviewServiceTest {
     @DisplayName("리뷰쓰기")
     @Test
     void makeReview() {
-        reviewService.makeReview(request);
+        reviewService.makeReview(request, files);
     }
 
     @Test

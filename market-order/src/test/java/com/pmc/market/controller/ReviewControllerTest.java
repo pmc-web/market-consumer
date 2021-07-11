@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,6 +38,9 @@ class ReviewControllerTest {
     @MockBean
     ReviewService reviewService;
 
+    MockMultipartFile[] files = {
+            new MockMultipartFile("image", "image.jpg", MediaType.MULTIPART_FORM_DATA_VALUE, "image.png".getBytes())};
+
     @WithMockUser
     @DisplayName("리뷰쓰기")
     @Test
@@ -48,7 +52,7 @@ class ReviewControllerTest {
                 .rating(5)
                 .orderProductId(1L)
                 .build();
-        doNothing().when(reviewService).makeReview(request);
+        doNothing().when(reviewService).makeReview(request, files);
 
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(MockMvcRequestBuilders.post("/orders/reviews")
@@ -68,6 +72,7 @@ class ReviewControllerTest {
                 .rating(5)
                 .orderProductId(1L)
                 .build();
+        //doNothing().when(reviewService).makeReview(request, files);
         doNothing().when(reviewService).updateReview(request, 1L);
 
         ObjectMapper objectMapper = new ObjectMapper();
