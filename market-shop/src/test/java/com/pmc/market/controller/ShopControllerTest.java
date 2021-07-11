@@ -2,6 +2,7 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.shop.entity.Favorite;
@@ -40,6 +41,7 @@ public class ShopControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+    PageRequest pageable = new PageRequest();
     @MockBean
     private ShopService shopService;
 
@@ -170,8 +172,9 @@ public class ShopControllerTest {
         shops.add(ShopResponseDto.from(shop, 1));
         shops.add(ShopResponseDto.from(shop2, 1));
         shops.add(ShopResponseDto.from(shop3, 1));
-
-        when(shopService.findFavorite(0, 0)).thenReturn(shops);
+        pageable.setSize(5);
+        pageable.setPage(1);
+        when(shopService.findFavorite(pageable)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/favorite")
                 .param("count", String.valueOf(3))
@@ -189,7 +192,9 @@ public class ShopControllerTest {
         int size = 3;
         List<ShopResponseDto> shops = new ArrayList<>();
         for (int i = 0; i < size; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
-        when(shopService.findNew(page, size)).thenReturn(shops);
+        pageable.setSize(5);
+        pageable.setPage(1);
+        when(shopService.findNew(pageable)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
                 .param("pageNumber", String.valueOf(page))

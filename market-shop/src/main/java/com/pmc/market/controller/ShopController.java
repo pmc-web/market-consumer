@@ -1,5 +1,6 @@
 package com.pmc.market.controller;
 
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.user.entity.User;
@@ -9,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,14 +45,14 @@ public class ShopController {
 
     @ApiOperation("인기순 마켓조회")
     @GetMapping("/popular")
-    public ResponseEntity<?> getFavoriteShops(@RequestParam(value = "pageNumber") int pageNumber, @RequestParam(value = "pageSize") int pageSize) {
-        return ResponseEntity.ok(ResponseMessage.success(shopService.findFavorite(pageNumber, pageSize)));
+    public ResponseEntity<?> getFavoriteShops(@PageableDefault @ApiIgnore PageRequest pageable) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.findFavorite(pageable)));
     }
 
     @ApiOperation("새로 등록된 마켓조회")
     @GetMapping("/new")
-    public ResponseEntity<?> getNewShops(@RequestParam(value = "pageNumber") int pageNumber, @RequestParam(value = "pageSize") int pageSize) {
-        return ResponseEntity.ok(ResponseMessage.success(shopService.findNew(pageNumber, pageSize)));
+    public ResponseEntity<?> getNewShops(@PageableDefault @ApiIgnore PageRequest pageable) {
+        return ResponseEntity.ok(ResponseMessage.success(shopService.findNew(pageable)));
     }
 
     @ApiOperation("마켓 id 조회")
