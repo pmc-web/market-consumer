@@ -2,8 +2,8 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
+import com.pmc.market.model.dto.CategoryDto;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.model.shop.entity.Category;
 import com.pmc.market.service.CategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,12 +42,12 @@ class CategoryControllerTest {
     @Test
     void getAllCategories() throws Exception {
 
-        Category category = Category.builder()
-                .id(1L)
+        CategoryDto category = CategoryDto.builder()
+                .categoryId(1L)
                 .mainCategory("악세사리")
                 .subCategory("귀걸이")
                 .build();
-        List<Category> categories = new ArrayList<>();
+        List<CategoryDto> categories = new ArrayList<>();
         categories.add(category);
 
         when(categoryService.findAll()).thenReturn(categories);

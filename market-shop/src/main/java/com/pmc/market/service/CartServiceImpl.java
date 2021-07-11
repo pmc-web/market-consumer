@@ -13,8 +13,8 @@ import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +30,7 @@ public class CartServiceImpl implements CartService {
     private final ShopRepository shopRepository;
     private final ProductRepository productRepository;
 
+    @Transactional
     public Cart createCart(long userId, long shopId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓이 없습니다."));
