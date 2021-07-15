@@ -1,5 +1,6 @@
 package com.pmc.market.service;
 
+import com.pmc.market.model.order.entity.Purchase;
 import com.pmc.market.model.vo.kakao.KakaoPayApprovalVo;
 import com.pmc.market.model.vo.kakao.KakaoPayCancelVo;
 import com.pmc.market.model.vo.kakao.KakaoPayRequestVo;
@@ -9,6 +10,6 @@ public interface KakaoPayService {
 
     KakaoPayApprovalVo approve(String pgToken);
 
-    KakaoPayCancelVo cancel();
+    KakaoPayCancelVo cancel(Purchase order);
 
 }

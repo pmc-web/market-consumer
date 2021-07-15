@@ -1,6 +1,8 @@
 package com.pmc.market.service;
 
+import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
+import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.KakaoPayException;
 import com.pmc.market.model.order.entity.OrderStatus;
 import com.pmc.market.model.order.entity.Purchase;
@@ -26,8 +28,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,9 +36,11 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 
     private static final String KAKAO_PAY_READY_URL = "/v1/payment/ready";
     private static final String KAKAO_PAY_APPROVE_URL = "/v1/payment/approve";
+    private static final String KAKAO_PAY_CANCEL_URL = "/v1/payment/cancel";
     private static final String MOCK_CID = "TC0ONETIME";
     private final OrderRepository orderRepository;
     private final HttpServletResponse response;
+
     @Value("${kakao.base-url:https://kapi.kakao.com}")
     private String kakaoUrl;
     @Value("${kakao.admin-key}")
@@ -46,13 +48,9 @@ public class KakaoPayServiceImpl implements KakaoPayService {
     @Value("${app.host}")
     private String host;
 
-    private ConcurrentHashMap<KakaoPayRequestVo, HashMap<String, Object>> orderMap = new ConcurrentHashMap<>();
-
-    private KakaoPayReadyVo kakaoPayReadyVO;
-    private KakaoPayApprovalVo kakaoPayApprovalVO;
-    private KakaoPayRequestVo kakaoPayRequest;
     private RestTemplate restTemplate;
     private HttpHeaders headers;
+    private String tid;
 
     void setRestTemplate() {
         restTemplate = new RestTemplate();
@@ -65,7 +63,6 @@ public class KakaoPayServiceImpl implements KakaoPayService {
     @Override
     public void orderKakaoPay(KakaoPayRequestVo request) {
         setRestTemplate();
-        kakaoPayRequest = request;
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("cid", MOCK_CID);
         params.add("partner_order_id", request.getPartnerOrderId());
@@ -81,7 +78,10 @@ public class KakaoPayServiceImpl implements KakaoPayService {
         HttpEntity<MultiValueMap<String, Object>> body = new HttpEntity<>(params, headers);
 
         try {
-            kakaoPayReadyVO = restTemplate.postForObject(new URI(kakaoUrl + KAKAO_PAY_READY_URL), body, KakaoPayReadyVo.class);
+            KakaoPayReadyVo kakaoPayReadyVO = restTemplate
+                    .postForObject(new URI(kakaoUrl + KAKAO_PAY_READY_URL), body, KakaoPayReadyVo.class);
+            tid = kakaoPayReadyVO.getTid();
+            orderRepository.updateKakaoOrderInfo(Long.parseLong(request.getPartnerOrderId()), kakaoPayReadyVO.getTid(), LocalDateTime.now(), OrderStatus.ORDER_CHECKING);
 
             log.info("KAKAO PAY READY REQUEST VO : {} , SEND REDIRECT", kakaoPayReadyVO);
 
@@ -101,19 +101,21 @@ public class KakaoPayServiceImpl implements KakaoPayService {
     @Override
     public KakaoPayApprovalVo approve(String pgToken) {
         setRestTemplate();
+        if (tid == null) throw new BusinessException("카카오페이 결제 tid 가 null 입니다.", ErrorCode.INTERNAL_SERVER_ERROR);
+        Purchase order = orderRepository.findByPayInfo(tid)
+                .orElseThrow(() -> new BusinessException("카카오페이 결제 tid 가 잘못되었습니다.", ErrorCode.INTERNAL_SERVER_ERROR));
+        KakaoPayRequestVo kakaoPayRequest = KakaoPayRequestVo.from(order);
+
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
-        // TODO : kakaoPayReadyVO , kakaoPayRequest 캐싱 OR DB....
         params.add("cid", MOCK_CID);
-        params.add("tid", kakaoPayReadyVO.getTid());
+        params.add("tid", order.getPayInfo());
         params.add("partner_order_id", kakaoPayRequest.getPartnerOrderId());
         params.add("partner_user_id", kakaoPayRequest.getPartnerUserId());
         params.add("pg_token", pgToken);
         params.add("total_amount", kakaoPayRequest.getTotalAmount());
-
         HttpEntity<MultiValueMap<String, Object>> body = new HttpEntity<>(params, headers);
-
         try {
-            kakaoPayApprovalVO = restTemplate.postForObject(new URI(kakaoUrl + KAKAO_PAY_APPROVE_URL), body, KakaoPayApprovalVo.class);
+            KakaoPayApprovalVo kakaoPayApprovalVO = restTemplate.postForObject(new URI(kakaoUrl + KAKAO_PAY_APPROVE_URL), body, KakaoPayApprovalVo.class);
             log.info("kakaoPayApprovalVO 결제 승인" + kakaoPayApprovalVO);
 
             Purchase purchase = orderRepository.findByPayInfo(kakaoPayApprovalVO.getTid())
@@ -131,17 +133,19 @@ public class KakaoPayServiceImpl implements KakaoPayService {
     }
 
     @Override
-    public KakaoPayCancelVo cancel() {
+    public KakaoPayCancelVo cancel(Purchase order) {
+        KakaoPayRequestVo kakaoPayRequest = KakaoPayRequestVo.from(order);
+
         setRestTemplate();
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("cid", MOCK_CID);
-        params.add("tid", kakaoPayReadyVO.getTid());
-        params.add("cancel_amount", kakaoPayRequest.getQuantity());
+        params.add("tid", order.getPayInfo());
+        params.add("cancel_amount", kakaoPayRequest.getTotalAmount());
         params.add("cancel_tax_free_amount", kakaoPayRequest.getTaxFreeAmount());
 
         HttpEntity<MultiValueMap<String, Object>> body = new HttpEntity<>(params, headers);
         try {
-            KakaoPayCancelVo cancelVo = restTemplate.postForObject(new URI(kakaoUrl + KAKAO_PAY_APPROVE_URL), body, KakaoPayCancelVo.class);
+            KakaoPayCancelVo cancelVo = restTemplate.postForObject(new URI(kakaoUrl + KAKAO_PAY_CANCEL_URL), body, KakaoPayCancelVo.class);
             log.info("KakaoPay cancel" + cancelVo);
             return cancelVo;
         } catch (RestClientException e) {

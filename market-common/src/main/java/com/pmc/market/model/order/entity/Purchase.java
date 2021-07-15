@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Getter
 @AllArgsConstructor
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Purchase { // ORDER 가 예약어기 때문에 변경
     @Id
@@ -57,7 +56,19 @@ public class Purchase { // ORDER 가 예약어기 때문에 변경
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<OrderProduct> products = new ArrayList<>();
 
-    public void setProducts(List<OrderProduct> orderProducts) {
+    public void updateProducts(List<OrderProduct> orderProducts) {
         this.products = orderProducts;
+        this.updateDate = LocalDateTime.now();
+    }
+
+    public void updateStatus(OrderStatus status) {
+        this.status = status;
+        this.updateDate = LocalDateTime.now();
+    }
+
+    public void cancel() {
+        this.totalPrice = 0;
+        this.status = OrderStatus.REFUND;
+        this.updateDate = LocalDateTime.now();
     }
 }

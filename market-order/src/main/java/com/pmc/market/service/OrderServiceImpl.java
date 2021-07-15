@@ -4,18 +4,18 @@ import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.OrderRequestDto;
 import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.model.order.entity.OrderProduct;
+import com.pmc.market.model.order.entity.OrderStatus;
 import com.pmc.market.model.order.entity.Pay;
 import com.pmc.market.model.order.entity.Purchase;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.model.vo.OrderResponseVo;
+import com.pmc.market.model.vo.kakao.KakaoPayCancelVo;
 import com.pmc.market.model.vo.kakao.KakaoPayRequestVo;
 import com.pmc.market.repository.*;
-import com.pmc.market.security.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,31 +45,21 @@ public class OrderServiceImpl implements OrderService {
             orderProducts.add(productDto.toEntity(productDto, product, purchase));
         }
         orderProductRepository.saveAll(orderProducts);
-        purchase.setProducts(orderProducts);
+        purchase.updateProducts(orderProducts);
     }
 
     @Override
     @Transactional
-    public void makeOrder(OrderRequestDto orderRequestDto) {
+    public void makeOrder(OrderRequestDto orderRequestDto, User user) {
         Shop shop = shopRepository.findById(orderRequestDto.getShopId())
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 마켓이 없습니다."));
-        User user;
-        // TODO : SecurityContextHolder 로 찾을지, userId 정보를 받을지
-        try {
-            user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        } catch (Exception e) {
-//            throw new BusinessException("사용자를 찾지 못했습니다.", ErrorCode.UNAUTHORIZED);
-            user = userRepository.findById(orderRequestDto.getUserId())
-                    .orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
-        }
-
         Purchase purchase = orderRequestDto.toEntity(orderRequestDto, shop, user);
         orderRepository.save(purchase);
         addOrderProducts(orderRequestDto.getProducts(), purchase); // add products entity
         if (orderRequestDto.getPay().equals(Pay.KAKAO_PAY))
             kakaoPayService.orderKakaoPay(KakaoPayRequestVo.from(purchase));
         else {
-            log.info("IAMPORT 사용 결제");
+            log.info("IAMPORT 사용 결제"); // TODO : 프론트와 연결
         }
     }
 
@@ -85,5 +75,27 @@ public class OrderServiceImpl implements OrderService {
         return OrderResponseVo.from(orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다.")));
     }
+
+    @Transactional
+    @Override
+    public void updateState(long orderId, OrderStatus status) {
+        Purchase order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다."));
+        order.updateStatus(status);
+    }
+
+    @Transactional
+    @Override
+    public String cancelOrder(long orderId) {
+        Purchase order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다."));
+        order.cancel();
+        if (order.getPay().equals(Pay.KAKAO_PAY)) {
+            KakaoPayCancelVo cancelVo = kakaoPayService.cancel(order);
+            return cancelVo.getApproved_cancel_amount() + "원 결제 취소되었습니다.";
+        }
+        return order.getTotalPrice() + "원 결제 취소 되었습니다.";
+    }
+
 
 }

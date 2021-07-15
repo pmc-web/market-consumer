@@ -6,7 +6,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api(value = "kakao Pay redirect Controller", tags = "카카오 페이 결제 관련")
 @RequiredArgsConstructor
@@ -29,8 +32,8 @@ public class KakaoPayController {
     }
 
     @ApiOperation("카카오페이 리다이렉션 - 결제 요청 취소시")
-    @PostMapping("/cancel")
+    @GetMapping("/cancel")
     public ResponseEntity<?> kakaoPayCallbackCancel() {
-        return ResponseEntity.ok(ResponseMessage.success(kakaoPayService.cancel()));
+        return ResponseEntity.ok(ResponseMessage.success("KakaoPay 결제를 취소했습니다."));
     }
 }
