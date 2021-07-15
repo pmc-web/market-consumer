@@ -35,7 +35,7 @@ public class OrderRequestDto {
     @ApiModelProperty("상품 총 갯수")
     private Integer amount;
 
-    @ApiModelProperty("결제 방법")
+    @ApiModelProperty(value = "결제 방법", example = "KAKAO_PAY")
     private Pay pay;
 
     @ApiModelProperty("전체 상품 가격")

@@ -2,17 +2,18 @@ package com.pmc.market.controller;
 
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.OrderRequestDto;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.model.order.entity.OrderStatus;
 import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -27,19 +28,15 @@ public class OrderController {
 
     @ApiOperation("주문하기")
     @PostMapping
-    public ResponseEntity<?> orderProducts(@RequestBody @Valid OrderRequestDto orderRequestDto) {
-        orderService.makeOrder(orderRequestDto);
+    public ResponseEntity<?> orderProducts(@RequestBody @Valid OrderRequestDto orderRequestDto, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+        orderService.makeOrder(orderRequestDto, user.getUser());
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("주문내역")
     @GetMapping
-    public ResponseEntity<?> getOrderList() {
-        // user id 는 token 으로 조회
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        User user = userDetails.getUser();
-        return ResponseEntity.ok(ResponseMessage.success(orderService.getUserOrderList(user)));
+    public ResponseEntity<?> getOrderList(@AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+        return ResponseEntity.ok(ResponseMessage.success(orderService.getUserOrderList(user.getUser())));
     }
 
     @ApiOperation("주문내역 개별조회")
@@ -49,9 +46,15 @@ public class OrderController {
     }
 
     @ApiOperation("주문상태 변경")
-    @PutMapping("/{orderId}") // TODO:
-    public ResponseEntity<?> updateOrderStatus(@PathVariable("orderId") long orderId) {
+    @PutMapping("/{orderId}")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable("orderId") long orderId, @ApiParam("변경할 OderStatus") @RequestBody OrderStatus status) {
+        orderService.updateState(orderId, status);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
+    @ApiOperation("주문 취소")
+    @PostMapping("/{orderId}")
+    public ResponseEntity<?> cancelOrder(@PathVariable("orderId") long orderId) {
+        return ResponseEntity.ok(ResponseMessage.success(orderService.cancelOrder(orderId)));
+    }
 }
