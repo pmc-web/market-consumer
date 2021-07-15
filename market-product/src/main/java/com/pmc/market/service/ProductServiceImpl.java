@@ -71,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
                 .user(user)
                 .build();
         productFavoriteRepository.save(favorite);
-
     }
 
     @Override

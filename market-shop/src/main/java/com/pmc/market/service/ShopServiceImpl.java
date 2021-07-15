@@ -4,6 +4,7 @@ import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.shop.entity.Category;
@@ -17,10 +18,6 @@ import com.pmc.market.repository.FavoriteRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -39,7 +37,6 @@ public class ShopServiceImpl implements ShopService {
     private final CategoryRepository categoryRepository;
     private final FavoriteRepository favoriteRepository;
 
-    @Transactional // lazy
     @Override
     public List<ShopResponseDto> findAll() {
         return shopRepository.findAll().stream().map(ShopResponseDto::from).collect(Collectors.toList());
@@ -60,16 +57,16 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> findFavorite(int pageNumber, int pageSize) {
-        return favoriteCustomRepository.findShopsMostFavoriteCount(pageNumber, pageSize);
+    public List<ShopResponseDto> findFavorite(PageRequest pageable) {
+        return favoriteRepository.findShopMostFavoriteCount(pageable.of())
+                .stream().map(shop -> ShopResponseDto.from((Shop) shop[1], (long) shop[0]))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<ShopResponseDto> findNew(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(Sort.Direction.ASC, "regDate"));
-        Page<Shop> all = shopRepository.findAll(pageable);
-        List<ShopResponseDto> shops = all.getContent().stream().map(ShopResponseDto::from).collect(Collectors.toList());
-        return shops;
+    public List<ShopResponseDto> findNew(PageRequest pageable) {
+        return shopRepository.findAll(pageable.of()).stream()
+                .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
@@ -94,7 +91,6 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    @Transactional
     public void updateShop(ShopRequestDto shopRequestDto, long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
 
@@ -112,14 +108,12 @@ public class ShopServiceImpl implements ShopService {
         }
     }
 
-    @Transactional
     @Override
     public void deleteShop(long id) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
         shopRepository.delete(shop); // shop 삭제
     }
 
-    @Transactional
     @Override
     public void likeUpdateShop(long shopId, User user) {
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));

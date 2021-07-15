@@ -1,5 +1,6 @@
 package com.pmc.market.service;
 
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.user.entity.User;
@@ -12,9 +13,9 @@ public interface ShopService {
 
     void makeShop(ShopRequestDto shopRequestDto, User user);
 
-    List<ShopResponseDto> findFavorite(int pageNumber, int pageSize);
+    List<ShopResponseDto> findFavorite(PageRequest pageable);
 
-    List<ShopResponseDto> findNew(int pageNumber, int pageSize);
+    List<ShopResponseDto> findNew(PageRequest pageable);
 
     ShopResponseDto getShopById(long id);
 
