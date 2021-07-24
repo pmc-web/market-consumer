@@ -29,13 +29,13 @@ public class ShopController {
 
     @ApiOperation("전체 마켓 리스트")
     @GetMapping
-    public ResponseEntity<?> getAllShops() {
+    public ResponseEntity<ResponseMessage> getAllShops() {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findAll()));
     }
 
     @ApiOperation("가게 등록하기")
     @PostMapping
-    public ResponseEntity<?> makeShop(@RequestBody @Valid ShopRequestDto shopRequestDto) {
+    public ResponseEntity<ResponseMessage> makeShop(@RequestBody @Valid ShopRequestDto shopRequestDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = userDetails.getUser();
@@ -45,51 +45,51 @@ public class ShopController {
 
     @ApiOperation("인기순 마켓조회")
     @GetMapping("/popular")
-    public ResponseEntity<?> getFavoriteShops(@PageableDefault @ApiIgnore PageRequest pageable) {
+    public ResponseEntity<ResponseMessage> getFavoriteShops(@PageableDefault @ApiIgnore PageRequest pageable) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findFavorite(pageable)));
     }
 
     @ApiOperation("새로 등록된 마켓조회")
     @GetMapping("/new")
-    public ResponseEntity<?> getNewShops(@PageableDefault @ApiIgnore PageRequest pageable) {
+    public ResponseEntity<ResponseMessage> getNewShops(@PageableDefault @ApiIgnore PageRequest pageable) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.findNew(pageable)));
     }
 
     @ApiOperation("마켓 id 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getShopById(@ApiParam(value = "조회할 마켓 id") @PathVariable long id) {
+    public ResponseEntity<ResponseMessage> getShopById(@ApiParam(value = "조회할 마켓 id") @PathVariable long id) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.getShopById(id)));
     }
 
     @ApiOperation("마켓 카테고리별 조회")
     @GetMapping("/category")
-    public ResponseEntity<?> getShopsByCategory(@ApiParam(value = "카테고리 id") @RequestParam long id) {
+    public ResponseEntity<ResponseMessage> getShopsByCategory(@ApiParam(value = "카테고리 id") @RequestParam long id) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.getShopsByCategory(id)));
     }
 
     @ApiOperation("마켓 검색")
     @GetMapping("/search")
-    public ResponseEntity<?> getShopsBySearch(@RequestParam String searchWord) {
+    public ResponseEntity<ResponseMessage> getShopsBySearch(@RequestParam String searchWord) {
         return ResponseEntity.ok(ResponseMessage.success(shopService.getShopsBySearch(searchWord)));
     }
 
     @ApiOperation("마켓 정보 수정")
     @PostMapping("/{id}")
-    public ResponseEntity<?> updateShop(@RequestBody @Valid ShopRequestDto shopRequestDto, @ApiParam("수정할 마켓 id") @PathVariable long id) {
+    public ResponseEntity<ResponseMessage> updateShop(@RequestBody @Valid ShopRequestDto shopRequestDto, @ApiParam("수정할 마켓 id") @PathVariable long id) {
         shopService.updateShop(shopRequestDto, id);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("마켓 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteShop(@ApiParam("삭제할 마켓 id") @PathVariable long id) {
+    public ResponseEntity<ResponseMessage> deleteShop(@ApiParam("삭제할 마켓 id") @PathVariable long id) {
         shopService.deleteShop(id);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("마켓 좋아요, 좋아요 해제")
     @PatchMapping("/{id}/like")
-    public ResponseEntity<?> likeShop(@ApiParam("마켓 id") @PathVariable long id, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+    public ResponseEntity<ResponseMessage> likeShop(@ApiParam("마켓 id") @PathVariable long id, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
         shopService.likeUpdateShop(id, user.getUser());
         return ResponseEntity.ok(ResponseMessage.success());
     }

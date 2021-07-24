@@ -30,13 +30,13 @@ public class ProductController {
 
     @PostMapping
     @ApiOperation("상품 등록")
-    public ResponseEntity<?> createProduct(@RequestBody @Valid ProductCreateParamVo param) {
+    public ResponseEntity<ResponseMessage> createProduct(@RequestBody @Valid ProductCreateParamVo param) {
         return ResponseEntity.ok(ResponseMessage.success(productService.create(param)));
     }
 
     @PutMapping("/{productId}")
     @ApiOperation("상품 업데이트")
-    public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductUpdateParamVo param) {
+    public ResponseEntity<ResponseMessage> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductUpdateParamVo param) {
         param.setId(productId);
         return ResponseEntity.ok(ResponseMessage.success(productService.update(param)));
     }
@@ -44,7 +44,7 @@ public class ProductController {
     @GetMapping
     @ApiOperation("상품 목록")
     @PageableParams
-    public ResponseEntity<?> findProducts(
+    public ResponseEntity<ResponseMessage> findProducts(
             @ApiParam(name = "keyword", value = "상품 검색 키워드") @RequestParam(required = false) SearchProductParam searchParam
             , @PageableDefault @ApiIgnore PageRequest pageable) {
         return ResponseEntity.ok(ResponseMessage.success(productService.get(searchParam, pageable)));
@@ -52,20 +52,20 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     @ApiOperation("특정 상품 조회")
-    public ResponseEntity<?> findOneProduct(@PathVariable Long productId) {
+    public ResponseEntity<ResponseMessage> findOneProduct(@PathVariable Long productId) {
         return ResponseEntity.ok(ResponseMessage.success(productService.getById(productId)));
     }
 
     @GetMapping("/popular")
     @ApiOperation("오늘의 인기 상품")
     @PageableParams
-    public ResponseEntity<?> findOneProduct(@PageableDefault @ApiIgnore PageRequest pageable) {
+    public ResponseEntity<ResponseMessage> findOneProduct(@PageableDefault @ApiIgnore PageRequest pageable) {
         return ResponseEntity.ok(ResponseMessage.success(productService.getTodayPopularProducts(pageable)));
     }
 
     @PatchMapping("/{productId}/like")
     @ApiOperation("상품 좋아요")
-    public ResponseEntity<?> likeProduct(@PathVariable Long productId, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+    public ResponseEntity<ResponseMessage> likeProduct(@PathVariable Long productId, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
         productService.likeUpdateProduct(productId, user.getUser());
         return ResponseEntity.ok(ResponseMessage.success());
     }

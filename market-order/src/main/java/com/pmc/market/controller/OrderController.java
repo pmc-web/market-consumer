@@ -28,33 +28,33 @@ public class OrderController {
 
     @ApiOperation("주문하기")
     @PostMapping
-    public ResponseEntity<?> orderProducts(@RequestBody @Valid OrderRequestDto orderRequestDto, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+    public ResponseEntity<ResponseMessage> orderProducts(@RequestBody @Valid OrderRequestDto orderRequestDto, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
         orderService.makeOrder(orderRequestDto, user.getUser());
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("주문내역")
     @GetMapping
-    public ResponseEntity<?> getOrderList(@AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+    public ResponseEntity<ResponseMessage> getOrderList(@AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
         return ResponseEntity.ok(ResponseMessage.success(orderService.getUserOrderList(user.getUser())));
     }
 
     @ApiOperation("주문내역 개별조회")
     @GetMapping("/{orderId}")
-    public ResponseEntity<?> getOrderInfo(@PathVariable("orderId") long orderId) {
+    public ResponseEntity<ResponseMessage> getOrderInfo(@PathVariable("orderId") long orderId) {
         return ResponseEntity.ok(ResponseMessage.success(orderService.getOrder(orderId)));
     }
 
     @ApiOperation("주문상태 변경")
     @PutMapping("/{orderId}")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable("orderId") long orderId, @ApiParam("변경할 OderStatus") @RequestBody OrderStatus status) {
+    public ResponseEntity<ResponseMessage> updateOrderStatus(@PathVariable("orderId") long orderId, @ApiParam("변경할 OderStatus") @RequestBody OrderStatus status) {
         orderService.updateState(orderId, status);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("주문 취소")
     @PostMapping("/{orderId}")
-    public ResponseEntity<?> cancelOrder(@PathVariable("orderId") long orderId) {
+    public ResponseEntity<ResponseMessage> cancelOrder(@PathVariable("orderId") long orderId) {
         return ResponseEntity.ok(ResponseMessage.success(orderService.cancelOrder(orderId)));
     }
 }

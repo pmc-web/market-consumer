@@ -43,7 +43,7 @@ public class OAuthController {
      */
     @ApiOperation(value = "소셜 로그인, 회원가입시 자동 리다이렉트 되는 컨트롤러")
     @GetMapping(value = "/{socialLoginType}/callback")
-    public ResponseEntity<?> callback(
+    public ResponseEntity<ResponseMessage> callback(
             @PathVariable(name = "socialLoginType") SocialLoginType socialLoginType,
             @RequestParam(name = "code") String code) {
         return ResponseEntity.ok().body(ResponseMessage.success(

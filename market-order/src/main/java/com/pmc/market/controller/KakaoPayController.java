@@ -21,19 +21,19 @@ public class KakaoPayController {
 
     @ApiOperation("카카오페이 리다이렉션 - 결제 요청 성공시")
     @GetMapping("/success")
-    public ResponseEntity<?> kakaoPayCallbackSuccess(@RequestParam("pg_token") String pgToken) {
+    public ResponseEntity<ResponseMessage> kakaoPayCallbackSuccess(@RequestParam("pg_token") String pgToken) {
         return ResponseEntity.ok(ResponseMessage.success(kakaoPayService.approve(pgToken)));
     }
 
     @ApiOperation("카카오페이 리다이렉션 - 결제 요청 실패시")
     @GetMapping("/fail")
-    public ResponseEntity<?> kakaoPayCallbackFail() {
+    public ResponseEntity<ResponseMessage> kakaoPayCallbackFail() {
         return ResponseEntity.ok(ResponseMessage.fail("KakaoPay 결제가 실패했습니다."));
     }
 
     @ApiOperation("카카오페이 리다이렉션 - 결제 요청 취소시")
     @GetMapping("/cancel")
-    public ResponseEntity<?> kakaoPayCallbackCancel() {
+    public ResponseEntity<ResponseMessage> kakaoPayCallbackCancel() {
         return ResponseEntity.ok(ResponseMessage.success("KakaoPay 결제를 취소했습니다."));
     }
 }
