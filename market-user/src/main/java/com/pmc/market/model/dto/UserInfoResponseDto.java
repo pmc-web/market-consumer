@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class UserInfoResponseDto {
+    private long id;
     private String email;
     private String provider;
     private String address;
@@ -26,6 +27,7 @@ public class UserInfoResponseDto {
     public static UserInfoResponseDto of(User user, TokenDto token) {
         String email = user.getProvider().equals("KAKAO") ? "KAKAO" + user.hashCode() : user.getEmail();
         return UserInfoResponseDto.builder()
+                .id(user.getId())
                 .email(email)
                 .provider(user.getProvider())
                 .name(user.getName())
@@ -37,14 +39,6 @@ public class UserInfoResponseDto {
     }
 
     public static UserInfoResponseDto of(User user) {
-        String email = user.getProvider().equals("KAKAO") ? "KAKAO" + user.hashCode() : user.getEmail();
-        return UserInfoResponseDto.builder()
-                .email(email)
-                .provider(user.getProvider())
-                .name(user.getName())
-                .regDate(user.getRegDate())
-                .role(user.getRole())
-                .status(user.getStatus())
-                .build();
+        return of(user, null);
     }
 }
