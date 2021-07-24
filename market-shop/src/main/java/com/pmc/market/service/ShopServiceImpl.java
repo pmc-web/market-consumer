@@ -117,7 +117,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void likeUpdateShop(long shopId, User user) {
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        Optional<Favorite> isFavorite = favoriteRepository.findByUserIdAndShopId(shopId, user.getId());
+        Optional<Favorite> isFavorite = favoriteRepository.findByShop_IdAndUser_Id(shopId, user.getId());
         if (isFavorite.isPresent()) { // 해제
             Favorite favorite = isFavorite.get();
             favoriteRepository.delete(favorite);

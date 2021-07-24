@@ -13,8 +13,7 @@ import java.util.Optional;
 @Repository
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
-    @Query("select f from Favorite f where f.shop.id =:shopId and f.user.id =:userId")
-    Optional<Favorite> findByUserIdAndShopId(long shopId, long userId);
+    Optional<Favorite> findByShop_IdAndUser_Id(long shopId, long userId);
 
     @Query("select count (f.shop) as likes, f.shop from Favorite f group by f.shop order by likes desc")
     Page<Object[]> findShopMostFavoriteCount(Pageable pageable);

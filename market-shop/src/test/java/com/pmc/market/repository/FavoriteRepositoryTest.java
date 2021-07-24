@@ -25,7 +25,7 @@ class FavoriteRepositoryTest {
     @DisplayName("좋아요")
     @Test
     void findFavorite() {
-        Favorite favorite = favoriteRepository.findByUserIdAndShopId(1L, 1L)
+        Favorite favorite = favoriteRepository.findByShop_IdAndUser_Id(1L, 1L)
                 .orElseThrow(() -> new EntityNotFoundException("좋아요한 항목이 없습니다."));
         assertThat(favorite).isNotNull();
     }
