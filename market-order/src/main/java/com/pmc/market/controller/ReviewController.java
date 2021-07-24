@@ -23,13 +23,6 @@ import javax.validation.Valid;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @ApiOperation("리뷰 사진 올리기")
-    @PostMapping("/images")
-    public ResponseEntity<ResponseMessage> uploadReviewMultiImage(@RequestParam("files") MultipartFile[] files) {
-//        reviewService.uploadFiles(files); // postman 으로 됨
-        return ResponseEntity.ok(ResponseMessage.success());
-    }
-
     @ApiOperation("리뷰쓰기")
     @PostMapping
     public ResponseEntity<ResponseMessage> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @RequestParam("files") MultipartFile[] files) {

@@ -79,7 +79,7 @@ public class Shop {
     private List<Purchase> purchases = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<ShopAttachment> attachments = new ArrayList<>();
+    private List<ShopImage> attachments = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ProductQnA> qnAS = new ArrayList<>();
@@ -103,4 +103,7 @@ public class Shop {
         this.category = category;
     }
 
+    public void addImages(List<ShopImage> attachments) {
+        attachments.addAll(attachments);
+    }
 }

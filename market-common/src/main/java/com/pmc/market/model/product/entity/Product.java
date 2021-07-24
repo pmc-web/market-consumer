@@ -1,6 +1,5 @@
 package com.pmc.market.model.product.entity;
 
-import com.pmc.market.model.image.entity.Attachment;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import com.pmc.market.model.shop.entity.Category;
@@ -43,7 +42,7 @@ public class Product {
     private Shop shop;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Attachment> attachments = new ArrayList<>();
+    private List<ProductImage> attachments = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductQnA> qnAS = new ArrayList<>();

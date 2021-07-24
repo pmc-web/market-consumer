@@ -40,10 +40,6 @@ public class ReviewRequestDto {
     @NotNull(message = "평점을 입력해주세요")
     private Integer rating;
 
-
-    @ApiModelProperty(value = "리뷰 이미지")
-    private String image;
-
     public Review toEntity(ReviewRequestDto requestDto) {
         return Review.builder()
                 .title(requestDto.getTitle())
