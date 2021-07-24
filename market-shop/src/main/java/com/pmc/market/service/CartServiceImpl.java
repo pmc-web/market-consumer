@@ -44,21 +44,21 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public List<CartResponseDto> getUserCarts(long userId) {
-        List<Cart> carts = cartRepository.findByUserId(userId);
+        List<Cart> carts = cartRepository.findByUser_IdOrderByRegDateDesc(userId);
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());
     }
 
     @Transactional
     @Override
     public CartResponseDto getUserCartByShop(long userId, long shopId) {
-        Cart cart = cartRepository.findByUserIdAndShopId(userId, shopId).orElseThrow(() -> new EntityNotFoundException("해당하는 장바구니 정보가 없습니다."));
+        Cart cart = cartRepository.findByUser_IdAndShop_Id(userId, shopId).orElseThrow(() -> new EntityNotFoundException("해당하는 장바구니 정보가 없습니다."));
         return CartResponseDto.from(cart);
     }
 
     @Transactional
     @Override
     public void addToCart(long userId, CartProductRequestDto requestDto) {
-        Optional<Cart> isCart = cartRepository.findByUserIdAndShopId(userId, requestDto.getShopId());
+        Optional<Cart> isCart = cartRepository.findByUser_IdAndShop_Id(userId, requestDto.getShopId());
         Cart cart;
         if (!isCart.isPresent()) {
             cart = createCart(userId, requestDto.getShopId());
