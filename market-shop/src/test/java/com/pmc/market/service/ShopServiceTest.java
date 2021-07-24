@@ -104,7 +104,7 @@ class ShopServiceTest {
     @Test
     @DisplayName("마켓 조회 - 검색어")
     void getShopsBySearch() {
-        String searchWord = "";
+        String searchWord = "마켓";
         List<ShopResponseDto> shopResponseDtos = shopService.getShopsBySearch(searchWord);
         assertTrue(shopResponseDtos.size() > 0);
     }

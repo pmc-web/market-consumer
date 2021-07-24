@@ -24,7 +24,7 @@ public class ShopNoticeServiceImpl implements ShopNoticeService {
 
     @Override
     public List<ShopNotice> getNoticeList(long shopId) {
-        return noticeRepository.findAllByShopId(shopId);
+        return noticeRepository.findAllByShopIdOrderByRegDateDesc(shopId);
     }
 
     @Override

@@ -35,7 +35,7 @@ class NoticeRepositoryTest {
     void getNoticeList() {
         long shopId = 1L;
 
-        List<ShopNotice> notices = noticeRepository.findAllByShopId(shopId);
+        List<ShopNotice> notices = noticeRepository.findAllByShopIdOrderByRegDateDesc(shopId);
         assertTrue(notices.size() > 0);
     }
 

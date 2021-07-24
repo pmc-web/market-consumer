@@ -77,16 +77,17 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> getShopsByCategory(long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
-        return shopRepository.findByCategory(category).stream()
+    public List<ShopResponseDto> getShopsByCategory(long categoryId) {
+        return shopRepository.findByCategory_id(categoryId).stream()
                 .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
     public List<ShopResponseDto> getShopsBySearch(String searchWord) {
-        return shopRepository.findByName(searchWord).stream()
+        StringBuilder word = new StringBuilder(searchWord);
+        word.insert(0, "%");
+        word.append("%");
+        return shopRepository.findByNameLike(word.toString()).stream()
                 .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 

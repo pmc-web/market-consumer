@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<ShopNotice, Long> {
-    List<ShopNotice> findAllByShopId(long shopId);
+    List<ShopNotice> findAllByShopIdOrderByRegDateDesc(long shopId);
 }
