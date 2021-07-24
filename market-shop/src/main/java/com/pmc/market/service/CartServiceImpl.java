@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class CartServiceImpl implements CartService {
@@ -30,7 +31,6 @@ public class CartServiceImpl implements CartService {
     private final ShopRepository shopRepository;
     private final ProductRepository productRepository;
 
-    @Transactional
     public Cart createCart(long userId, long shopId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓이 없습니다."));
@@ -41,21 +41,18 @@ public class CartServiceImpl implements CartService {
                 .build();
     }
 
-    @Transactional
     @Override
     public List<CartResponseDto> getUserCarts(long userId) {
         List<Cart> carts = cartRepository.findByUser_IdOrderByRegDateDesc(userId);
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());
     }
 
-    @Transactional
     @Override
     public CartResponseDto getUserCartByShop(long userId, long shopId) {
         Cart cart = cartRepository.findByUser_IdAndShop_Id(userId, shopId).orElseThrow(() -> new EntityNotFoundException("해당하는 장바구니 정보가 없습니다."));
         return CartResponseDto.from(cart);
     }
 
-    @Transactional
     @Override
     public void addToCart(long userId, CartProductRequestDto requestDto) {
         Optional<Cart> isCart = cartRepository.findByUser_IdAndShop_Id(userId, requestDto.getShopId());
@@ -86,6 +83,5 @@ public class CartServiceImpl implements CartService {
     public void updateCartProduct(long cartId, CartProductRequestDto cartProductRequestDto) {
         CartProduct cartProduct = cartProductRepository.findById(cartId).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
         cartProductRequestDto.updateCart(cartProduct);
-        cartProductRepository.save(cartProduct);
     }
 }
