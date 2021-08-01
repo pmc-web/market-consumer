@@ -21,13 +21,13 @@ public class CategoryController {
 
     @ApiOperation("전체 카테고리 리스트")
     @GetMapping
-    public ResponseEntity<?> getAllCategories() {
+    public ResponseEntity<ResponseMessage> getAllCategories() {
         return ResponseEntity.ok(ResponseMessage.success(categoryService.findAll()));
     }
 
     @ApiOperation("카테고리 추가")
     @PostMapping
-    public ResponseEntity<?> makeCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto) {
+    public ResponseEntity<ResponseMessage> makeCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto) {
         categoryService.makeCategory(categoryRequestDto);
         return ResponseEntity.ok(ResponseMessage.success());
     }

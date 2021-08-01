@@ -51,8 +51,8 @@ class TagRepositoryTest {
     @DisplayName("태그 검색 목록 - 20210531 통과")
     @Test
     void getTagsBySearch() {
-        String searchWord = "태";
-        List<Tag> tags = tagRepository.findByName(searchWord);
+        String searchWord = "%태%";
+        List<Tag> tags = tagRepository.findByNameLike(searchWord);
         assertTrue(tags.size() > 0);
     }
 

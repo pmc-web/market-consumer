@@ -19,14 +19,14 @@ public class SearchController {
 
     @ApiOperation(value = "검색")
     @PostMapping
-    public ResponseEntity<?> addSearchKeyword(@RequestParam("keyword") String keyword) {
+    public ResponseEntity<ResponseMessage> addSearchKeyword(@RequestParam("keyword") String keyword) {
         searchService.addSearchList(keyword);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation(value = "인기 검색어")
     @GetMapping("/popular")
-    public ResponseEntity<?> getPopularSearchKeyword(@ApiParam(example = "7(일전)", value = "n일 전부터 검색") @RequestParam("daysAgo") long daysAgo, @ApiParam("인기검색어 갯수") @RequestParam("limit") int limit) {
+    public ResponseEntity<ResponseMessage> getPopularSearchKeyword(@ApiParam(example = "7(일전)", value = "n일 전부터 검색") @RequestParam("daysAgo") long daysAgo, @ApiParam("인기검색어 갯수") @RequestParam("limit") int limit) {
         return ResponseEntity.ok(ResponseMessage.success(searchService.getPopularList(daysAgo, limit)));
     }
 }

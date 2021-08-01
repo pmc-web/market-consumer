@@ -44,17 +44,17 @@ class CartRepositoryTest {
     @DisplayName("카트 찾기")
     @Test
     void findByUserIdAndShopId() {
-        long userId = 3L;
-        long shopId = 2L;
-        Optional<Cart> cart = cartRepository.findByUserIdAndShopId(userId, shopId);
+        long userId = 1L;
+        long shopId = 1L;
+        Optional<Cart> cart = cartRepository.findByUser_IdAndShop_Id(userId, shopId);
         assertTrue(cart.isPresent());
     }
 
     @DisplayName("유저의 카트 전체 정보")
     @Test
     void findByUserId() {
-        long userId = 3L;
-        List<Cart> carts = cartRepository.findByUserId(userId);
+        long userId = 1L;
+        List<Cart> carts = cartRepository.findByUser_IdOrderByRegDateDesc(userId);
         assertTrue(carts.size() > 0);
     }
 

@@ -4,6 +4,7 @@ import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
 import com.pmc.market.model.user.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface ShopService {
 
     List<ShopResponseDto> findAll();
 
-    void makeShop(ShopRequestDto shopRequestDto, User user);
+    void makeShop(ShopRequestDto shopRequestDto, User user, MultipartFile[] files);
 
     List<ShopResponseDto> findFavorite(PageRequest pageable);
 
@@ -23,7 +24,7 @@ public interface ShopService {
 
     List<ShopResponseDto> getShopsBySearch(String searchWord);
 
-    void updateShop(ShopRequestDto shop, long id);
+    void updateShop(ShopRequestDto shop, long id, MultipartFile[] files);
 
     void deleteShop(long id);
 

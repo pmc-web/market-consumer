@@ -2,6 +2,7 @@ package com.pmc.market.controller;
 
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobInfo;
+import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.image.dto.DownloadRequestDto;
 import com.pmc.market.model.image.dto.UploadRequestDto;
 import com.pmc.market.service.GCSService;
@@ -20,14 +21,14 @@ public class GCSController {
     private final GCSService gcsService;
 
     @PostMapping("/gcs/upload")
-    public ResponseEntity<?> uploadToStorage(@RequestBody UploadRequestDto uploadRequestDto) throws IOException {
+    public ResponseEntity<ResponseMessage> uploadToStorage(@RequestBody UploadRequestDto uploadRequestDto) throws IOException {
         BlobInfo blobInfo = gcsService.uploadFileToGCS(uploadRequestDto);
-        return ResponseEntity.ok(blobInfo.toString());
+        return ResponseEntity.ok(ResponseMessage.success(blobInfo.toString()));
     }
 
     @PostMapping("/gcs/download")
-    public ResponseEntity<?> loadDownloadFromStorage(@RequestBody DownloadRequestDto downloadReqDto) {
+    public ResponseEntity<ResponseMessage> loadDownloadFromStorage(@RequestBody DownloadRequestDto downloadReqDto) {
         Blob fileFormGCS = gcsService.downloadFileFromGCS(downloadReqDto);
-        return ResponseEntity.ok(fileFormGCS.toString());
+        return ResponseEntity.ok(ResponseMessage.success(fileFormGCS.toString()));
     }
 }

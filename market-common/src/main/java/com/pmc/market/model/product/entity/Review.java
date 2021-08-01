@@ -1,6 +1,5 @@
 package com.pmc.market.model.product.entity;
 
-import com.pmc.market.model.image.entity.Attachment;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
 
@@ -35,7 +34,7 @@ public class Review {
     private LocalDateTime updateDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "review", cascade = CascadeType.ALL)
-    private List<Attachment> attachments = new ArrayList<>();
+    private List<ReviewImage> attachments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

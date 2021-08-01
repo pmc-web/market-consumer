@@ -82,9 +82,7 @@ class ShopRepositoryTest {
 
     @Test
     void 카테고리별_쇼핑몰() {
-        Category category = categoryRepository.findById(1L).get();
-        List<Shop> shops = shopRepository.findByCategory(category);
-
+        List<Shop> shops = shopRepository.findByCategory_id(1L);
         shops.forEach(s -> {
             assertEquals(s.getCategory().getId(), 1L);
         });
@@ -121,8 +119,8 @@ class ShopRepositoryTest {
     @Transactional
     @Test
     void getShopsBySearch() {
-        String searchWord = "";
-        List<Shop> result = shopRepository.findByName(searchWord);
+        String searchWord = "%켓%";
+        List<Shop> result = shopRepository.findByNameLike(searchWord);
         assertTrue(result.size() > 0);
         result.forEach(s -> System.out.println(s.getName()));
     }

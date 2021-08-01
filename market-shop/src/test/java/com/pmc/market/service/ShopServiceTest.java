@@ -57,7 +57,7 @@ class ShopServiceTest {
                 .period(1)
                 .shortDescription("shotDescription")
                 .telephone("010-0000-0000")
-                .build(), user);
+                .build(), user, null);
         assertEquals(count + 1, shopRepository.count());
     }
 
@@ -104,7 +104,7 @@ class ShopServiceTest {
     @Test
     @DisplayName("마켓 조회 - 검색어")
     void getShopsBySearch() {
-        String searchWord = "";
+        String searchWord = "마켓";
         List<ShopResponseDto> shopResponseDtos = shopService.getShopsBySearch(searchWord);
         assertTrue(shopResponseDtos.size() > 0);
     }
@@ -124,7 +124,7 @@ class ShopServiceTest {
                 .telephone("11-010010-0100")
                 .owner("사업자 이름 ")
                 .build();
-        shopService.updateShop(updateShop, id);
+        shopService.updateShop(updateShop, id, null);
     }
 
     @Test

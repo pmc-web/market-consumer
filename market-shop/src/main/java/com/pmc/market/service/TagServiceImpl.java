@@ -40,7 +40,12 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagResponseDto> findByWord(String searchWord) {
-        return tagRepository.findByName(searchWord).stream().map(TagResponseDto::from).collect(Collectors.toList());
+        StringBuilder word = new StringBuilder(searchWord);
+        word.append("%");
+        word.insert(0, "%");
+        return tagRepository.findByNameLike(word.toString()).stream()
+                .map(TagResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -26,7 +26,7 @@ class CartProductRepositoryTest {
     void createCartProduct() {
         long userId = 3L;
         Product product = productRepository.findById(4L).get();
-        Cart cart = cartRepository.findByUserId(userId).get(0);
+        Cart cart = cartRepository.findByUser_IdOrderByRegDateDesc(userId).get(0);
         CartProduct cartProduct = CartProduct.builder()
                 .product(product)
                 .cart(cart)

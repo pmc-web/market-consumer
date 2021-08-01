@@ -16,10 +16,10 @@ public class FavoriteCustomRepository {
     private final EntityManager entityManager;
 
     public List<ShopResponseDto> findShopsMostFavoriteCount(int pageNumber, int pageSize) {
-        /*
-        select s.*, f.likes from (SELECT count(*) as likes, shop_id
-        FROM market.favorite group by shop_id order by likes desc)f
-        inner join shop s on s.id = f.shop_id;
+        /* custom repository 예제를 위해 남겨둠
+            select s.*, f.likes from (SELECT count(*) as likes, shop_id
+            FROM market.favorite group by shop_id order by likes desc)f
+            inner join shop s on s.id = f.shop_id;
         */
         String sql = "select f.shop, count (s.id) as likes from Favorite f join f.shop s group by s.id order by likes desc";
         List<Object[]> objects = entityManager.createQuery(sql)

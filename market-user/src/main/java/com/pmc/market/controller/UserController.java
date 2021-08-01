@@ -57,7 +57,7 @@ public class UserController {
 
     @ApiOperation(value = "유저 리스트 조회")
     @GetMapping
-    public ResponseEntity<?> list() {
+    public ResponseEntity<ResponseMessage> list() {
         return ResponseEntity.ok().body(ResponseMessage.success(userService.getUserList()));
     }
 
@@ -82,21 +82,21 @@ public class UserController {
 
     @ApiOperation(value = "비밀번호 변경")
     @PatchMapping("/password")
-    public ResponseEntity<?> changePassword(@RequestBody UserPasswordRequestDto request) {
+    public ResponseEntity<ResponseMessage> changePassword(@RequestBody UserPasswordRequestDto request) {
         userService.changePassword(request);
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
 
     @ApiOperation(value = "유저 정보 변경")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUserInfo(@ApiParam(value = "유저id") @PathVariable long id, @RequestBody UserUpdateRequestDto request) {
+    public ResponseEntity<ResponseMessage> updateUserInfo(@ApiParam(value = "유저id") @PathVariable long id, @RequestBody UserUpdateRequestDto request) {
         userService.updateUserInfo(id, request);
         return ResponseEntity.ok().body(ResponseMessage.success());
     }
 
     @ApiOperation(value = "access 토큰 요청")
     @PostMapping("/{id}/refreshToken")
-    public ResponseEntity<?> getRefreshToken(@ApiParam(value = "유저id") @PathVariable long id, @RequestBody String refreshToken) {
+    public ResponseEntity<ResponseMessage> getRefreshToken(@ApiParam(value = "유저id") @PathVariable long id, @RequestBody String refreshToken) {
         return ResponseEntity.ok(ResponseMessage.success(userService.getRefreshToken(id, refreshToken)));
     }
 }

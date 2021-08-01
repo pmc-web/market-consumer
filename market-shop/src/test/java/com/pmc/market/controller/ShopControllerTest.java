@@ -95,7 +95,7 @@ public class ShopControllerTest {
                 .period(1) // 유지기간 1년
                 .businessNumber("00-000-000")
                 .build();
-        doNothing().when(shopService).makeShop(shop, User.builder().role(Role.SELLER).email("annna0449@naver.com").build());
+        doNothing().when(shopService).makeShop(shop, User.builder().role(Role.SELLER).email("annna0449@naver.com").build(), null);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -261,7 +261,7 @@ public class ShopControllerTest {
                 .name("hi")
                 .businessName("update shop")
                 .build();
-        doNothing().when(shopService).updateShop(shop, id);
+        doNothing().when(shopService).updateShop(shop, id, null);
 
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}", id)

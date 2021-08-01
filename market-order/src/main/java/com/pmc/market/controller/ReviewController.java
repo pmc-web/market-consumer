@@ -23,30 +23,23 @@ import javax.validation.Valid;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @ApiOperation("리뷰 사진 올리기")
-    @PostMapping("/images")
-    public ResponseEntity<?> uploadReviewMultiImage(@RequestParam("files") MultipartFile[] files) {
-//        reviewService.uploadFiles(files); // postman 으로 됨
-        return ResponseEntity.ok(ResponseMessage.success());
-    }
-
     @ApiOperation("리뷰쓰기")
     @PostMapping
-    public ResponseEntity<?> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @RequestParam("files") MultipartFile[] files) {
+    public ResponseEntity<ResponseMessage> writeReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @RequestParam("files") MultipartFile[] files) {
         reviewService.makeReview(reviewRequestDto, files);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("리뷰 수정")
     @PutMapping("/{reviewId}")
-    public ResponseEntity<?> updateReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @PathVariable("reviewId") long reviewId) {
+    public ResponseEntity<ResponseMessage> updateReview(@RequestBody @Valid ReviewRequestDto reviewRequestDto, @PathVariable("reviewId") long reviewId) {
         reviewService.updateReview(reviewRequestDto, reviewId);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("내가쓴 리뷰 보기")
     @GetMapping("/my")
-    public ResponseEntity<?> getMyReviews() {
+    public ResponseEntity<ResponseMessage> getMyReviews() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = userDetails.getUser();
@@ -56,27 +49,27 @@ public class ReviewController {
 
     @ApiOperation("상품 전체 리뷰 보기")
     @GetMapping("/product/{productId}")
-    public ResponseEntity<?> getProductReviews(@PathVariable("productId") long productId) {
+    public ResponseEntity<ResponseMessage> getProductReviews(@PathVariable("productId") long productId) {
         reviewService.getProductReviews(productId);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("마켓의 상품 리뷰 전체 보기")
     @GetMapping("/shop/{shopId}")
-    public ResponseEntity<?> getShopReviews(@PathVariable("shopId") long shopId) {
+    public ResponseEntity<ResponseMessage> getShopReviews(@PathVariable("shopId") long shopId) {
         reviewService.getShopReviews(shopId);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("리뷰 상세보기")
     @GetMapping("/{reviewId}")
-    public ResponseEntity<?> getReviewDetail(@PathVariable("reviewId") long reviewId) {
+    public ResponseEntity<ResponseMessage> getReviewDetail(@PathVariable("reviewId") long reviewId) {
         return ResponseEntity.ok(ResponseMessage.success(reviewService.getReviewDetail(reviewId)));
     }
 
     @ApiOperation("리뷰 삭제")
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<?> deleteReview(@PathVariable("reviewId") long reviewId) {
+    public ResponseEntity<ResponseMessage> deleteReview(@PathVariable("reviewId") long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok(ResponseMessage.success());
     }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,9 +25,10 @@ public class ShopNoticeServiceImpl implements ShopNoticeService {
 
     @Override
     public List<ShopNotice> getNoticeList(long shopId) {
-        return noticeRepository.findAllByShopId(shopId);
+        return noticeRepository.findAllByShopIdOrderByRegDateDesc(shopId);
     }
 
+    @Transactional
     @Override
     public NoticeResponseDto insertNotice(long id, NoticeRequestDto noticeRequestDto) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
@@ -41,11 +43,11 @@ public class ShopNoticeServiceImpl implements ShopNoticeService {
         return NoticeResponseDto.from(shopNotice);
     }
 
+    @Transactional
     @Override
     public NoticeResponseDto updateNotice(long noticeId, NoticeRequestDto noticeRequestDto) {
         ShopNotice shopNotice = noticeRepository.findById(noticeId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
         shopNotice.updateNotice(noticeRequestDto.getTitle(), noticeRequestDto.getContent());
-        noticeRepository.save(shopNotice);
         return NoticeResponseDto.from(shopNotice);
     }
 

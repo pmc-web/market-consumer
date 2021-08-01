@@ -7,21 +7,24 @@ import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.model.shop.entity.Category;
-import com.pmc.market.model.shop.entity.Favorite;
-import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.shop.entity.*;
 import com.pmc.market.model.user.entity.Role;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.CategoryRepository;
-import com.pmc.market.repository.FavoriteCustomRepository;
 import com.pmc.market.repository.FavoriteRepository;
+import com.pmc.market.repository.ShopImageRepository;
 import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,9 +36,13 @@ import java.util.stream.Collectors;
 public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
-    private final FavoriteCustomRepository favoriteCustomRepository;
     private final CategoryRepository categoryRepository;
     private final FavoriteRepository favoriteRepository;
+    private final ShopImageRepository shopImageRepository;
+    private final GCSService gcsService;
+
+    @Value("${gcp.bucket:market-universe-storage}")
+    private String bucketName;
 
     @Override
     public List<ShopResponseDto> findAll() {
@@ -43,7 +50,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public void makeShop(ShopRequestDto shopRequestDto, User user) {
+    public void makeShop(ShopRequestDto shopRequestDto, User user, MultipartFile[] files) {
         // 개인당 1개의 shop 만 생성 가능하도록
         if (!user.getRole().equals(Role.SELLER)) {
             throw new BusinessException("마켓을 생성하려면 판매자로 전환해야 합니다.", ErrorCode.INVALID_INPUT_VALUE);
@@ -53,7 +60,10 @@ public class ShopServiceImpl implements ShopService {
         }
         Category category = categoryRepository.findById(shopRequestDto.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
-        shopRepository.save(shopRequestDto.toEntity(shopRequestDto, user, category));
+
+        Shop shop = shopRepository.save(shopRequestDto.toEntity(shopRequestDto, user, category));
+        // 이미지 업로드
+        uploadFiles(files, shop, shopRequestDto.getImageType());
     }
 
     @Override
@@ -77,21 +87,22 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopResponseDto> getShopsByCategory(long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당하는 카테고리가 없습니다."));
-        return shopRepository.findByCategory(category).stream()
+    public List<ShopResponseDto> getShopsByCategory(long categoryId) {
+        return shopRepository.findByCategory_id(categoryId).stream()
                 .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
     public List<ShopResponseDto> getShopsBySearch(String searchWord) {
-        return shopRepository.findByName(searchWord).stream()
+        StringBuilder word = new StringBuilder(searchWord);
+        word.insert(0, "%");
+        word.append("%");
+        return shopRepository.findByNameLike(word.toString()).stream()
                 .map(ShopResponseDto::from).collect(Collectors.toList());
     }
 
     @Override
-    public void updateShop(ShopRequestDto shopRequestDto, long id) {
+    public void updateShop(ShopRequestDto shopRequestDto, long id, MultipartFile[] files) {
         Shop shop = shopRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
 
         if (shop.getCategory().getId() != shopRequestDto.getCategoryId()) {
@@ -99,13 +110,8 @@ public class ShopServiceImpl implements ShopService {
                     .orElseThrow(() -> new EntityNotFoundException("해당 카테고리를 찾을 수 없습니다."));
             shop.updateCategory(category);
         }
+        uploadFiles(files, shop, shopRequestDto.getImageType());
         shopRequestDto.updateShop(shop);
-
-        try {
-            shopRepository.save(shop);
-        } catch (Exception e) {
-            throw new BusinessException("Shop Update 도중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @Override
@@ -117,7 +123,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void likeUpdateShop(long shopId, User user) {
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        Optional<Favorite> isFavorite = favoriteRepository.findByUserIdAndShopId(shopId, user.getId());
+        Optional<Favorite> isFavorite = favoriteRepository.findByShop_IdAndUser_Id(shopId, user.getId());
         if (isFavorite.isPresent()) { // 해제
             Favorite favorite = isFavorite.get();
             favoriteRepository.delete(favorite);
@@ -135,4 +141,23 @@ public class ShopServiceImpl implements ShopService {
         shopRepository.save(shop);
     }
 
+    @Transactional
+    public void uploadFiles(MultipartFile[] files, Shop shop, ImageType imageType) {
+        List<ShopImage> attachments = new ArrayList<>();
+        for (MultipartFile file : files) {
+            try {
+                InputStream inputStream = file.getInputStream();
+                String path = gcsService.uploadFile(inputStream, file.getOriginalFilename());
+                attachments.add(ShopImage.builder()
+                        .path(path)
+                        .shop(shop)
+                        .type(imageType)
+                        .build());
+            } catch (IOException e) {
+                throw new BusinessException("파일 업로드중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
+            }
+        }
+        shopImageRepository.saveAll(attachments);
+        shop.addImages(attachments);
+    }
 }

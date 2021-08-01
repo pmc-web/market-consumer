@@ -21,15 +21,15 @@ public class DeliveryController {
 
     @ApiOperation("배송시작")
     @PostMapping
-    public ResponseEntity<?> startDelivery(@RequestBody long orderId) {
+    public ResponseEntity<ResponseMessage> startDelivery(@RequestBody long orderId) {
         deliveryService.insertDelivery(orderId);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation("배송상태 변경")
     @PutMapping("/{deliveryId}")
-    public ResponseEntity<?> updateDeliveryStatus(@PathVariable("deliveryId") long deliveryId,
-                                                  @RequestBody DeliveryUpdateRequestDto deliveryRequest) {
+    public ResponseEntity<ResponseMessage> updateDeliveryStatus(@PathVariable("deliveryId") long deliveryId,
+                                                                @RequestBody DeliveryUpdateRequestDto deliveryRequest) {
         deliveryService.updateStatus(deliveryId, deliveryRequest);
         return ResponseEntity.ok(ResponseMessage.success());
     }
