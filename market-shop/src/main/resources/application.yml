@@ -21,7 +21,7 @@ spring:
     gcp:
       storage:
         credentials:
-          location: classpath:market-universe-312410-afbbdbc7a170.json
+          location: classpath:market-universe-312410-13567fe77b61.json
 
   # mail 설정
   mail:
