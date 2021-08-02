@@ -25,4 +25,4 @@ app:
 server:
   port: 8088
 gcp:
-  bucket: market-universe-storage
+  bucket: market-universe-storage2

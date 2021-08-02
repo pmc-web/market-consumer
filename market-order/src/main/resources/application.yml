@@ -18,7 +18,7 @@ spring:
     gcp:
       storage:
         credentials:
-          location: classpath:market-universe-312410-afbbdbc7a170.json
+          location: classpath:market-universe-312410-13567fe77b61.json
 
 app:
   host: http://localhost:8082
@@ -32,4 +32,4 @@ kakao:
     ready-url: https://kapi.kakao.com/v1/payment/ready
 
 gcp:
-  bucket: market-universe-storage
+  bucket: market-universe-storage2
