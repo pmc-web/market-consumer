@@ -41,7 +41,7 @@ public class ShopServiceImpl implements ShopService {
     private final ShopImageRepository shopImageRepository;
     private final GCSService gcsService;
 
-    @Value("${gcp.bucket:market-universe-storage}")
+    @Value("${gcp.bucket:market-universe-storage2}")
     private String bucketName;
 
     @Override

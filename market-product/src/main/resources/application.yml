@@ -20,6 +20,6 @@ spring:
         credentials:
           location: classpath:market-universe-312410-13567fe77b61.json
 app:
-  host: http://34.64.116.174:8083
+  host: http://34.64.122.243:8083
 server:
   port: 8083

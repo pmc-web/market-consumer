@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final GCSService gcsService;
 
-    @Value("${gcp.bucket:market-universe-storage}")
+    @Value("${gcp.bucket:market-universe-storage2}")
     private String bucketName;
 
     @Transactional

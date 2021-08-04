@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "market-universe-312410",
+  "private_key_id": "13567fe77b618ae2136b966e82c3425bda74023a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSvN0CyS9nyPz9\nsQi2obiYumnzjTG/rVVkN8FHOI/tpwbJZ/ZoihVkSfrvgWxAvZhkzO0K24N7vCo7\nBMN86Iyooyo4UkCToXxxNj6ubtmSCbteNNcVSlUjcvzaOxdIhVLLTw9TMA+Eogg7\naXfTzXCL1Oia/CbvAXowgHi/7Puwuq8MOc3b/2WyrbteJElTwef4INhngbW0g2MR\nM3EmS0w6az6sD23q3lPLC0ywtPpCsEgV5/05ODBBSZStP37yfJFfEmERzeI/LG4z\n0IgmDpN3wa+RGD8e0QGh/710zVvtCeSQQcIJz/U6dmJw0xoPKEF4i7EtC+9dXObL\nqAmKdE/9AgMBAAECggEAIhEP3/G/7RTLo63Tt8UAP12bNRj1GtmdZ+cEzUudJhDj\nLaSAa+PZPhjLgkjiGWZ3f+FfdxWHSssJ6ffaK5Ni8aahc5ta/xfoMwZO2bSSYrjv\nW3T1SWbLyUA/FH7gQ66cdMCiEejqCUncRNEcOCwKGUC2HXUiTMQTXvXVufOduF1v\nRPan44hkEM2+03+Od3SpEqX0goYnAR9YusEs58CsBtcoPbfsuikrhVHf9RLmvbJW\nS0D+rSoUbnLH9uxa97Tg1nq9FUgaYyDcEhhpoqlbQhx84YJd1USD72jlWsUNPu7Q\n6wSYj6cnK0dwghy053v3JTMUzc46cEhZITkiUvUkrQKBgQD/q6Lqw8ZV31SMnXbZ\np4HPvjGyFq8IZOgu7VAakwXzZla1CRGprr5QAXQ/viHZLIxBBueHPsrRPYnyhLJr\nbBmCr8vyxzavVyds0JpDczslLtVucwEjMZcpX44PMrCGbis3IcxiRJ6fPAkH2+Iz\nZZPbvYWZM2T6ReVHlnxLFxOLawKBgQDTAmaFzSvWeNO5/KrHb4ok44YGZlhSlcs2\neTyyQTRbaN5om5Gnm08aC/FHoG/nHnmyXbh+l8OW6sQcIOx2M1sHpPOG8jHY9nzc\nhct+qGU2m6qDQxyDdid1j16pUA+8nYAD3p9t7J5yttjfPoJ+9m6U82iiQGlG+oxc\nUw4hR1cUNwKBgQCJOi6vo3UJEl3nO31XRbk/L+6sj9BSyRZ2WZntKYzAH+XaNYvt\nb4Vmm+ExdXPlhSuim3oZ9XIW7Njl+qNpVRQ8OO9W1+ZaJoVaunySR38vbfvQ1Jl/\nslZYNpmhPqvQ+8DmTpXNCNe60BZoyXSX8aVzBD55BETmsC1oRzVfeHtdEQKBgDmV\nlR78r/L2xGkkQALvOJb6lI/YjE/1WyDBk0PeMYikpNWNZwGDi+HC0pTGfuNm2LVJ\niFjb19+ur9gxT/at6zC53k+8dsgL9GVGChPFpuFxN+ZcgUKLExetCZtRIwpJPS9R\nKNcZ1N/fcG30JC6718/EYZCt3U0mgPmNHPUOAACfAoGARcZQ8PgBbXAcbq2nmMnz\nINqMBoX0WNmai8pEWAMlXEEkzZxDEEq24v6voqObr/0MJTLOHcS5pOkWN2cj/Ovu\n35uH1FuzBIHVVz65I3nOqupNEytTHsAht2ORtY+U1sUwowRli+bVFJWP0ma/NCuD\nfQDvw/hGQbfW7TKtd22Jf2I=\n-----END PRIVATE KEY-----\n",
+  "client_email": "storage-access@market-universe-312410.iam.gserviceaccount.com",
+  "client_id": "108331080538829716780",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/storage-access%40market-universe-312410.iam.gserviceaccount.com"
+}

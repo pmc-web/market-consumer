@@ -25,7 +25,7 @@ import java.util.Arrays;
 public class GCSService {
     private static final String DEFAULT_GCS_URL = "https://storage.googleapis.com/";
     private final Storage storage;
-    @Value("${gcp.bucket:market-universe-storage}")
+    @Value("${gcp.bucket:market-universe-storage2}")
     private String bucketName;
 
     public Blob downloadFileFromGCS(DownloadRequestDto downloadReqDto) {

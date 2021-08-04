@@ -22,7 +22,7 @@ spring:
 
 app:
   host: http://localhost:8082
-#  host: http://34.64.116.174:8082
+#  host: http://34.64.122.243:8082
 server:
   port: 8082
 kakao:
