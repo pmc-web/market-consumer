@@ -14,13 +14,14 @@ public class MailAuthConfiguration {
     @Autowired
     private Environment env;
 
-    @Bean(name="mailSender")
-    public JavaMailSender getJavaMailSender(){
+    @Bean(name = "mailSender")
+    public JavaMailSender getJavaMailSender() {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.starttls.enable", true);
         properties.put("mail.smtp.starttls.required", true);
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         properties.put("mail.debug", true);
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

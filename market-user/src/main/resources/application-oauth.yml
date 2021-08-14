@@ -7,4 +7,4 @@ oauth2:
       token-url: https://kauth.kakao.com/oauth/token
       #      callback-url: http://localhost:8086/auth/kakao/callback
       callback-url: http://34.64.122.243/user/auth/kakao/callback
-      user-info-url: https ://kapi.kakao.com/v2/user/scopes
+      user-info-url: https://kapi.kakao.com/v2/user/scopes
