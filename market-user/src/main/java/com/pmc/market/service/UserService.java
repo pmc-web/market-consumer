@@ -17,13 +17,13 @@ public interface UserService {
 
     UserInfoResponseDto signUp(User user);
 
-    User updateUserStatus(Status status, String userEmail);
+    UserInfoResponseDto updateUserStatus(Status status, String userEmail);
 
     void updateUserAuth(String auth, String userEmail);
 
-    User getUserByEmail(String userEmail);
+    UserInfoResponseDto getUserByEmail(String userEmail);
 
-    User getUserById(Long id);
+    UserInfoResponseDto getUserById(Long id);
 
     void deleteUser(Long id);
 
@@ -33,7 +33,7 @@ public interface UserService {
 
     boolean isUserAuth(String email, String auth);
 
-    User signUpConfirm(Status status, String email, String auth);
+    UserInfoResponseDto signUpConfirm(Status status, String email, String auth);
 
     void changeToSeller(Long id);
 

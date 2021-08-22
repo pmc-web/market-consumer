@@ -44,15 +44,14 @@ public class UserController {
     @ApiOperation(value = "유저 정보")
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok().body(ResponseMessage.success(user));
+        return ResponseEntity.ok().body(ResponseMessage.success(userService.getUserById(id)));
     }
 
     @ApiOperation(value = "유저 삭제")
     @DeleteMapping("/{id}")
-    public ResponseMessage delete(@PathVariable Long id) {
+    public ResponseEntity<ResponseMessage> delete(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseMessage.success();
+        return ResponseEntity.ok(ResponseMessage.success());
     }
 
     @ApiOperation(value = "유저 리스트 조회")

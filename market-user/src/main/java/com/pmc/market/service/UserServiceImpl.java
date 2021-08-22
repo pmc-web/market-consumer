@@ -74,10 +74,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User updateUserStatus(Status status, String userEmail) {
+    public UserInfoResponseDto updateUserStatus(Status status, String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
         user.setStatus(status);
-        return userRepository.save(user);
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
@@ -89,16 +89,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String userEmail) {
+    public UserInfoResponseDto getUserByEmail(String userEmail) {
         Optional<User> optionalUser = userRepository.findByEmail(userEmail);
         User user = optionalUser.orElseThrow(() -> new UserNotFoundException(userEmail));
-        return user;
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
-    public User getUserById(Long id) {
+    public UserInfoResponseDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        return user;
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signUpConfirm(Status status, String email, String auth) {
+    public UserInfoResponseDto signUpConfirm(Status status, String email, String auth) {
         if (!isUserAuth(email, auth)) throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
         return updateUserStatus(status, email);
     }
