@@ -74,10 +74,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User updateUserStatus(Status status, String userEmail) {
+    public UserInfoResponseDto updateUserStatus(Status status, String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
         user.setStatus(status);
-        return userRepository.save(user);
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
@@ -89,16 +89,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String userEmail) {
+    public UserInfoResponseDto getUserByEmail(String userEmail) {
         Optional<User> optionalUser = userRepository.findByEmail(userEmail);
         User user = optionalUser.orElseThrow(() -> new UserNotFoundException(userEmail));
-        return user;
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
-    public User getUserById(Long id) {
+    public UserInfoResponseDto getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        return user;
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
                 .status(Status.ACTIVE)
                 .provider("KAKAO")
                 .role(Role.BUYER)
-                .name(String.valueOf(user.get("userId")))
+                .nickname(String.valueOf(user.get("userId")))
                 .regDate(LocalDateTime.now())
                 .authKey(String.valueOf(user.get("access_token")))
                 .build();
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signUpConfirm(Status status, String email, String auth) {
+    public UserInfoResponseDto signUpConfirm(Status status, String email, String auth) {
         if (!isUserAuth(email, auth)) throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
         return updateUserStatus(status, email);
     }
@@ -165,16 +165,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(UserPasswordRequestDto request) {
-        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException());
+        User user = userRepository.findById(request.getUserId()).orElseThrow(UserNotFoundException::new);
         UUID uuid = UUID.randomUUID();
         userRepository.updatePassword(passwordEncoder.encode(request.getNewPassword()), request.getUserId());
         redisUtil.setDataExpire(uuid.toString(), user.getEmail(), 60 * 30L); // refresh token 변경
     }
 
+    @Transactional
     @Override
     public UserInfoResponseDto updateUserInfo(long id, UserUpdateRequestDto request) {
-        // 유저 정보 업데이트
-        return null;
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        user.updateUserInfo(request.getNickname(), request.getPhoneNumber());
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
@@ -183,5 +185,13 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("refresh token 이 올바르지 않습니다.", ErrorCode.UNAUTHORIZED);
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         return TokenDto.of(jwtTokenProvider.generateJwtAccessToken(user), jwtTokenProvider.generateJwtRefreshToken(user));
+    }
+
+    @Override
+    public boolean checkUserNickname(String nickname) {
+        if (userRepository.findByNickname(nickname).isPresent()) {
+            throw new BusinessException("중복된 닉네임 입니다.", ErrorCode.DUPLICATE_ENTITY);
+        }
+        return true;
     }
 }

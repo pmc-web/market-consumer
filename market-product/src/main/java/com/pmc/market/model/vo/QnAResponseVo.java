@@ -22,7 +22,7 @@ public class QnAResponseVo {
                 .qnaId(productQnA.getId())
                 .title(productQnA.getTitle())
                 .content(productQnA.getContent())
-                .author(productQnA.getUser().getName())
+                .author(productQnA.getUser().getNickname())
                 .build();
     }
 }
