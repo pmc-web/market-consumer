@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
                 .status(Status.ACTIVE)
                 .provider("KAKAO")
                 .role(Role.BUYER)
-                .name(String.valueOf(user.get("userId")))
+                .nickname(String.valueOf(user.get("userId")))
                 .regDate(LocalDateTime.now())
                 .authKey(String.valueOf(user.get("access_token")))
                 .build();
@@ -165,16 +165,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(UserPasswordRequestDto request) {
-        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException());
+        User user = userRepository.findById(request.getUserId()).orElseThrow(UserNotFoundException::new);
         UUID uuid = UUID.randomUUID();
         userRepository.updatePassword(passwordEncoder.encode(request.getNewPassword()), request.getUserId());
         redisUtil.setDataExpire(uuid.toString(), user.getEmail(), 60 * 30L); // refresh token 변경
     }
 
+    @Transactional
     @Override
     public UserInfoResponseDto updateUserInfo(long id, UserUpdateRequestDto request) {
-        // 유저 정보 업데이트
-        return null;
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        user.updateUserInfo(request.getNickname(), request.getPhoneNumber());
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
@@ -183,5 +185,13 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("refresh token 이 올바르지 않습니다.", ErrorCode.UNAUTHORIZED);
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
         return TokenDto.of(jwtTokenProvider.generateJwtAccessToken(user), jwtTokenProvider.generateJwtRefreshToken(user));
+    }
+
+    @Override
+    public boolean checkUserNickname(String nickname) {
+        if (userRepository.findByNickname(nickname).isPresent()) {
+            throw new BusinessException("중복된 닉네임 입니다.", ErrorCode.DUPLICATE_ENTITY);
+        }
+        return true;
     }
 }

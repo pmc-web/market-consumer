@@ -42,4 +42,6 @@ public interface UserService {
     UserInfoResponseDto updateUserInfo(long id, UserUpdateRequestDto request);
 
     TokenDto getRefreshToken(long id, String refreshToken);
+
+    boolean checkUserNickname(String nickname);
 }
