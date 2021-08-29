@@ -1,8 +1,10 @@
 package com.pmc.market.service;
 
 import com.pmc.market.UserApplication;
+import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.Status;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +26,7 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @DisplayName("판매자로 변경 (임시)")
     @Test
@@ -42,7 +44,12 @@ class UserServiceTest {
                 .newPassword(newPassword).userId(1L).build());
     }
 
+    @DisplayName("유저 상태 업데이트 ")
     @Test
-    void updateUserInfo() {
+    void updateUserStatus() {
+        Status status = Status.ACTIVE;
+//        User user = userService.updateUserStatus2(status, "ansongi527@gmail.com");
+        UserInfoResponseDto dto = userService.updateUserStatus(status, "ansongi527@gmail.com");
+        assertTrue(dto.getStatus().equals(status));
     }
 }

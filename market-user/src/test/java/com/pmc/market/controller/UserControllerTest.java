@@ -77,4 +77,14 @@ class UserControllerTest {
                 .param("nickname", nickname))
                 .andExpect(status().isOk());
     }
+
+    @WithMockUser
+    @DisplayName("유저 삭제")
+    @Test
+    void delete() throws Exception {
+        doNothing().when(userService).deleteUser(1L);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/users/{id}", 1))
+                .andExpect(status().isOk());
+    }
 }

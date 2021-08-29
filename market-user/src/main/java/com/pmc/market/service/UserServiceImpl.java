@@ -22,7 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -59,8 +62,8 @@ public class UserServiceImpl implements UserService {
         return UserInfoResponseDto.of(findUser, TokenDto.of(accessToken, refreshToken));
     }
 
-    @Override
     @Transactional
+    @Override
     public UserInfoResponseDto signUp(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent())
             throw new MarketUnivException("동일한 이메일의 계정이 존재합니다.", ErrorCode.INVALID_INPUT_VALUE);
@@ -72,8 +75,8 @@ public class UserServiceImpl implements UserService {
         return UserInfoResponseDto.of(createdUser, null);
     }
 
-    @Override
     @Transactional
+    @Override
     public UserInfoResponseDto updateUserStatus(Status status, String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException(userEmail));
         user.setStatus(status);
@@ -141,22 +144,18 @@ public class UserServiceImpl implements UserService {
         return UserInfoResponseDto.of(createUser, TokenDto.of(accessToken, refreshToken));
     }
 
-    @Override
-    public boolean isUserAuth(String email, String auth) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
-        if (!Objects.isNull(auth) && auth.equals(user.getAuthKey())) return true;
-        return false;
-    }
-
+    @Transactional
     @Override
     public UserInfoResponseDto signUpConfirm(Status status, String email, String auth) {
-        if (!isUserAuth(email, auth)) throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
-        return updateUserStatus(status, email);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessException(ErrorCode.INVALID_INPUT_VALUE));
+        if (!user.isSameAuthKey(auth)) throw new BusinessException("인증키를 확인해 주세요", ErrorCode.INVALID_INPUT_VALUE);
+        user.setStatus(status);
+        return UserInfoResponseDto.of(user);
     }
 
     @Override
     public void changeToSeller(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         if (user.getRole().equals(Role.SELLER))
             throw new BusinessException("이미 판매자입니다.", ErrorCode.INVALID_INPUT_VALUE);
         user.setRole(Role.SELLER);
