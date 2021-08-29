@@ -31,8 +31,6 @@ public interface UserService {
 
     UserInfoResponseDto getSocialUser(Map<String, Object> user);
 
-    boolean isUserAuth(String email, String auth);
-
     UserInfoResponseDto signUpConfirm(Status status, String email, String auth);
 
     void changeToSeller(Long id);

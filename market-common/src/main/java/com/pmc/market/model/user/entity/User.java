@@ -96,4 +96,8 @@ public class User {
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
     }
+
+    public boolean isSameAuthKey(String authKey) {
+        return this.getAuthKey().equals(authKey);
+    }
 }
