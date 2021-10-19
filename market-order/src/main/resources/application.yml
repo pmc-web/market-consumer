@@ -8,14 +8,28 @@ spring:
   # jpa 설정
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
-      hibernate :
-        format_sql : true
+      hibernate:
+        format_sql: true
     database: mysql
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-13567fe77b61.json
 
 app:
   host: http://localhost:8082
+#  host: http://34.64.122.243:8082
 server:
   port: 8082
+kakao:
+  base-url: https://kapi.kakao.com
+  admin-key: ENC(F6m7ZwiJwm2Flgd8GXMi5F7qsPTH3sudYyFxJ3YICUbVoRb2sncmvn8Fx511wrBV)
+  pay:
+    ready-url: https://kapi.kakao.com/v1/payment/ready
+
+gcp:
+  bucket: market-universe-storage2

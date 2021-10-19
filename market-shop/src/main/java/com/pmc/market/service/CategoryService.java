@@ -1,11 +1,12 @@
 package com.pmc.market.service;
 
+import com.pmc.market.model.dto.CategoryDto;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.model.entity.Category;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> findAll();
+    List<CategoryDto> findAll();
+
     void makeCategory(CategoryRequestDto categoryRequestDto);
 }

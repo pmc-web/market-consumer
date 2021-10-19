@@ -1,14 +1,14 @@
 package com.pmc.market.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
-import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.model.entity.Favorite;
-import com.pmc.market.model.entity.Shop;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.model.shop.entity.Favorite;
+import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,7 +41,7 @@ public class ShopControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
+    PageRequest pageable = new PageRequest();
     @MockBean
     private ShopService shopService;
 
@@ -94,7 +95,7 @@ public class ShopControllerTest {
                 .period(1) // 유지기간 1년
                 .businessNumber("00-000-000")
                 .build();
-        doNothing().when(shopService).makeShop(shop, User.builder().role(Role.SELLER).email("annna0449@naver.com").build());
+        doNothing().when(shopService).makeShop(shop, User.builder().role(Role.SELLER).email("annna0449@naver.com").build(), null);
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -168,11 +169,12 @@ public class ShopControllerTest {
                 .user(user)
                 .build();
         List<ShopResponseDto> shops = new ArrayList<>();
-        shops.add(ShopResponseDto.of(shop, 1));
-        shops.add(ShopResponseDto.of(shop2, 1));
-        shops.add(ShopResponseDto.of(shop3, 1));
-
-        when(shopService.findFavorite(3)).thenReturn(shops);
+        shops.add(ShopResponseDto.from(shop, 1));
+        shops.add(ShopResponseDto.from(shop2, 1));
+        shops.add(ShopResponseDto.from(shop3, 1));
+        pageable.setSize(5);
+        pageable.setPage(1);
+        when(shopService.findFavorite(pageable)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/favorite")
                 .param("count", String.valueOf(3))
@@ -186,13 +188,17 @@ public class ShopControllerTest {
     @Test
     @DisplayName("신상 마켓 N개")
     void 쇼핑몰_리스트_new() throws Exception {
-        int count = 6;
+        int page = 1;
+        int size = 3;
         List<ShopResponseDto> shops = new ArrayList<>();
-        for (int i = 0; i < count; i++) shops.add(ShopResponseDto.builder().id(i+1).build());
-        when(shopService.findNew(count)).thenReturn(shops);
+        for (int i = 0; i < size; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
+        pageable.setSize(5);
+        pageable.setPage(1);
+        when(shopService.findNew(pageable)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/new")
-                .param("count", String.valueOf(count))
+                .param("pageNumber", String.valueOf(page))
+                .param("pageSize", String.valueOf(size))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -201,9 +207,9 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 정보 조회 - 1 ")
-    void 마켓_1개_조회_좋아요수포함() throws Exception{
+    void 마켓_1개_조회_좋아요수포함() throws Exception {
 
-        ShopResponseDto shop = ShopResponseDto.of(Shop.builder().id(1L).build());
+        ShopResponseDto shop = ShopResponseDto.from(Shop.builder().id(1L).build());
         long id = 1L;
         when(shopService.getShopById(id)).thenReturn(shop);
 
@@ -216,10 +222,10 @@ public class ShopControllerTest {
     @WithMockUser
     @Test
     @DisplayName("마켓 카테고리 리스트 조회 ")
-    void 카테고리별_마켓_리스트() throws Exception{
+    void 카테고리별_마켓_리스트() throws Exception {
         long id = 1L;
         List<ShopResponseDto> shops = new ArrayList<>();
-        for(int i=0; i<4; i++) shops.add(ShopResponseDto.builder().id(i+1).build());
+        for (int i = 0; i < 4; i++) shops.add(ShopResponseDto.builder().id(i + 1).build());
         when(shopService.getShopsByCategory(id)).thenReturn(shops);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/shops/category")
@@ -255,7 +261,7 @@ public class ShopControllerTest {
                 .name("hi")
                 .businessName("update shop")
                 .build();
-        doNothing().when(shopService).updateShop(shop, id);
+        doNothing().when(shopService).updateShop(shop, id, null);
 
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(MockMvcRequestBuilders.post("/shops/{id}", id)
@@ -279,6 +285,16 @@ public class ShopControllerTest {
                 .andDo(print());
     }
 
-
-
+    @WithMockUser
+    @DisplayName("마켓 좋아요")
+    @Test
+    void likeShop() throws Exception {
+        long id = 7L;
+        doNothing().when(shopService).likeUpdateShop(id, User.builder().id(1L).build());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/{id}/like", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

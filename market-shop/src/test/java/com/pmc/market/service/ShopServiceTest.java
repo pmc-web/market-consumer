@@ -1,10 +1,11 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.dto.ShopRequestDto;
 import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.ShopRepository;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -23,19 +24,20 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = {ShopApplication.class})
 class ShopServiceTest {
 
+    PageRequest pageable = new PageRequest();
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ShopService shopService;
-
     @Autowired
     private ShopRepository shopRepository;
 
     @DisplayName("전체 마켓 리스트")
     @Test
     void findAll_전체_마켓_리스트() {
-        assertEquals(shopService.findAll().size(), shopRepository.count());
+        List<ShopResponseDto> shops = shopService.findAll();
+        shops.stream().forEach(s -> s.getTags().stream().forEach(dto -> System.out.println(dto.getTagName())));
+        assertEquals(shops.size(), shopRepository.count());
     }
 
     @DisplayName("마켓_생성")
@@ -55,25 +57,27 @@ class ShopServiceTest {
                 .period(1)
                 .shortDescription("shotDescription")
                 .telephone("010-0000-0000")
-                .build(), user);
+                .build(), user, null);
         assertEquals(count + 1, shopRepository.count());
     }
 
     @DisplayName("가장 인기 있는 마켓 count 개 조회")
     @Test
     void findFavorite_인기마켓_리스트() {
-        int count = 3;
-        List<ShopResponseDto> favoriteShopDtoList = shopService.findFavorite(count);
-        assertTrue(favoriteShopDtoList.size() == count);
+        pageable.setPage(1);
+        pageable.setSize(10);
+        List<ShopResponseDto> favoriteShopDtoList = shopService.findFavorite(pageable);
+        assertTrue(favoriteShopDtoList.size() <= 10);
     }
 
     @Transactional
     @DisplayName("신규 마켓 리스트 - 서비스")
     @Test
     void findNew_신규마켓_리스트() {
-        int count = 6;
-        List<ShopResponseDto> shopResponseDtos = shopService.findNew(count);
-        assertEquals(shopResponseDtos.size(), count);
+        pageable.setPage(1);
+        pageable.setSize(10);
+        List<ShopResponseDto> shopResponseDtos = shopService.findNew(pageable);
+        assertTrue(shopResponseDtos.size() <= 10);
     }
 
     @Transactional
@@ -100,7 +104,7 @@ class ShopServiceTest {
     @Test
     @DisplayName("마켓 조회 - 검색어")
     void getShopsBySearch() {
-        String searchWord = "";
+        String searchWord = "마켓";
         List<ShopResponseDto> shopResponseDtos = shopService.getShopsBySearch(searchWord);
         assertTrue(shopResponseDtos.size() > 0);
     }
@@ -120,7 +124,7 @@ class ShopServiceTest {
                 .telephone("11-010010-0100")
                 .owner("사업자 이름 ")
                 .build();
-        shopService.updateShop(updateShop, id);
+        shopService.updateShop(updateShop, id, null);
     }
 
     @Test
@@ -128,5 +132,12 @@ class ShopServiceTest {
         long id = 8L;
         shopService.deleteShop(id);
         assertFalse(shopRepository.findById(id).isPresent());
+    }
+
+    @Test
+    void 좋아요_업데이트() {
+        long shopId = 3L;
+        User user = userRepository.findById(1L).get();
+        shopService.likeUpdateShop(shopId, user);
     }
 }

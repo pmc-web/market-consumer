@@ -1,9 +1,10 @@
 package com.pmc.market.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.UserApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
+import com.pmc.market.error.exception.BusinessException;
+import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.model.user.entity.User;
 import com.pmc.market.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -32,6 +33,9 @@ class UserControllerTest {
     MockMvc mockMvc;
 
     @MockBean
+    private UserService userServiceMock;
+
+    @Autowired
     private UserService userService;
 
     @WithMockUser
@@ -44,9 +48,43 @@ class UserControllerTest {
                 .regDate(LocalDateTime.now())
                 .email("annna0449@naver.com")
                 .build();
-        doNothing().when(userService).changeToSeller(user.getId());
+        doNothing().when(userServiceMock).changeToSeller(user.getId());
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/role"))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @DisplayName("닉네임 체크_ 중복")
+    @Test
+    void checkNickname_error() throws Exception {
+        String nickname = "70d4d35d";
+        doThrow(new BusinessException(ErrorCode.DUPLICATE_ENTITY)).when(userService).checkUserNickname(nickname);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/users/nickname")
+                .param("nickname", nickname))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @WithMockUser
+    @DisplayName("닉네임 체크")
+    @Test
+    void checkNickname() throws Exception {
+        String nickname = "nickname";
+        when(userServiceMock.checkUserNickname(nickname)).thenReturn(true);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/users/nickname")
+                .param("nickname", nickname))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @DisplayName("유저 삭제")
+    @Test
+    void delete() throws Exception {
+        doNothing().when(userService).deleteUser(1L);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/users/{id}", 1))
                 .andExpect(status().isOk());
     }
 }

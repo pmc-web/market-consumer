@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
+import com.pmc.market.model.dto.CategoryDto;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.model.entity.Category;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ShopApplication.class})
@@ -24,7 +24,7 @@ class CategoryServiceTest {
     @DisplayName("전체 카테고리 목록 가져오기")
     @Test
     void findAll() {
-        List<Category> categories = categoryService.findAll();
+        List<CategoryDto> categories = categoryService.findAll();
         assertTrue(categories.size() > 0);
     }
 

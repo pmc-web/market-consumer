@@ -36,7 +36,9 @@ public class ResponseMessage {
                 .build();
     }
 
-    /** data 없는 success **/
+    /**
+     * data 없는 success
+     **/
     public static ResponseMessage success() {
         return ResponseMessage.builder()
                 .header(ResponseMessageHeader.builder()

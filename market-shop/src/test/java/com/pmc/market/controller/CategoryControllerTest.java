@@ -2,10 +2,8 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.entity.Role;
-import com.pmc.market.entity.User;
+import com.pmc.market.model.dto.CategoryDto;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.model.entity.Category;
 import com.pmc.market.service.CategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,12 +21,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -47,12 +42,12 @@ class CategoryControllerTest {
     @Test
     void getAllCategories() throws Exception {
 
-        Category category = Category.builder()
-                .id(1L)
+        CategoryDto category = CategoryDto.builder()
+                .categoryId(1L)
                 .mainCategory("악세사리")
                 .subCategory("귀걸이")
                 .build();
-        List<Category> categories = new ArrayList<>();
+        List<CategoryDto> categories = new ArrayList<>();
         categories.add(category);
 
         when(categoryService.findAll()).thenReturn(categories);

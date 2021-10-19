@@ -1,12 +1,13 @@
 package com.pmc.market.service;
 
+import com.pmc.market.model.dto.CategoryDto;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.model.entity.Category;
 import com.pmc.market.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -15,8 +16,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> findAll() {
+        return categoryRepository.findAll().stream().map(CategoryDto::from).collect(Collectors.toList());
     }
 
     @Override

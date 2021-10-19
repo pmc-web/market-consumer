@@ -5,29 +5,42 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: market
     password: market
-#    password: ENC(ngEt6S/2mhKV2F30Wogksg==)
+  #    password: ENC(ngEt6S/2mhKV2F30Wogksg==)
 
   # jpa 설정
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
-      hibernate :
-        format_sql : true
+      hibernate:
+        format_sql: true
     database: mysql
   profiles:
     include: oauth
-
+  jwt:
+    secret: ThisIsA_SecretKeyForJwtExample123
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-13567fe77b61.json
 app:
-  host: http://localhost:8086
+  #  host: http://localhost:8086
+  host: http://34.64.122.243:8086
 server:
   port: 8086
 email:
   admin:
     account: certification0test@gmail.com
-    password: ENC(GdWyNDQs0S10hpfizKtLSVb5irexBOKm)
+    password: afdzgpvhtjklqvjn
 #    password: PCMmanager!
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+

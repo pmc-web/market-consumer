@@ -14,13 +14,24 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-13567fe77b61.json
 swagger:
   config:
     refreshrate: 5000
 
 app:
-  host: http://localhost:8088
+  host: http://34.64.122.243:8088
 
 server:
   port: 8088
+gcp:
+  bucket: market-universe-storage2
+kakao:
+  base-url: https://kapi.kakao.com
+  admin-key: ENC(F6m7ZwiJwm2Flgd8GXMi5F7qsPTH3sudYyFxJ3YICUbVoRb2sncmvn8Fx511wrBV)
+  pay:
+    ready-url: https://kapi.kakao.com/v1/payment/ready

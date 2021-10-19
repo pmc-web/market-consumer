@@ -11,9 +11,14 @@ spring:
   # jpa 설정
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
-      hibernate :
-        format_sql : true
+      hibernate:
+        format_sql: true
     database: mysql
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-13567fe77b61.json

@@ -14,8 +14,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 1000  # join fetch paging
     database: mysql
   #    generate-ddl: false
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-13567fe77b61.json
 
   # mail 설정
   mail:
@@ -31,6 +37,6 @@ spring:
           starttls:
             enable: true
 app:
-  host: http://localhost:8084
+  host: http://34.64.122.243:8084
 server:
   port: 8085

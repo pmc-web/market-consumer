@@ -47,10 +47,13 @@ subprojects {
         runtime('mysql:mysql-connector-java')
         // jpa mapping
         implementation group: 'org.qlrm', name: 'qlrm', version: '2.0.2'
-        implementation ('org.springframework.boot:spring-boot-starter-validation')
-        annotationProcessor ('org.projectlombok:lombok:1.18.12')
+        implementation('org.springframework.boot:spring-boot-starter-validation')
+        annotationProcessor('org.projectlombok:lombok:1.18.12')
         // oauth
         compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+
+        // redis
+        compile('org.springframework.boot:spring-boot-starter-data-redis')
 
         // jwt
         compile('io.jsonwebtoken:jjwt-api:0.11.1')
@@ -62,6 +65,10 @@ subprojects {
         //swagger
         implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
         compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+        // gcp storage
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
 
     }
 
@@ -92,12 +99,14 @@ project(':market-order') {
     dependencies {
         compile project(':market-common')
         compile project(':market-product')
+        compile project(':market-shop')
     }
 }
 project(':market-product') {
     // product 모듈에만 필요한 라이브러리 명시
     dependencies {
         compile project(':market-common')
+        compile project(':market-user')
     }
 }
 project(':market-search') {
@@ -124,7 +133,7 @@ project(':market-user') {
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.5'
 
         // yml 암호화
-        compile ('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.17')
+        compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.17')
     }
 }
 project(':market-document') {

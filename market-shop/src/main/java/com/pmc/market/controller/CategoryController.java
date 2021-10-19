@@ -20,14 +20,14 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @ApiOperation("전체 카테고리 리스트")
-    @GetMapping("")
-    public ResponseEntity<?> getAllCategories() {
+    @GetMapping
+    public ResponseEntity<ResponseMessage> getAllCategories() {
         return ResponseEntity.ok(ResponseMessage.success(categoryService.findAll()));
     }
 
     @ApiOperation("카테고리 추가")
-    @PostMapping("")
-    public ResponseEntity<?> makeCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto) {
+    @PostMapping
+    public ResponseEntity<ResponseMessage> makeCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto) {
         categoryService.makeCategory(categoryRequestDto);
         return ResponseEntity.ok(ResponseMessage.success());
     }
