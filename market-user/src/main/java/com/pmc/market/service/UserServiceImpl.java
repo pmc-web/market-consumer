@@ -12,15 +12,19 @@ import com.pmc.market.model.user.entity.Role;
 import com.pmc.market.model.user.entity.Status;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.UserRepository;
+import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.security.auth.JwtTokenProvider;
 import com.pmc.market.security.auth.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -50,16 +54,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoResponseDto signIn(User user) {
-        User findUser = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(user.getEmail()));
-        if (!passwordEncoder.matches(user.getPassword(), findUser.getPassword())) {
-            throw new BadCredentialsException(findUser.getEmail() + "의 비밀번호가 올바르지 않습니다.");
+        Authentication auth = jwtTokenProvider.getAuthenticationLogin(user.getEmail()); // 이메일로 인증 정보 조회
+
+        User loginUser = ((CustomUserDetails) auth.getPrincipal()).getUser();
+        if (!passwordEncoder.matches(user.getPassword(), loginUser.getPassword())) {
+            throw new BadCredentialsException(loginUser.getEmail() + "의 비밀번호가 올바르지 않습니다.");
         }
-        jwtTokenProvider.getAuthenticationLogin(user.getEmail()); // 이메일로 인증 정보 조회
-        String accessToken = jwtTokenProvider.generateJwtAccessToken(findUser);
-        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(findUser); // refresh token
-        redisUtil.setDataExpire(refreshToken, findUser.getEmail(), jwtTokenProvider.REFRESH_TOKEN_VALID_TIME);
-        return UserInfoResponseDto.of(findUser, TokenDto.of(accessToken, refreshToken));
+
+        String accessToken = jwtTokenProvider.generateJwtAccessToken(loginUser);
+        String refreshToken = jwtTokenProvider.generateJwtRefreshToken(loginUser); // refresh token
+        redisUtil.setDataExpire(refreshToken, loginUser.getEmail(), jwtTokenProvider.REFRESH_TOKEN_VALID_TIME);
+        return UserInfoResponseDto.of(loginUser, TokenDto.of(accessToken, refreshToken));
     }
 
     @Transactional

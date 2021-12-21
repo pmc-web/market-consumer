@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @Slf4j
 public class UserController {
 
-    final private UserService userService;
+    private final UserService userService;
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/sign-up")
@@ -39,25 +39,6 @@ public class UserController {
     public ResponseEntity<?> signIn(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto) {
         User user = userCreateRequestDto.toEntity(userCreateRequestDto);
         return ResponseEntity.ok().body(ResponseMessage.success(userService.signIn(user)));
-    }
-
-    @ApiOperation(value = "유저 정보")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Long id) {
-        return ResponseEntity.ok().body(ResponseMessage.success(userService.getUserById(id)));
-    }
-
-    @ApiOperation(value = "유저 삭제")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok(ResponseMessage.success());
-    }
-
-    @ApiOperation(value = "유저 리스트 조회")
-    @GetMapping
-    public ResponseEntity<?> list() {
-        return ResponseEntity.ok().body(ResponseMessage.success(userService.getUserList()));
     }
 
     @ApiOperation(value = "유저 상태 업데이트")
@@ -103,6 +84,13 @@ public class UserController {
     @GetMapping("/nickname")
     public ResponseEntity<?> checkUserNickname(@ApiParam(value = "유저 닉네임") @RequestParam(value = "nickname") String nickname) {
         userService.checkUserNickname(nickname);
+        return ResponseEntity.ok(ResponseMessage.success());
+    }
+
+    @ApiOperation(value = "유저 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        userService.deleteUser(id);
         return ResponseEntity.ok(ResponseMessage.success());
     }
 }

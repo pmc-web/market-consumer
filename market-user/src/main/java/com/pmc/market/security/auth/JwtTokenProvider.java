@@ -2,6 +2,7 @@ package com.pmc.market.security.auth;
 
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.model.user.entity.Role;
 import com.pmc.market.model.user.entity.User;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +33,17 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     private UserDetailsService userDetailsService;
 
     public String generateJwtAccessToken(User user) {
-        return createToken(user.getEmail(), ACCESS_TOKEN_VALID_TIME);
+        return createToken(user.getEmail(), user.getRole(), ACCESS_TOKEN_VALID_TIME);
     }
 
     public String generateJwtRefreshToken(User user) {
-        return createToken(user.getEmail(), REFRESH_TOKEN_VALID_TIME);
+        return createToken(user.getEmail(), user.getRole(), REFRESH_TOKEN_VALID_TIME);
     }
 
-    private String createToken(String email, long expireDate) {
+    private String createToken(String email, Role role, long expireDate) {
         Claims claims = Jwts.claims();
         claims.put("email", email);
-        claims.put("role", "USER");
+        claims.put("role", role.getKey());
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)
@@ -81,12 +82,14 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
         Claims claims = getClaimsFormToken(token);
+        log.info("JWT");
         UserDetails userDetails = userDetailsService.loadUserByUsername(String.valueOf(claims.get("email")));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // email 로 인증 정보 조회
     public Authentication getAuthenticationLogin(String email) {
+        log.info("email jwt");
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
