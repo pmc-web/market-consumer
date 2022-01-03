@@ -1,6 +1,7 @@
 package com.pmc.market.config;
 
 import com.pmc.market.config.filter.JwtAuthenticationFilter;
+import com.pmc.market.model.user.entity.Role;
 import com.pmc.market.security.auth.CustomAccessDeniedHandler;
 import com.pmc.market.security.auth.CustomAuthenticationEntryPoint;
 import com.pmc.market.security.auth.JwtTokenProvider;
@@ -36,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
                 .antMatchers("/users/sign-up", "/users/login", "/auth/**", "/exception/**", "/users/sign-up-confirm", "/kakaoPay/**").permitAll() // 가입 및 인증 주소는 누구나 접근가능
+                .antMatchers("/admin/**").hasAuthority(Role.MANAGER.getKey())
                 .anyRequest().authenticated() // 그외 나머지 요청은 모두 인증된 회원만 접근 가능
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
