@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "검색 관련")
 public class SearchController {
 
-    final private SearchService searchService;
+    private final SearchService searchService;
 
     @ApiOperation(value = "검색")
     @PostMapping

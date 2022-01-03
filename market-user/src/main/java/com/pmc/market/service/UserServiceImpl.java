@@ -49,11 +49,6 @@ public class UserServiceImpl implements UserService {
     private final RedisUtil redisUtil;
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
-
-    @Override
     public UserInfoResponseDto signIn(User user) {
         Authentication auth = jwtTokenProvider.getAuthenticationLogin(user.getEmail()); // 이메일로 인증 정보 조회
 

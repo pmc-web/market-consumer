@@ -10,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -25,6 +27,8 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
 
     public static final long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 60; // 1시간만 토큰 유효
     public static final long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24 * 7; // 1주
+
+    private final RedisUtil redisUtil;
 
     @Value("${spring.jwt.secret:ThisIsA_SecretKeyForJwtExample123}")
     private String SECRET_KEY;
@@ -79,17 +83,21 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
         return header.split(" ")[1];
     }
 
-    // Jwt 토큰으로 인증 정보를 조회
+    public boolean isAuthenticationByRefreshToken(String token) {
+        Claims claims = getClaimsFormToken(token);
+        String email = redisUtil.getData(token);
+        return email.equals(claims.get("email"));
+    }
+
+    // access token
     public Authentication getAuthentication(String token) {
         Claims claims = getClaimsFormToken(token);
-        log.info("JWT");
         UserDetails userDetails = userDetailsService.loadUserByUsername(String.valueOf(claims.get("email")));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // email 로 인증 정보 조회
     public Authentication getAuthenticationLogin(String email) {
-        log.info("email jwt");
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
