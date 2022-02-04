@@ -1,7 +1,7 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.model.shop.entity.Category;
-import com.pmc.market.model.shop.entity.ImageType;
+import com.pmc.market.model.shop.entity.ShopImageType;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.User;
 import io.swagger.annotations.ApiModel;
@@ -68,7 +68,7 @@ public class ShopRequestDto {
     private long categoryId;
 
     @ApiModelProperty(value = "이미지 타입")
-    private ImageType imageType;
+    private ShopImageType shopImageType;
 
     public Shop toEntity(ShopRequestDto shopRequestDto, User user, Category category) {
         return Shop.builder()

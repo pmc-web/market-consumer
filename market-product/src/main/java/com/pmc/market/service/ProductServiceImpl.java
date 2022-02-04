@@ -3,7 +3,7 @@ package com.pmc.market.service;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.PageRequest;
 import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.entity.ProductFavorite;
+import com.pmc.market.model.product.entity.FavoriteProduct;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import com.pmc.market.model.product.vo.ProductVo;
@@ -61,12 +61,12 @@ public class ProductServiceImpl implements ProductService {
     public void likeUpdateProduct(Long productId, User user) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 상품을 찾을 수 없습니다."));
-        Optional<ProductFavorite> isFavorite = productFavoriteRepository.findByUserIdAndProductId(user.getId(), productId);
+        Optional<FavoriteProduct> isFavorite = productFavoriteRepository.findByUserIdAndProductId(user.getId(), productId);
         if (isFavorite.isPresent()) {
             productFavoriteRepository.delete(isFavorite.get());
             return;
         }
-        ProductFavorite favorite = ProductFavorite.builder()
+        FavoriteProduct favorite = FavoriteProduct.builder()
                 .product(product)
                 .user(user)
                 .build();

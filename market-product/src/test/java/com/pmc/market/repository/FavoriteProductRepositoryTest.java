@@ -2,7 +2,7 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ProductApplication;
 import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.entity.ProductFavorite;
+import com.pmc.market.model.product.entity.FavoriteProduct;
 import com.pmc.market.model.product.vo.ProductVo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ProductApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ProductFavoriteRepositoryTest {
+class FavoriteProductRepositoryTest {
 
     @Autowired
     ProductFavoriteRepository productFavoriteRepository;
@@ -27,7 +27,7 @@ class ProductFavoriteRepositoryTest {
     @DisplayName("조회")
     @Test
     void findByUserIdAndProductId() {
-        Optional<ProductFavorite> favorite = productFavoriteRepository.findByUserIdAndProductId(1L, 1L);
+        Optional<FavoriteProduct> favorite = productFavoriteRepository.findByUserIdAndProductId(1L, 1L);
         assertThat(favorite.get()).isNotNull();
     }
 

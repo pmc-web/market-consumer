@@ -1,8 +1,8 @@
 package com.pmc.market.model.shop.entity;
 
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.BaseTimeEntity;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.entity.ProductQnA;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
 
@@ -18,30 +18,28 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Shop {
+public class Shop extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "shop_id")
+    private Long id;
 
-    @NotNull
+    @Column(columnDefinition = "마켓 이름", nullable = false)
     private String name;
 
-    @NotNull
+    @Column(columnDefinition = "마켓 운영 기간", nullable = false)
     private LocalDateTime period;
 
-    @NotNull
+    @Column(columnDefinition = "마켓 소개글")
     private String fullDescription;
 
     private String shortDescription;
-
-    @NotNull
-    private LocalDateTime regDate;
 
     private String businessNumber;
 
     private String businessName;
 
-    @NotNull
+    @Column(columnDefinition = "마켓 대표 이름", nullable = false)
     private String owner;
 
     @NotNull
@@ -58,9 +56,11 @@ public class Shop {
     private Integer deliveryCost; // deliveryCost 원 이상 무료배송
 
     @Lob
+    @Column(columnDefinition = "QnA 관련 설명")
     private String qnaDescription;
 
     @Lob
+    @Column(columnDefinition = "배송 운영 정책 설명")
     private String shipDescription;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
@@ -76,29 +76,29 @@ public class Shop {
     private List<Product> products = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<Purchase> purchases = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ShopImage> attachments = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<ProductQnA> qnAS = new ArrayList<>();
-
-    public void addFavorite(final Favorite favorite) {
-        this.favorites.add(favorite);
-        favorite.setShop(this);
+    // 연관 관계 메서드
+    public void liked(Favorite favorite) {
+        favorites.add(favorite);
     }
 
-    public void removeFavorite(final Favorite favorite) {
-        this.favorites.remove(favorite);
-        favorite.setShop(null);
+    public void unLiked(Favorite favorite) {
+        favorites.remove(favorite);
     }
 
-    public void removeFavoriteAll() {
-//        this.favorites.forEach(f -> f.delete());
-        this.favorites = new ArrayList<>();
+    public void tagging(ShopTag shopTag) {
+        shopTags.add(shopTag);
     }
 
+    public void unTagging(ShopTag shopTag) {
+        shopTags.remove(shopTag);
+    }
+
+    // 로직 관련
     public void updateCategory(Category category) {
         this.category = category;
     }
@@ -106,4 +106,5 @@ public class Shop {
     public void addImages(List<ShopImage> attachments) {
         attachments.addAll(attachments);
     }
+
 }

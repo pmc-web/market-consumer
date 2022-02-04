@@ -1,5 +1,6 @@
 package com.pmc.market.model.shop.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.product.entity.Product;
 import lombok.*;
 
@@ -13,11 +14,12 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category { // product 에도 매핑
+public class Category extends BaseTimeEntity { // product 에도 매핑
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "category_id")
+    private Long id;
 
     @NotNull
     private String mainCategory;

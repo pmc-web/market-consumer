@@ -4,7 +4,7 @@ import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.DeliveryUpdateRequestDto;
 import com.pmc.market.model.order.entity.Delivery;
 import com.pmc.market.model.order.entity.DeliveryStatus;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.repository.DeliveryRepository;
 import com.pmc.market.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void insertDelivery(long orderId) {
-        Purchase purchase = orderRepository.findById(orderId)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("구매 이력이 없습니다."));
         Delivery delivery = Delivery.builder()
-                .purchase(purchase)
+                .order(order)
                 .status(DeliveryStatus.READY)
                 .build();
         deliveryRepository.save(delivery);

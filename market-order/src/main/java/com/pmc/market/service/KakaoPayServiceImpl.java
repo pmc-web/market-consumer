@@ -5,7 +5,7 @@ import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.KakaoPayException;
 import com.pmc.market.model.order.entity.OrderStatus;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.model.vo.kakao.KakaoPayApprovalVo;
 import com.pmc.market.model.vo.kakao.KakaoPayCancelVo;
 import com.pmc.market.model.vo.kakao.KakaoPayReadyVo;
@@ -102,7 +102,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
     public KakaoPayApprovalVo approve(String pgToken) {
         setRestTemplate();
         if (tid == null) throw new BusinessException("카카오페이 결제 tid 가 null 입니다.", ErrorCode.INTERNAL_SERVER_ERROR);
-        Purchase order = orderRepository.findByPayInfo(tid)
+        Order order = orderRepository.findByPayInfo(tid)
                 .orElseThrow(() -> new BusinessException("카카오페이 결제 tid 가 잘못되었습니다.", ErrorCode.INTERNAL_SERVER_ERROR));
         KakaoPayRequestVo kakaoPayRequest = KakaoPayRequestVo.from(order);
 
@@ -118,7 +118,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
             KakaoPayApprovalVo kakaoPayApprovalVO = restTemplate.postForObject(new URI(kakaoUrl + KAKAO_PAY_APPROVE_URL), body, KakaoPayApprovalVo.class);
             log.info("kakaoPayApprovalVO 결제 승인" + kakaoPayApprovalVO);
 
-            Purchase purchase = orderRepository.findByPayInfo(kakaoPayApprovalVO.getTid())
+            Order purchase = orderRepository.findByPayInfo(kakaoPayApprovalVO.getTid())
                     .orElseThrow(() -> new EntityNotFoundException("구매 이력이 없습니다."));
             orderRepository.updateKakaoOrderInfo(purchase.getId(), kakaoPayApprovalVO.getTid(), LocalDateTime.now(), OrderStatus.PAYMENT_COMPLETE);
 
@@ -133,7 +133,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
     }
 
     @Override
-    public KakaoPayCancelVo cancel(Purchase order) {
+    public KakaoPayCancelVo cancel(Order order) {
         KakaoPayRequestVo kakaoPayRequest = KakaoPayRequestVo.from(order);
 
         setRestTemplate();

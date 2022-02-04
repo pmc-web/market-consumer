@@ -1,21 +1,20 @@
 package com.pmc.market.model.user.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.pmc.market.model.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Builder
-public class ShipAddress {
+public class ShipAddress extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "shipAddress_id")
     private Long id;
 
     @NotNull
@@ -27,6 +26,7 @@ public class ShipAddress {
     @NotNull
     private String zipCode;
 
+    @NotNull
     private String addressName;
 
     @Builder.Default

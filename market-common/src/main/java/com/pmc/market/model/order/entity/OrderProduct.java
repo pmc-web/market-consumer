@@ -1,5 +1,6 @@
 package com.pmc.market.model.order.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.product.entity.Review;
 import lombok.*;
@@ -11,14 +12,15 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity
-public class OrderProduct {
+public class OrderProduct extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_product_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_id")
-    private Purchase purchase;
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

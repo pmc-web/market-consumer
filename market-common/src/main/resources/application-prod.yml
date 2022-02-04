@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+spring:
+  # db 설정
+  datasource:
+    url: jdbc:mysql://localhost:3306/market?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: market
+    password: market
+  # jpa 설정
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:market-universe-312410-13567fe77b61.json

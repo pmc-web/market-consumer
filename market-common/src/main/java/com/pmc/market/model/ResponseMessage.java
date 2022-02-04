@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseMessage {
+public class ResponseMessage<T> {
     private ResponseMessageHeader header;
-    private Object data;
+    private T data;
 
     public static ResponseMessage fail(String message) {
         return ResponseMessage.builder()
@@ -25,7 +25,7 @@ public class ResponseMessage {
                 .build();
     }
 
-    public static ResponseMessage success(Object data) {
+    public static <T> ResponseMessage success(T data) {
         return ResponseMessage.builder()
                 .header(ResponseMessageHeader.builder()
                         .result(true)

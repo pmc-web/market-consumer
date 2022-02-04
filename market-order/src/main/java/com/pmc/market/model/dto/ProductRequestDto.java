@@ -1,7 +1,7 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.model.order.entity.OrderProduct;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.model.product.entity.Product;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,14 +31,14 @@ public class ProductRequestDto {
     @ApiModelProperty("상품 컬러 정보")
     private String color;
 
-    public OrderProduct toEntity(ProductRequestDto requestDto, Product product, Purchase purchase) {
+    public OrderProduct toEntity(ProductRequestDto requestDto, Product product, Order order) {
         return OrderProduct.builder()
                 .product(product)
                 .quantity(requestDto.getTotalQuantity())
                 .price(requestDto.getTotalPrice())
                 .size(requestDto.getSize())
                 .color(requestDto.getColor())
-                .purchase(purchase)
+                .order(order)
                 .build();
     }
 

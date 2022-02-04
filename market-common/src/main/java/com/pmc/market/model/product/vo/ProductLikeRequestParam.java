@@ -1,7 +1,5 @@
 package com.pmc.market.model.product.vo;
 
-import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.entity.ProductFavorite;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,5 +1,6 @@
 package com.pmc.market.model.product.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
@@ -13,21 +14,16 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductQnA {
+public class ProductQnA extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_qna_id")
     private long id;
 
     @Setter
     @NotNull
     private String title;
-
-    @NotNull
-    private LocalDateTime regDate;
-
-    @Setter
-    private LocalDateTime updateDate;
 
     @Enumerated(EnumType.STRING)
     private QnAType qnAType;
@@ -36,18 +32,12 @@ public class ProductQnA {
     @NotNull
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "productQnA", cascade = CascadeType.ALL)
-//    private List<Attachment> attachments = new ArrayList<>();
 }

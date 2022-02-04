@@ -6,7 +6,7 @@ import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.model.order.entity.OrderProduct;
 import com.pmc.market.model.order.entity.OrderStatus;
 import com.pmc.market.model.order.entity.Pay;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.User;
@@ -37,15 +37,15 @@ public class OrderServiceImpl implements OrderService {
 
     private final KakaoPayService kakaoPayService;
 
-    public void addOrderProducts(List<ProductRequestDto> requestDtos, Purchase purchase) {
+    public void addOrderProducts(List<ProductRequestDto> requestDtos, Order order) {
         List<OrderProduct> orderProducts = new ArrayList<>();
         for (ProductRequestDto productDto : requestDtos) {
             Product product = productRepository.findById(productDto.getProductId())
                     .orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
-            orderProducts.add(productDto.toEntity(productDto, product, purchase));
+            orderProducts.add(productDto.toEntity(productDto, product, order));
         }
         orderProductRepository.saveAll(orderProducts);
-        purchase.updateProducts(orderProducts);
+        order.updateProducts(orderProducts);
     }
 
     @Override
@@ -53,11 +53,11 @@ public class OrderServiceImpl implements OrderService {
     public void makeOrder(OrderRequestDto orderRequestDto, User user) {
         Shop shop = shopRepository.findById(orderRequestDto.getShopId())
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 마켓이 없습니다."));
-        Purchase purchase = orderRequestDto.toEntity(orderRequestDto, shop, user);
-        orderRepository.save(purchase);
-        addOrderProducts(orderRequestDto.getProducts(), purchase); // add products entity
+        Order order = orderRequestDto.toEntity(orderRequestDto, shop, user);
+        orderRepository.save(order);
+        addOrderProducts(orderRequestDto.getProducts(), order); // add products entity
         if (orderRequestDto.getPay().equals(Pay.KAKAO_PAY))
-            kakaoPayService.orderKakaoPay(KakaoPayRequestVo.from(purchase));
+            kakaoPayService.orderKakaoPay(KakaoPayRequestVo.from(order));
         else {
             log.info("IAMPORT 사용 결제"); // TODO : 프론트와 연결
         }
@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void updateState(long orderId, OrderStatus status) {
-        Purchase order = orderRepository.findById(orderId)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다."));
         order.updateStatus(status);
     }
@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public String cancelOrder(long orderId) {
-        Purchase order = orderRepository.findById(orderId)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("주문 내역이 없습니다."));
         order.cancel();
         if (order.getPay().equals(Pay.KAKAO_PAY)) {
@@ -95,6 +95,11 @@ public class OrderServiceImpl implements OrderService {
             return cancelVo.getApproved_cancel_amount() + "원 결제 취소되었습니다.";
         }
         return order.getTotalPrice() + "원 결제 취소 되었습니다.";
+    }
+
+    @Override
+    public void makeOrder(OrderRequestDto request) {
+        // TODO
     }
 
 

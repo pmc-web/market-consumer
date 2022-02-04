@@ -1,5 +1,6 @@
 package com.pmc.market.model.product.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.product.vo.ProductCreateParamVo;
 import com.pmc.market.model.product.vo.ProductUpdateParamVo;
 import com.pmc.market.model.shop.entity.Category;
@@ -17,9 +18,10 @@ import java.util.List;
 @Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Product {
+public class Product extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
     @NotNull
@@ -48,7 +50,7 @@ public class Product {
     private List<ProductQnA> qnAS = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductFavorite> favoriteProduct = new ArrayList<>();
+    private List<FavoriteProduct> favoriteProducts = new ArrayList<>();
 
 
     public Product(ProductCreateParamVo param) {
@@ -64,5 +66,13 @@ public class Product {
         this.amount = param.getAmount();
         this.description = param.getDescription();
         this.id = param.getId();
+    }
+
+    public void liked(FavoriteProduct favoriteProduct) {
+        favoriteProducts.add(favoriteProduct);
+    }
+
+    public void unLiked(FavoriteProduct favoriteProduct) {
+        favoriteProducts.remove(favoriteProduct);
     }
 }

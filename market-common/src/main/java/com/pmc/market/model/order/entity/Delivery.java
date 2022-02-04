@@ -1,5 +1,6 @@
 package com.pmc.market.model.order.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,20 +10,20 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity
-public class Delivery {
+public class Delivery extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "delivery_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
-    @Column
     private String shippingNumber;
 
     @OneToOne(mappedBy = "delivery")
-    private Purchase purchase;
+    private Order order;
 
     public void updateStatus(DeliveryStatus status) {
         this.status = status;

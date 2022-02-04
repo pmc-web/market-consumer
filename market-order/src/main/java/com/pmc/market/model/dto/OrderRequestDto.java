@@ -1,7 +1,7 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.model.order.entity.Pay;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.model.shop.entity.Shop;
 import com.pmc.market.model.user.entity.User;
 import io.swagger.annotations.ApiModel;
@@ -62,8 +62,8 @@ public class OrderRequestDto {
     @ApiModelProperty("유저 Id")
     private Long userId;
 
-    public Purchase toEntity(OrderRequestDto requestDto, Shop shop, User user) {
-        return Purchase.builder()
+    public Order toEntity(OrderRequestDto requestDto, Shop shop, User user) {
+        return Order.builder()
                 .pay(pay)
                 .shop(shop)
                 .user(user)

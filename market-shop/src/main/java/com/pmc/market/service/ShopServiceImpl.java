@@ -41,9 +41,6 @@ public class ShopServiceImpl implements ShopService {
     private final ShopImageRepository shopImageRepository;
     private final GCSService gcsService;
 
-    @Value("${gcp.bucket:market-universe-storage2}")
-    private String bucketName;
-
     @Override
     public List<ShopResponseDto> findAll() {
         return shopRepository.findAll().stream().map(ShopResponseDto::from).collect(Collectors.toList());
@@ -63,7 +60,7 @@ public class ShopServiceImpl implements ShopService {
 
         Shop shop = shopRepository.save(shopRequestDto.toEntity(shopRequestDto, user, category));
         // 이미지 업로드
-        uploadFiles(files, shop, shopRequestDto.getImageType());
+        uploadFiles(files, shop, shopRequestDto.getShopImageType());
     }
 
     @Override
@@ -110,7 +107,7 @@ public class ShopServiceImpl implements ShopService {
                     .orElseThrow(() -> new EntityNotFoundException("해당 카테고리를 찾을 수 없습니다."));
             shop.updateCategory(category);
         }
-        uploadFiles(files, shop, shopRequestDto.getImageType());
+        uploadFiles(files, shop, shopRequestDto.getShopImageType());
         shopRequestDto.updateShop(shop);
     }
 
@@ -133,16 +130,15 @@ public class ShopServiceImpl implements ShopService {
         Favorite favorite = Favorite.builder()
                 .shop(shop)
                 .user(user)
-                .reg_date(LocalDateTime.now())
                 .build();
 
         favoriteRepository.save(favorite);
-        shop.addFavorite(favorite);
+        favorite.likeShop();
         shopRepository.save(shop);
     }
 
     @Transactional
-    public void uploadFiles(MultipartFile[] files, Shop shop, ImageType imageType) {
+    public void uploadFiles(MultipartFile[] files, Shop shop, ShopImageType shopImageType) {
         List<ShopImage> attachments = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
@@ -151,7 +147,7 @@ public class ShopServiceImpl implements ShopService {
                 attachments.add(ShopImage.builder()
                         .path(path)
                         .shop(shop)
-                        .type(imageType)
+                        .type(shopImageType)
                         .build());
             } catch (IOException e) {
                 throw new BusinessException("파일 업로드중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);

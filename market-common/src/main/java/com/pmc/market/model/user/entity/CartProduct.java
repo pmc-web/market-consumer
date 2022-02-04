@@ -1,5 +1,6 @@
 package com.pmc.market.model.user.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.product.entity.Product;
 import lombok.*;
 
@@ -11,10 +12,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Entity
-public class CartProduct {
+public class CartProduct extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_product_id")
     private Long id;
 
     @NotNull
@@ -27,17 +29,25 @@ public class CartProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Setter
     @NotNull
-    private Integer quantity;
+    private int quantity;
 
-    @Setter
     @NotNull
     private Integer totalPrice;
 
-    @Setter
     private String size;
 
-    @Setter
     private String color;
+
+    public void updateCartProductQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void updateCartProductSize(String size) {
+        this.size = size;
+    }
+
+    public void updateCartProductColor(String color) {
+        this.color = color;
+    }
 }

@@ -1,7 +1,7 @@
 package com.pmc.market.model.vo;
 
 import com.pmc.market.model.order.entity.Pay;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,12 +24,12 @@ public class OrderResponseVo {
     private Pay pay;
     private List<ProductResponseVo> products = new ArrayList<>();
 
-    public static OrderResponseVo from(Purchase purchase) {
+    public static OrderResponseVo from(Order order) {
         return OrderResponseVo.builder()
-                .purchaseId(purchase.getId())
-                .regDate(purchase.getRegDate())
-                .pay(purchase.getPay())
-                .products(purchase.getProducts().stream().map(ProductResponseVo::from).collect(Collectors.toList()))
+                .purchaseId(order.getId())
+                .regDate(order.getRegDate())
+                .pay(order.getPay())
+                .products(order.getProducts().stream().map(ProductResponseVo::from).collect(Collectors.toList()))
                 .build();
     }
 }

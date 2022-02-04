@@ -2,7 +2,7 @@ package com.pmc.market.repository;
 
 import com.pmc.market.OrderApplication;
 import com.pmc.market.model.order.entity.OrderStatus;
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import com.pmc.market.model.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class OrderRepositoryTest {
     @Test
     void findByPayInfo() {
         String tid = "T2909608776002405594";
-        Optional<Purchase> purchase = orderRepository.findByPayInfo(tid);
+        Optional<Order> purchase = orderRepository.findByPayInfo(tid);
 
         assertThat(purchase).isNotEqualTo(null);
     }
@@ -48,21 +48,21 @@ class OrderRepositoryTest {
     @Test
     void findByUser() {
         User user = userRepository.findById(1L).get();
-        List<Purchase> list = orderRepository.findByUserOrderByRegDateDesc(user);
+        List<Order> list = orderRepository.findByUserOrderByRegDateDesc(user);
         assertTrue(list.size() > 0);
     }
 
     @DisplayName("단일 조회")
     @Test
     void findOrderById() {
-        Optional<Purchase> purchase = orderRepository.findById(6L);
+        Optional<Order> purchase = orderRepository.findById(6L);
         assertThat(purchase.get()).isNotEqualTo(null);
     }
 
     @DisplayName("shopId 조회")
     @Test
     void findByShopId() {
-        List<Purchase> purchases = orderRepository.findByShopId(1L);
-        assertTrue(purchases.size() > 0);
+        List<Order> orders = orderRepository.findByShopId(1L);
+        assertTrue(orders.size() > 0);
     }
 }

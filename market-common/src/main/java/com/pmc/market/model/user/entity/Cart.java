@@ -1,10 +1,10 @@
 package com.pmc.market.model.user.entity;
 
+import com.pmc.market.error.exception.BusinessException;
+import com.pmc.market.error.exception.ErrorCode;
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.shop.entity.Shop;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,17 +13,17 @@ import java.util.List;
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Cart {
+public class Cart extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long id;
-    private LocalDateTime regDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // 다대일 양방향
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -33,4 +33,15 @@ public class Cart {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartProduct> products = new ArrayList<>();
+
+    public void removeProduct(CartProduct product) {
+        if (products.size() == 0) {
+            throw new BusinessException("이미 상품이 없습니다.", ErrorCode.INVALID_INPUT_VALUE);
+        }
+        products.remove(product);
+    }
+
+    public void addProduct(CartProduct product) {
+        products.add(product);
+    }
 }

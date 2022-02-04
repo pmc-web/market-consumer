@@ -14,11 +14,20 @@ import java.util.List;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tag_id")
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "tag_name", unique = true)
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tag", cascade = CascadeType.ALL)
     private List<ShopTag> shopTags = new ArrayList<>();
+
+    public void tagging(ShopTag shopTag){
+        shopTags.add(shopTag);
+    }
+
+    public void unTagging(ShopTag shopTag){
+        shopTags.remove(shopTag);
+    }
 }

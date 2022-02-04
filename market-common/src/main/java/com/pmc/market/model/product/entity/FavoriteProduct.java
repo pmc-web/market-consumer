@@ -1,5 +1,6 @@
 package com.pmc.market.model.product.entity;
 
+import com.pmc.market.model.BaseTimeEntity;
 import com.pmc.market.model.product.entity.Product;
 import com.pmc.market.model.user.entity.User;
 import lombok.*;
@@ -11,10 +12,11 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Builder
-public class ProductFavorite { // 상품 좋아요
+public class FavoriteProduct extends BaseTimeEntity { // 상품 좋아요
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "favorite_product_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,5 +26,15 @@ public class ProductFavorite { // 상품 좋아요
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public void likeProduct() {
+        product.liked(this);
+        user.likeProduct(this);
+    }
+
+    public void unlikeProduct() {
+        product.unLiked(this);
+        user.unLikeProduct(this);
+    }
 
 }

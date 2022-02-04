@@ -1,6 +1,6 @@
 package com.pmc.market.model.vo.kakao;
 
-import com.pmc.market.model.order.entity.Purchase;
+import com.pmc.market.model.order.entity.Order;
 import lombok.*;
 
 @ToString
@@ -18,16 +18,16 @@ public class KakaoPayRequestVo {
     private Integer totalAmount;
     private Integer taxFreeAmount;
 
-    public static KakaoPayRequestVo from(Purchase purchase) {
-        String itemName = purchase.getProducts().get(0).getProduct().getName();
-        if (purchase.getProducts().size() > 0) itemName += "외 " + purchase.getProducts().size() + " 건";
+    public static KakaoPayRequestVo from(Order order) {
+        String itemName = order.getProducts().get(0).getProduct().getName();
+        if (order.getProducts().size() > 0) itemName += "외 " + order.getProducts().size() + " 건";
         return KakaoPayRequestVo.builder()
-                .partnerOrderId(String.valueOf(purchase.getId())) // 주문 번호
-                .partnerUserId(String.valueOf(purchase.getUser().getId()))
+                .partnerOrderId(String.valueOf(order.getId())) // 주문 번호
+                .partnerUserId(String.valueOf(order.getUser().getId()))
                 .itemName(itemName)
-                .itemCode("MARKET" + purchase.getShop().getId() + "_" + purchase.getId())
-                .quantity(purchase.getAmount())
-                .totalAmount(purchase.getTotalPrice())
+                .itemCode("MARKET" + order.getShop().getId() + "_" + order.getId())
+                .quantity(order.getAmount())
+                .totalAmount(order.getTotalPrice())
                 .taxFreeAmount(0)
                 .build();
     }
