@@ -1,12 +1,12 @@
 package com.pmc.market.model.product.vo;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pmc.market.model.product.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.lang.Nullable;
 
 @Builder
@@ -33,7 +33,7 @@ public class ProductVo {
         this.price = product.getPrice();
         this.description = product.getDescription();
         this.name = product.getName();
-        this.likes = product.getFavoriteProduct().size();
+        this.likes = product.getFavoriteProducts().size();
     }
 
     public static ProductVo of(Product product, long likes) {

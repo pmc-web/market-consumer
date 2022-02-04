@@ -19,13 +19,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -138,7 +135,6 @@ public class UserServiceImpl implements UserService {
                 .provider("KAKAO")
                 .role(Role.BUYER)
                 .nickname(String.valueOf(user.get("userId")))
-                .regDate(LocalDateTime.now())
                 .authKey(String.valueOf(user.get("access_token")))
                 .build();
         userRepository.save(createUser);

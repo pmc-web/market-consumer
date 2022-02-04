@@ -17,8 +17,8 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-  cloud:
-    gcp:
-      storage:
-        credentials:
-          location: classpath:market-universe-312410-13567fe77b61.json
+#  cloud:
+#    gcp:
+#      storage:
+#        credentials:
+#          location: classpath:balmy-wonder-340304-b96fb7c7e780.json

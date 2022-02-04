@@ -6,14 +6,11 @@ import com.pmc.market.model.user.entity.Status;
 import com.pmc.market.model.user.entity.User;
 import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
