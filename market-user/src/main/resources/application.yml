@@ -31,15 +31,15 @@ spring:
         credentials:
           location: classpath:market-universe-312410-13567fe77b61.json
 app:
-  #  host: http://localhost:8086
-  host: http://34.64.122.243:8086
+  host: http://localhost:8086
+#  host: http://34.64.122.243:8086
 server:
   port: 8086
 email:
   admin:
     account: certification0test@gmail.com
     password: afdzgpvhtjklqvjn
-#    password: PCMmanager!
+
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor

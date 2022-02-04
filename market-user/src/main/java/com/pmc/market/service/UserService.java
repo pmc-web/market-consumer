@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    User createUser(User user);
-
     UserInfoResponseDto signIn(User user);
 
     UserInfoResponseDto signUp(User user);
