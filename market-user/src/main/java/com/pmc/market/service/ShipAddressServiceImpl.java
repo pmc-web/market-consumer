@@ -11,14 +11,17 @@ import com.pmc.market.repository.ShipAddressRepository;
 import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ShipAddressServiceImpl implements ShipAddressService {
+
     private final ShipAddressRepository shipAddressRepository;
     private final UserRepository userRepository;
 
@@ -36,9 +39,12 @@ public class ShipAddressServiceImpl implements ShipAddressService {
         shipAddressRepository.save(shipAddress);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ShipAddressResponseDto> getShipAddressList(long id) {
-        return shipAddressRepository.findByUser(id).stream().map(ShipAddressResponseDto::from).collect(Collectors.toList());
+        return shipAddressRepository.findByUser(id).stream()
+                .map(ShipAddressResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     @Override

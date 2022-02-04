@@ -36,7 +36,7 @@ public class User {
     private String password;
 
     @Column
-    private String name;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -44,7 +44,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private String picture;
+    private String phoneNumber;
 
     @Column
     private LocalDateTime regDate;
@@ -90,5 +90,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void updateUserInfo(String nickname, String phoneNumber) {
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isSameAuthKey(String authKey) {
+        return this.getAuthKey().equals(authKey);
     }
 }

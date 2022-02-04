@@ -22,7 +22,7 @@ public class ReviewResponseVo {
                 .reviewId(review.getId())
                 .title(review.getTitle())
                 .content(review.getContent())
-                .author(review.getUser().getName())
+                .author(review.getUser().getNickname())
                 .build();
     }
 }

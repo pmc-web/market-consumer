@@ -29,7 +29,7 @@ public class UserCreateRequestDto {
 
     public User toEntity(UserCreateRequestDto user) {
         return User.builder()
-                .name(user.toString().substring(46)) // TODO : 초기 name 설정
+                .nickname(user.toString().substring(46)) // TODO : 초기 name 설정
                 .status(Status.WAIT)
                 .provider("default")
                 .role(Role.BUYER)

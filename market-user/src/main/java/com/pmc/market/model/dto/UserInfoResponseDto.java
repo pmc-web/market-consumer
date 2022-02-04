@@ -30,7 +30,7 @@ public class UserInfoResponseDto {
                 .id(user.getId())
                 .email(email)
                 .provider(user.getProvider())
-                .name(user.getName())
+                .name(user.getNickname())
                 .regDate(user.getRegDate())
                 .role(user.getRole())
                 .status(user.getStatus())
