@@ -1,6 +1,6 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.dto.SearchResponseDto;
+import com.pmc.market.domain.user.dto.SearchResponseDto;
 
 import java.util.List;
 

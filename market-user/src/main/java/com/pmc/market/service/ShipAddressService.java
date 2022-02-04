@@ -1,7 +1,7 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.dto.ShipAddressRequestDto;
-import com.pmc.market.model.dto.ShipAddressResponseDto;
+import com.pmc.market.domain.user.dto.ShipAddressRequestDto;
+import com.pmc.market.domain.user.dto.ShipAddressResponseDto;
 
 import java.util.List;
 

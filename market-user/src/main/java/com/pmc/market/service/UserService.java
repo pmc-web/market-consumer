@@ -4,8 +4,8 @@ import com.pmc.market.model.dto.TokenDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserUpdateRequestDto;
-import com.pmc.market.model.user.entity.Status;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.user.entity.Status;
+import com.pmc.market.domain.user.entity.User;
 
 import java.util.List;
 import java.util.Map;

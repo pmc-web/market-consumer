@@ -1,8 +1,8 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.OrderApplication;
-import com.pmc.market.model.order.entity.OrderProduct;
-import com.pmc.market.model.product.entity.Review;
+import com.pmc.market.domain.order.entity.OrderProduct;
+import com.pmc.market.domain.product.entity.Review;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

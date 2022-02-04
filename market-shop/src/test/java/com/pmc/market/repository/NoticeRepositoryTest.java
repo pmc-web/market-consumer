@@ -2,8 +2,8 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.model.dto.NoticeRequestDto;
-import com.pmc.market.model.shop.entity.Shop;
-import com.pmc.market.model.shop.entity.ShopNotice;
+import com.pmc.market.domain.shop.entity.Shop;
+import com.pmc.market.domain.shop.entity.ShopNotice;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

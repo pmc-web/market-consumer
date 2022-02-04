@@ -2,7 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.OrderApplication;
 import com.pmc.market.model.dto.DeliveryUpdateRequestDto;
-import com.pmc.market.model.order.entity.DeliveryStatus;
+import com.pmc.market.domain.order.entity.DeliveryStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

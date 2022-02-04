@@ -1,7 +1,7 @@
 package com.pmc.market.service;
 
 import com.pmc.market.model.dto.ReviewRequestDto;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.user.entity.User;
 import com.pmc.market.model.vo.ReviewResponseVo;
 import org.springframework.web.multipart.MultipartFile;
 

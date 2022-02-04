@@ -1,5 +1,9 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.user.entity.Role;
+import com.pmc.market.domain.user.entity.Status;
+import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.UserRepository;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.error.exception.MarketUnivException;
@@ -8,10 +12,6 @@ import com.pmc.market.model.dto.TokenDto;
 import com.pmc.market.model.dto.UserInfoResponseDto;
 import com.pmc.market.model.dto.UserPasswordRequestDto;
 import com.pmc.market.model.dto.UserUpdateRequestDto;
-import com.pmc.market.model.user.entity.Role;
-import com.pmc.market.model.user.entity.Status;
-import com.pmc.market.model.user.entity.User;
-import com.pmc.market.repository.UserRepository;
 import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.security.auth.JwtTokenProvider;
 import com.pmc.market.security.auth.RedisUtil;

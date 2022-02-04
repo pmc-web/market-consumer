@@ -1,6 +1,6 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.model.product.entity.Review;
+import com.pmc.market.domain.product.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;

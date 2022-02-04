@@ -2,8 +2,8 @@ package com.pmc.market.service;
 
 import com.pmc.market.ProductApplication;
 import com.pmc.market.model.PageRequest;
-import com.pmc.market.model.product.vo.ProductVo;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.product.vo.ProductVo;
+import com.pmc.market.domain.user.entity.User;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.pmc.market.config;
 
 import com.pmc.market.config.filter.JwtAuthenticationFilter;
-import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.domain.user.entity.Role;
 import com.pmc.market.security.auth.CustomAccessDeniedHandler;
 import com.pmc.market.security.auth.CustomAuthenticationEntryPoint;
 import com.pmc.market.security.auth.JwtTokenProvider;

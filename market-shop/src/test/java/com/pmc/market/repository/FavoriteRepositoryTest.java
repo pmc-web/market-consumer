@@ -2,7 +2,7 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.error.exception.EntityNotFoundException;
-import com.pmc.market.model.shop.entity.Favorite;
+import com.pmc.market.domain.shop.entity.Favorite;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

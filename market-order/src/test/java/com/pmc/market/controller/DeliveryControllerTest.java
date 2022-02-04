@@ -3,7 +3,7 @@ package com.pmc.market.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.OrderApplication;
 import com.pmc.market.model.dto.DeliveryUpdateRequestDto;
-import com.pmc.market.model.order.entity.DeliveryStatus;
+import com.pmc.market.domain.order.entity.DeliveryStatus;
 import com.pmc.market.service.DeliveryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

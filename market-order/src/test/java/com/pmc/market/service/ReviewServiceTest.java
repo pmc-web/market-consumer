@@ -2,7 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.OrderApplication;
 import com.pmc.market.model.dto.ReviewRequestDto;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.user.entity.User;
 import com.pmc.market.model.vo.ReviewResponseVo;
 import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;

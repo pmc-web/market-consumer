@@ -1,8 +1,8 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.OrderApplication;
-import com.pmc.market.model.order.entity.Pay;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.order.entity.Pay;
+import com.pmc.market.domain.user.entity.User;
 import com.pmc.market.model.vo.OrderResponseVo;
 import com.pmc.market.service.OrderService;
 import org.junit.jupiter.api.DisplayName;

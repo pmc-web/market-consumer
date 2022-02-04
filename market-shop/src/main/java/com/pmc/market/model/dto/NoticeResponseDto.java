@@ -1,6 +1,6 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.shop.entity.ShopNotice;
+import com.pmc.market.domain.shop.entity.ShopNotice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

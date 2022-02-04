@@ -1,8 +1,8 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.user.entity.Role;
-import com.pmc.market.model.user.entity.Status;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.user.entity.Role;
+import com.pmc.market.domain.user.entity.Status;
+import com.pmc.market.domain.user.entity.User;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.user.entity.Search;
+import com.pmc.market.domain.user.repository.SearchRepository;
 import com.pmc.market.model.dto.SearchResponseDto;
-import com.pmc.market.model.user.entity.Search;
-import com.pmc.market.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

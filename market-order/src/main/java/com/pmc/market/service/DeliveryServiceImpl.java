@@ -2,9 +2,9 @@ package com.pmc.market.service;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.model.dto.DeliveryUpdateRequestDto;
-import com.pmc.market.model.order.entity.Delivery;
-import com.pmc.market.model.order.entity.DeliveryStatus;
-import com.pmc.market.model.order.entity.Order;
+import com.pmc.market.domain.order.entity.Delivery;
+import com.pmc.market.domain.order.entity.DeliveryStatus;
+import com.pmc.market.domain.order.entity.Order;
 import com.pmc.market.repository.DeliveryRepository;
 import com.pmc.market.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;

@@ -3,9 +3,9 @@
 //import com.pmc.market.UserApplication;
 //import com.pmc.market.model.dto.UserInfoResponseDto;
 //import com.pmc.market.model.dto.UserPasswordRequestDto;
-//import com.pmc.market.model.user.entity.Role;
-//import com.pmc.market.model.user.entity.Status;
-//import com.pmc.market.model.user.entity.User;
+//import com.pmc.market.domain.user.entity.Role;
+//import com.pmc.market.domain.user.entity.Status;
+//import com.pmc.market.domain.user.entity.User;
 //import com.pmc.market.repository.UserRepository;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;

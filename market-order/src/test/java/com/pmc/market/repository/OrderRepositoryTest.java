@@ -1,9 +1,9 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.OrderApplication;
-import com.pmc.market.model.order.entity.OrderStatus;
-import com.pmc.market.model.order.entity.Order;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.order.entity.OrderStatus;
+import com.pmc.market.domain.order.entity.Order;
+import com.pmc.market.domain.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

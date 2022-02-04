@@ -1,10 +1,10 @@
 package com.pmc.market.security.auth;
 
+import com.pmc.market.domain.user.entity.Status;
+import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.UserRepository;
 import com.pmc.market.error.exception.LoginFailException;
 import com.pmc.market.error.exception.UserNotFoundException;
-import com.pmc.market.model.user.entity.Status;
-import com.pmc.market.model.user.entity.User;
-import com.pmc.market.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

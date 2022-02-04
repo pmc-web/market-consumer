@@ -2,7 +2,7 @@ package com.pmc.market.controller;
 
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.OrderRequestDto;
-import com.pmc.market.model.order.entity.OrderStatus;
+import com.pmc.market.domain.order.entity.OrderStatus;
 import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.service.OrderService;
 import io.swagger.annotations.Api;

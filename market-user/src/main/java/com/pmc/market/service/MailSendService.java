@@ -2,7 +2,7 @@ package com.pmc.market.service;
 
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.ErrorCode;
-import com.pmc.market.model.user.entity.Status;
+import com.pmc.market.domain.user.entity.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.env.Environment;

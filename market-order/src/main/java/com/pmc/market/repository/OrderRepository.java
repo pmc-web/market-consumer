@@ -1,8 +1,8 @@
 package com.pmc.market.repository;
 
-import com.pmc.market.model.order.entity.OrderStatus;
-import com.pmc.market.model.order.entity.Order;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.order.entity.OrderStatus;
+import com.pmc.market.domain.order.entity.Order;
+import com.pmc.market.domain.user.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

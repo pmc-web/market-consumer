@@ -1,6 +1,6 @@
 package com.pmc.market.config;
 
-import com.pmc.market.model.user.entity.Role;
+import com.pmc.market.domain.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -2,7 +2,7 @@ package com.pmc.market.controller;
 
 import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.model.dto.ReviewRequestDto;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.user.entity.User;
 import com.pmc.market.security.auth.CustomUserDetails;
 import com.pmc.market.service.ReviewService;
 import io.swagger.annotations.Api;

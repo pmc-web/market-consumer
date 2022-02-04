@@ -2,142 +2,100 @@ plugins {
     id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
-group = 'com.pmc'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+bootJar {
+    enabled = false
 }
 
-test {
-    useJUnitPlatform()
-}
-
-// root를 포함한 모든 모듈에서 사용하는 것들 명시
 allprojects {
     repositories {
         mavenCentral()
-        maven { url 'https://repo.spring.io/libs-milestone' }
-        maven { url 'https://repo.spring.io/snapshot' }
     }
 }
 
-// include로 포함되어있는 모든 모듈에서 사용하는 것들 명시
 subprojects {
+    group = 'com.pmc'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
+//    apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
-    group 'com.pmc'
-    version '1.0'
-    sourceCompatibility = JavaVersion.VERSION_11
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
     dependencies {
-        implementation group: 'org.springframework.boot', name: 'spring-boot-maven-plugin', version: '2.6.3'
-
-        compileOnly('org.projectlombok:lombok')
-        compile('org.springframework.boot:spring-boot-starter-jdbc')
-        compile('org.springframework.boot:spring-boot-starter-web')
-        testCompile('org.springframework.boot:spring-boot-starter-test')
-        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        runtimeOnly 'mysql:mysql-connector-java'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        runtime('mysql:mysql-connector-java')
-        // jpa mapping
-        implementation group: 'org.qlrm', name: 'qlrm', version: '2.0.2'
-        implementation('org.springframework.boot:spring-boot-starter-validation')
-        annotationProcessor('org.projectlombok:lombok:1.18.12')
-        // oauth
-        compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-        // redis
-        compile('org.springframework.boot:spring-boot-starter-data-redis')
+        // 쿼리 파라미터
+        implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
 
-        // jwt
-        compile('io.jsonwebtoken:jjwt-api:0.11.1')
-        runtime('io.jsonwebtoken:jjwt-impl:0.11.1', 'io.jsonwebtoken:jjwt-jackson:0.11.1')
+        //querydsl 추가
+//        implementation "com.querydsl:querydsl-jpa:5.0.0"
+//        annotationProcessor "com.querydsl:querydsl-apt:5.0.0"
+//        implementation "com.querydsl:querydsl-core:5.0.0"
+//        testImplementation 'com.querydsl:querydsl-jpa:5.0.0'
+//        testAnnotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
 
-        testCompile('org.springframework.security:spring-security-test')
-        implementation 'org.springframework.boot:spring-boot-starter-security'
+        // validation
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
 
         //swagger
         implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
         compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-
-        // gcp storage
-//        implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
-//        implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
-
     }
 
-    clean {
-        delete 'out'
+    test {
+        useJUnitPlatform()
     }
 
-    bootJar {
-        enabled = false
-    }
-
-    jar {
-        enabled = true
-    }
-
-}
-
-project(':market-common') {
-    // common 모듈에만 필요한 라이브러리 명시
-    dependencies {
-        // swagger
-
-    }
 }
 
 project(':market-order') {
-    // order 모듈에만 필요한 라이브러리 명시
     dependencies {
-        compile project(':market-common')
-        compile project(':market-product')
         compile project(':market-shop')
     }
 }
+
 project(':market-product') {
-    // product 모듈에만 필요한 라이브러리 명시
     dependencies {
-        compile project(':market-common')
         compile project(':market-user')
     }
 }
-project(':market-search') {
-    // search 모듈에만 필요한 라이브러리 명시
-    dependencies {
-        compile project(':market-common')
-    }
-}
+
 project(':market-shop') {
-    // shop 모듈에만 필요한 라이브러리 명시
     dependencies {
-        compile project(':market-common')
         compile project(':market-user')
         compile project(':market-product')
     }
 }
+
 project(':market-user') {
-    // user 모듈에만 필요한 라이브러리 명시
     dependencies {
-        compile project(':market-common')
-
-        // email 인증
-        compile group: 'javax.mail', name: 'mail', version: '1.4.7'
-        compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.5'
-
-        // yml 암호화
-        compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.17')
+        implementation project(':market-common')
     }
 }
+
 project(':market-document') {
     dependencies {
         compile project(':market-common')
@@ -146,6 +104,5 @@ project(':market-document') {
         compile project(':market-shop')
         compile project(':market-search')
         compile project(':market-order')
-
     }
 }

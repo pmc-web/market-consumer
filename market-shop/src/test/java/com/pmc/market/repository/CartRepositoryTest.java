@@ -1,9 +1,9 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.UserApplication;
-import com.pmc.market.model.shop.entity.Shop;
-import com.pmc.market.model.user.entity.Cart;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.shop.entity.Shop;
+import com.pmc.market.domain.user.entity.Cart;
+import com.pmc.market.domain.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
 package com.pmc.market.model.dto;
 
 import com.pmc.market.error.exception.EntityNotFoundException;
-import com.pmc.market.model.shop.entity.ShopTag;
-import com.pmc.market.model.shop.entity.Tag;
+import com.pmc.market.domain.shop.entity.ShopTag;
+import com.pmc.market.domain.shop.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

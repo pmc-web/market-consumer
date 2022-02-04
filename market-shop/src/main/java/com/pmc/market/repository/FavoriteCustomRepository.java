@@ -1,7 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.domain.shop.entity.Shop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.product.entity.Product;
-import com.pmc.market.model.product.entity.ProductQnA;
-import com.pmc.market.model.product.entity.QnAType;
-import com.pmc.market.model.user.entity.User;
+import com.pmc.market.domain.product.entity.Product;
+import com.pmc.market.domain.product.entity.ProductQnA;
+import com.pmc.market.domain.product.entity.QnAType;
+import com.pmc.market.domain.user.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.order.entity.OrderProduct;
-import com.pmc.market.model.order.entity.Order;
-import com.pmc.market.model.product.entity.Product;
+import com.pmc.market.domain.order.entity.OrderProduct;
+import com.pmc.market.domain.order.entity.Order;
+import com.pmc.market.domain.product.entity.Product;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

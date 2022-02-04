@@ -3,8 +3,8 @@
 //import com.pmc.market.UserApplication;
 //import com.pmc.market.error.exception.BusinessException;
 //import com.pmc.market.error.exception.ErrorCode;
-//import com.pmc.market.model.user.entity.Role;
-//import com.pmc.market.model.user.entity.User;
+//import com.pmc.market.domain.user.entity.Role;
+//import com.pmc.market.domain.user.entity.User;
 //import com.pmc.market.service.UserService;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;

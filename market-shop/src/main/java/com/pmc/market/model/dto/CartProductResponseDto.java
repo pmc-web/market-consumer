@@ -1,6 +1,6 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.user.entity.CartProduct;
+import com.pmc.market.domain.user.entity.CartProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

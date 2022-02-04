@@ -1,7 +1,7 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.model.order.entity.Delivery;
-import com.pmc.market.model.order.entity.DeliveryStatus;
+import com.pmc.market.domain.order.entity.Delivery;
+import com.pmc.market.domain.order.entity.DeliveryStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

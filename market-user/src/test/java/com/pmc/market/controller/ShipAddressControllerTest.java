@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.UserApplication;
 import com.pmc.market.model.dto.ShipAddressRequestDto;
 import com.pmc.market.model.dto.ShipAddressResponseDto;
-import com.pmc.market.model.user.entity.ShipAddress;
+import com.pmc.market.domain.user.entity.ShipAddress;
 import com.pmc.market.service.ShipAddressService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

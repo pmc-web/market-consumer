@@ -4,8 +4,8 @@
 //import com.google.cloud.storage.Blob;
 //import com.google.cloud.storage.BlobInfo;
 //import com.google.cloud.storage.Storage;
-//import com.pmc.market.model.image.dto.DownloadRequestDto;
-//import com.pmc.market.model.image.dto.UploadRequestDto;
+//import com.pmc.market.domain.image.dto.DownloadRequestDto;
+//import com.pmc.market.domain.image.dto.UploadRequestDto;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Value;

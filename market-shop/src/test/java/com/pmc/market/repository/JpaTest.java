@@ -1,7 +1,7 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.shop.entity.Shop;
+import com.pmc.market.domain.shop.entity.Shop;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

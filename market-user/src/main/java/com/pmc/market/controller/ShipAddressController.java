@@ -1,7 +1,7 @@
 package com.pmc.market.controller;
 
+import com.pmc.market.domain.user.dto.ShipAddressRequestDto;
 import com.pmc.market.model.ResponseMessage;
-import com.pmc.market.model.dto.ShipAddressRequestDto;
 import com.pmc.market.service.ShipAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
