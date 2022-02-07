@@ -1,12 +1,15 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.ShopRequestDto;
-import com.pmc.market.model.dto.TagIdNameDto;
 import com.pmc.market.domain.shop.entity.Category;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.shop.entity.ShopTag;
 import com.pmc.market.domain.shop.entity.Tag;
+import com.pmc.market.domain.shop.repository.CategoryRepository;
+import com.pmc.market.domain.shop.repository.FavoriteRepository;
+import com.pmc.market.domain.shop.repository.ShopRepository;
+import com.pmc.market.model.dto.ShopRequestDto;
+import com.pmc.market.model.dto.TagIdNameDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,7 +59,6 @@ class ShopRepositoryTest {
                 .period(LocalDateTime.now().plusYears(shopRequestDto.getPeriod()))
                 .fullDescription(shopRequestDto.getFullDescription())
                 .shortDescription(shopRequestDto.getShortDescription())
-                .regDate(LocalDateTime.now())
                 .businessName(shopRequestDto.getBusinessName())
                 .businessNumber(shopRequestDto.getBusinessNumber())
                 .owner(shopRequestDto.getOwner())
@@ -75,7 +77,7 @@ class ShopRepositoryTest {
         Page<Shop> all = shopRepository.findAll(pageable); // select 쿼리 1번 사용 확인
         List<Shop> content = all.getContent();
         content.forEach(s -> {
-            System.out.println(s.getId() + " " + s.getRegDate());
+            System.out.println(s.getId() + " " + s.getCreatedDate());
         });
         assertEquals(count, content.size());
     }

@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+//import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -37,7 +37,7 @@ class OrderControllerTest {
     OrderService orderService;
 
     @DisplayName("구매목록 -> authentication 없을 떄 통과")
-    @WithMockUser
+//    @WithMockUser
     @Test
     void getOrderList() throws Exception {
         User user = User.builder().build();
@@ -57,7 +57,7 @@ class OrderControllerTest {
     }
 
     @DisplayName("구매목록 -> authentication 없을 떄 통과")
-    @WithMockUser
+//    @WithMockUser
     @Test
     void getOrderById() throws Exception {
         when(orderService.getOrder(1L)).thenReturn(OrderResponseVo.builder().build());

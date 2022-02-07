@@ -1,7 +1,7 @@
 package com.pmc.market.model.dto;
 
-import com.pmc.market.domain.order.entity.Pay;
 import com.pmc.market.domain.order.entity.Order;
+import com.pmc.market.domain.order.entity.Pay;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.user.entity.User;
 import io.swagger.annotations.ApiModel;
@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +71,6 @@ public class OrderRequestDto {
                 .totalPrice(requestDto.getTotalPrice())
                 .shipAddress(requestDto.getShipAddress())
                 .zipCode(requestDto.getZipCode())
-                .regDate(LocalDateTime.now())
                 .build();
     }
 

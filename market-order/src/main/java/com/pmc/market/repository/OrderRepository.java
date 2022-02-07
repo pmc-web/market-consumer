@@ -28,14 +28,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
                               @Param("updateDate") LocalDateTime now, @Param("status") OrderStatus status);
 
     @EntityGraph(attributePaths = "products")
-    List<Order> findByUserOrderByRegDateDesc(User user);
+    List<Order> findByUserOrderByCreatedDateDesc(User user);
 
     @Modifying
     @Transactional
     @Query("update Order p set p.updateDate = :updateDate, status = :status where p.id = :id")
     void updateStatus(@Param("id") long id, @Param("updateDate") LocalDate now, @Param("status") OrderStatus status);
 
-    @Query("select p from Order p where p.shop.id = :shopId order by p.regDate desc")
+    @Query("select p from Order p where p.shop.id = :shopId order by p.createdDate desc")
     List<Order> findByShopId(long shopId);
 
 }

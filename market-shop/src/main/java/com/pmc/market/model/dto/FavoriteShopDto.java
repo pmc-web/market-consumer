@@ -37,7 +37,7 @@ public class FavoriteShopDto {
                 .period(shop.getPeriod())
                 .fullDescription(shop.getFullDescription())
                 .shortDescription(shop.getShortDescription())
-                .regDate(shop.getRegDate())
+                .regDate(shop.getCreatedDate())
                 .businessName(shop.getBusinessName())
                 .owner(shop.getOwner())
                 .telephone(shop.getTelephone())

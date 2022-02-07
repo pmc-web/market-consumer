@@ -76,7 +76,6 @@ public class ShopRequestDto {
                 .period(LocalDateTime.now().plusYears(shopRequestDto.getPeriod()))
                 .fullDescription(shopRequestDto.getFullDescription())
                 .shortDescription(shopRequestDto.getShortDescription())
-                .regDate(LocalDateTime.now())
                 .businessName(shopRequestDto.getBusinessName())
                 .businessNumber(shopRequestDto.getBusinessNumber())
                 .owner(shopRequestDto.getOwner())

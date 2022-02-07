@@ -1,10 +1,11 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.ShopIdNameDto;
-import com.pmc.market.model.dto.ShopTagResponseDto;
 import com.pmc.market.domain.shop.entity.ShopTag;
 import com.pmc.market.domain.shop.entity.Tag;
+import com.pmc.market.domain.shop.repository.ShopTagRepository;
+import com.pmc.market.model.dto.ShopIdNameDto;
+import com.pmc.market.model.dto.ShopTagResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -59,7 +59,7 @@ public class User extends BaseTimeEntity {
     private List<Order> orders = new ArrayList<>();
 
     @Column(columnDefinition = "마켓 좋아요")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Favorite> favoriteShops = new ArrayList<>();
 
     @Column(columnDefinition = "상품 좋아요")
@@ -109,6 +109,9 @@ public class User extends BaseTimeEntity {
 
     // 연관 관계 메서드
     public void like(Favorite favorite) {
+        if (favoriteShops == null) {
+            favoriteShops = new ArrayList<>();
+        }
         favoriteShops.add(favorite);
     }
 

@@ -25,7 +25,7 @@ public class CartResponseDto {
         return CartResponseDto.builder()
                 .cartId(cart.getId())
                 .shopId(cart.getShop().getId())
-                .regDate(cart.getRegDate())
+                .regDate(cart.getCreatedDate())
                 .products(cart.getProducts().stream().map(CartProductResponseDto::from).collect(Collectors.toList()))
                 .build();
     }

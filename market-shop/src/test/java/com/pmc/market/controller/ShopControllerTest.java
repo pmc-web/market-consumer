@@ -2,13 +2,13 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.PageRequest;
-import com.pmc.market.model.dto.ShopRequestDto;
-import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.domain.shop.dto.ShopRequestDto;
+import com.pmc.market.domain.shop.dto.ShopResponseDto;
 import com.pmc.market.domain.shop.entity.Favorite;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.user.entity.Role;
 import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.model.PageRequest;
 import com.pmc.market.service.ShopService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

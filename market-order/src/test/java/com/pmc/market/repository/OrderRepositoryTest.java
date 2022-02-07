@@ -48,7 +48,7 @@ class OrderRepositoryTest {
     @Test
     void findByUser() {
         User user = userRepository.findById(1L).get();
-        List<Order> list = orderRepository.findByUserOrderByRegDateDesc(user);
+        List<Order> list = orderRepository.findByUserOrderByCreatedDateDesc(user);
         assertTrue(list.size() > 0);
     }
 

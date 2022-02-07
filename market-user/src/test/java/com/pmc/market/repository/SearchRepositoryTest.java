@@ -27,13 +27,11 @@ class SearchRepositoryTest {
         for (int i = 0; i < 10; i++) {
             searchRepository.save(Search.builder()
                     .keyword(i + "keyword")
-                    .regDate(LocalDateTime.now())
                     .build());
         }
         for (int i = 0; i < 10; i++) {
             searchRepository.save(Search.builder()
                     .keyword(i % 2 == 0 ? "2" : "1")
-                    .regDate(LocalDateTime.now())
                     .build());
         }
     }

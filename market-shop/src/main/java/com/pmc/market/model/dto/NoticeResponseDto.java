@@ -24,7 +24,7 @@ public class NoticeResponseDto {
                 .id(shopNotice.getId())
                 .title(shopNotice.getTitle())
                 .content(shopNotice.getContent())
-                .regDate(shopNotice.getRegDate())
+                .regDate(shopNotice.getCreatedDate())
                 .shopId(shopNotice.getShop().getId())
                 .build();
     }

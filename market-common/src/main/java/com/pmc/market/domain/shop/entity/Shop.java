@@ -24,13 +24,10 @@ public class Shop extends BaseTimeEntity {
     @Column(name = "shop_id")
     private Long id;
 
-    @Column(columnDefinition = "마켓 이름", nullable = false)
     private String name;
 
-    @Column(columnDefinition = "마켓 운영 기간", nullable = false)
     private LocalDateTime period;
 
-    @Column(columnDefinition = "마켓 소개글")
     private String fullDescription;
 
     private String shortDescription;
@@ -39,7 +36,7 @@ public class Shop extends BaseTimeEntity {
 
     private String businessName;
 
-    @Column(columnDefinition = "마켓 대표 이름", nullable = false)
+    @Column(nullable = false)
     private String owner;
 
     @NotNull
@@ -56,14 +53,12 @@ public class Shop extends BaseTimeEntity {
     private Integer deliveryCost; // deliveryCost 원 이상 무료배송
 
     @Lob
-    @Column(columnDefinition = "QnA 관련 설명")
     private String qnaDescription;
 
     @Lob
-    @Column(columnDefinition = "배송 운영 정책 설명")
     private String shipDescription;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Favorite> favorites = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
@@ -83,6 +78,9 @@ public class Shop extends BaseTimeEntity {
 
     // 연관 관계 메서드
     public void liked(Favorite favorite) {
+        if (favorites == null) {
+            favorites = new ArrayList<>();
+        }
         favorites.add(favorite);
     }
 
@@ -107,4 +105,24 @@ public class Shop extends BaseTimeEntity {
         attachments.addAll(attachments);
     }
 
+
+    public List<Favorite> getFavorites() {
+        return favorites == null ? new ArrayList<>() : favorites;
+    }
+
+    public List<ShopNotice> getShopNotices() {
+        return shopNotices == null ? new ArrayList<>() : shopNotices;
+    }
+
+    public List<ShopTag> getShopTags() {
+        return shopTags == null ? new ArrayList<>() : shopTags;
+    }
+
+    public List<Product> getProducts() {
+        return products == null ? new ArrayList<>() : products;
+    }
+
+    public List<Order> getOrders() {
+        return orders == null ? new ArrayList<>() : orders;
+    }
 }

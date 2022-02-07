@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "balmy-wonder-340304",
+  "private_key_id": "83a2f1aa02f5061272eebdd0eebc5492ce4a9e8c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDdbabWuFwtIMe6\nMSpQ5xuBu8DM1ptWeUaJk4KpZ1Ka/9vtTyfgUfTRi3uyGHiI8kXUfVQ2dnAAGHya\n4eD5j+y3QIAYuqb9U1ynBT1i+e1s5MTl1U9W+KNNFVXyoJ6SuTt2odhsOlHECnY4\nxc0G1YGGRSzKyV3LNSWvjZwO/m7U2uB06NbrPmsp3UTuocrC0mPn8GDoDNI8ImMg\n41IuZg+akWj0p//2btRiN9SGpkkT+7YyYdKVil+3xccvo6AZgv/e2piaSITf6FhY\nUBGv2a517IhszuF3SiwfqScyK4WHxhU+7/0asvxCkUIUNDwE87pq3j2JVyMdrDGp\nHgIJeyHHAgMBAAECggEAKwKzl52z+egWI6qNJ63cf/SyXJeLEN75vptyk+lH+Gee\nlpf7jO0eet13J37tWtyEh+PYScPzuXEIMyWRB6jXODlFKIiJC0f4BVFVPTaC0dYW\nEPbANIqTXdO5ICnm42Urkb2aRluFqmjF0f1J9/vc7vHc4379ww0Nxu3g1GDDsoB8\n8h1YLGMRXTnVw4gt7Nxl3Z6WvT+p1+rWX8UrL3bf4lW71qG7AwpZWlDkHRtIQEZ5\naw57Fovjd65p9zSodxs3bYoCnBO90H2tQ6BUR6EqloR/4ZQjLK5rUp0wp9mqUcFC\nIt1t6iSK3D3X1ZL3DmqJBwvuRkgQKQtpx41XYq240QKBgQD149c7AuDXtvENefdI\nSUhZF/rWAw/eKQkzZ/CeMJWUTF0STIGZhFnzriTn5Bp/t3mo5ZRCHFelfDx++DVo\nbLOF7c9+fetW5yygLV6FhScT7eX+/Q7htvRQ2w9/IXH5LMsN0AATyV3cSZwJ2rPh\nFgDd0TrAQtvvGS8djizV0GxedQKBgQDmiFXQ9pQUOjA/tqsLHwmvjYv/iR4c6AJV\n61AIzXgCyD1N12B8Jh5xM0jkEXHRQNzBDWsaXfMZZtC4RucVxjxhl+MUhLpKe56G\nTxwFjSrRE3I85XkyXywRYhyBtvzVNJQ6oYCba5ZC09IbKEVrmM5F0u7LdWlBlvAh\nmYguCEnvywKBgQCbgY9xw50873a9hiAMeEQoDFFXnbIgVyV5fEehU6qVkkHeO8JO\nu3RD9yNiAFF96iQn26GKue/4OXzs876bHvvePIrYPXxjhmojlu3LVW1kXjTxsUsD\nFrimlhPT2+v/oQN95cjWuqgAlBD57nWKaWb84cDdLKt5KB0y/OKACoMurQKBgD3S\nW+kg5w8Rl7TOYMontao9dEi/1bJ8yXuPEjR6HW/pkP8Z/gbtFgbXcPmwb+xkz455\n8bntbe7m8pwob3oYYkLtv3jWKzskMZvlBSe79rqA04bfJwRKH4A95lUm5GCsq/+Z\nJesIDBC5y0N7Jjq3jMGO0nj/cI2lU5o/GRT3JhTHAoGAbHP+6f7ZA45F9cm1wcEW\nwtihPHUm/1mOBRFMMGDFN8YTk5mfCWe69Z4Icis/bZinqzzwEWJBAhQycU1BwG9d\nLt0yqw6HyprkC955+ywAuzM/xdqvajzpjj5b9yCdNXJ9CqcONAyRbpB7FQ04alvH\nn79qXcKisJCCgVfn5joUFjk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "storage-access@balmy-wonder-340304.iam.gserviceaccount.com",
+  "client_id": "108391837161180872799",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/storage-access%40balmy-wonder-340304.iam.gserviceaccount.com"
+}

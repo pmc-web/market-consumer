@@ -1,0 +1,33 @@
+plugins {
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/asciidoc/html5/")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
+}
+
+dependencies {
+    // rest assured & asciidoc
+    implementation 'org.springframework.restdocs:spring-restdocs-restassured'
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.1.RELEASE'
+
+    testCompile('io.rest-assured:rest-assured:3.0.2') // for rest assured
+    testCompile('org.springframework.restdocs:spring-restdocs-restassured') // for rest assured
+
+}

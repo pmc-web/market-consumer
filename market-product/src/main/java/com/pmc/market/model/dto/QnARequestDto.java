@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 @ApiModel("상품 문의 할 때 필요한 정보")
 @AllArgsConstructor
@@ -45,10 +44,8 @@ public class QnARequestDto {
         return ProductQnA.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
-                .regDate(LocalDateTime.now())
                 .qnAType(requestDto.qnaType)
                 .product(product)
-                .shop(product.getShop())
                 .user(user)
                 .build();
     }
@@ -56,6 +53,5 @@ public class QnARequestDto {
     public void updateQnA(ProductQnA qnA) {
         qnA.setTitle(this.title);
         qnA.setContent(this.content);
-        qnA.setUpdateDate(LocalDateTime.now());
     }
 }

@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -29,7 +28,6 @@ public class NoticeRequestDto {
     public ShopNotice toEntity(NoticeRequestDto noticeRequestDto, Shop shop) {
         return ShopNotice
                 .builder()
-                .regDate(LocalDateTime.now())
                 .title(noticeRequestDto.getTitle())
                 .content(noticeRequestDto.getContent())
                 .shop(shop)

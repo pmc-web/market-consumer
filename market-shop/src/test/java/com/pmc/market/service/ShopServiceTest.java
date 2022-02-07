@@ -1,13 +1,13 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.PageRequest;
-import com.pmc.market.model.dto.ShopRequestDto;
-import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.domain.shop.dto.ShopRequestDto;
+import com.pmc.market.domain.shop.dto.ShopResponseDto;
+import com.pmc.market.domain.shop.repository.ShopRepository;
 import com.pmc.market.domain.user.entity.Role;
 import com.pmc.market.domain.user.entity.User;
-import com.pmc.market.repository.ShopRepository;
-import com.pmc.market.repository.UserRepository;
+import com.pmc.market.domain.user.repository.UserRepository;
+import com.pmc.market.model.PageRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +27,7 @@ class ShopServiceTest {
     PageRequest pageable = new PageRequest();
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private ShopService shopService;
     @Autowired

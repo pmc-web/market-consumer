@@ -73,20 +73,25 @@ subprojects {
 
 project(':market-order') {
     dependencies {
-        compile project(':market-shop')
+        implementation project(':market-common')
+        implementation project(':market-shop')
+        implementation project(':market-user')
+
     }
 }
 
 project(':market-product') {
     dependencies {
-        compile project(':market-user')
+        implementation project(':market-common')
+        implementation project(':market-user')
     }
 }
 
 project(':market-shop') {
     dependencies {
-        compile project(':market-user')
-        compile project(':market-product')
+        implementation project(':market-common')
+        implementation project(':market-user')
+        implementation project(':market-product')
     }
 }
 
@@ -96,13 +101,12 @@ project(':market-user') {
     }
 }
 
-project(':market-document') {
+project(':market-api') {
     dependencies {
-        compile project(':market-common')
-        compile project(':market-user')
-        compile project(':market-product')
-        compile project(':market-shop')
-        compile project(':market-search')
-        compile project(':market-order')
+        implementation project(':market-common')
+//        compile project(':market-user')
+//        compile project(':market-product')
+//        compile project(':market-shop')
+//        compile project(':market-order')
     }
 }

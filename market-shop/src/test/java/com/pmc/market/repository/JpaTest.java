@@ -2,6 +2,7 @@ package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
 import com.pmc.market.domain.shop.entity.Shop;
+import com.pmc.market.domain.shop.repository.ShopRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,6 @@ public class JpaTest {
                 .fullDescription("쇼핑몰 설명")
                 .owner("주인")
                 .shortDescription("악세사리 쇼핑몰")
-                .regDate(LocalDateTime.now())
                 .period(LocalDateTime.now().plusYears(1))
                 .businessNumber("00-000-000")
                 .build();

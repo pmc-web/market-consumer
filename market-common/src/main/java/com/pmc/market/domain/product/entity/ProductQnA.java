@@ -1,6 +1,7 @@
 package com.pmc.market.domain.product.entity;
 
 import com.pmc.market.domain.BaseTimeEntity;
+import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.user.entity.User;
 import lombok.*;
 
@@ -33,6 +34,10 @@ public class ProductQnA extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

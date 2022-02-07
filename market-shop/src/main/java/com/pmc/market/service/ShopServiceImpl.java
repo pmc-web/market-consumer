@@ -1,19 +1,19 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.shop.dto.ShopRequestDto;
+import com.pmc.market.domain.shop.dto.ShopResponseDto;
+import com.pmc.market.domain.shop.entity.*;
+import com.pmc.market.domain.shop.repository.CategoryRepository;
+import com.pmc.market.domain.shop.repository.FavoriteRepository;
+import com.pmc.market.domain.shop.repository.ShopImageRepository;
+import com.pmc.market.domain.shop.repository.ShopRepository;
+import com.pmc.market.domain.user.entity.Role;
+import com.pmc.market.domain.user.entity.User;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.exception.OnlyCanMakeShopOneException;
 import com.pmc.market.model.PageRequest;
-import com.pmc.market.model.dto.ShopRequestDto;
-import com.pmc.market.model.dto.ShopResponseDto;
-import com.pmc.market.domain.shop.entity.*;
-import com.pmc.market.domain.user.entity.Role;
-import com.pmc.market.domain.user.entity.User;
-import com.pmc.market.repository.CategoryRepository;
-import com.pmc.market.repository.FavoriteRepository;
-import com.pmc.market.repository.ShopImageRepository;
-import com.pmc.market.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class ShopServiceImpl implements ShopService {
     private final CategoryRepository categoryRepository;
     private final FavoriteRepository favoriteRepository;
     private final ShopImageRepository shopImageRepository;
-    private final GCSService gcsService;
+//    private final GCSService gcsService;
 
     @Override
     public List<ShopResponseDto> findAll() {
@@ -58,7 +58,7 @@ public class ShopServiceImpl implements ShopService {
 
         Shop shop = shopRepository.save(shopRequestDto.toEntity(shopRequestDto, user, category));
         // 이미지 업로드
-        uploadFiles(files, shop, shopRequestDto.getShopImageType());
+//        uploadFiles(files, shop, shopRequestDto.getShopImageType());
     }
 
     @Override
@@ -118,7 +118,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void likeUpdateShop(long shopId, User user) {
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓을 찾을 수 없습니다."));
-        Optional<Favorite> isFavorite = favoriteRepository.findByShop_IdAndUser_Id(shopId, user.getId());
+        Optional<Favorite> isFavorite = favoriteRepository.findFavoriteByShopIdAndUserId(shopId, user.getId());
         if (isFavorite.isPresent()) { // 해제
             Favorite favorite = isFavorite.get();
             favoriteRepository.delete(favorite);
@@ -131,8 +131,7 @@ public class ShopServiceImpl implements ShopService {
                 .build();
 
         favoriteRepository.save(favorite);
-        favorite.likeShop();
-        shopRepository.save(shop);
+        favorite.likeShop(); // todo
     }
 
     @Transactional
@@ -141,12 +140,12 @@ public class ShopServiceImpl implements ShopService {
         for (MultipartFile file : files) {
             try {
                 InputStream inputStream = file.getInputStream();
-                String path = gcsService.uploadFile(inputStream, file.getOriginalFilename());
-                attachments.add(ShopImage.builder()
-                        .path(path)
-                        .shop(shop)
-                        .type(shopImageType)
-                        .build());
+//                String path = gcsService.uploadFile(inputStream, file.getOriginalFilename());
+//                attachments.add(ShopImage.builder()
+//                        .path(path)
+//                        .shop(shop)
+//                        .type(shopImageType)
+//                        .build());
             } catch (IOException e) {
                 throw new BusinessException("파일 업로드중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
             }

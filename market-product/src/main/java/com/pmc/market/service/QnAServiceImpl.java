@@ -1,22 +1,21 @@
 package com.pmc.market.service;
 
-import com.pmc.market.error.exception.EntityNotFoundException;
-import com.pmc.market.model.dto.QnARequestDto;
 import com.pmc.market.domain.product.entity.Product;
 import com.pmc.market.domain.product.entity.ProductQnA;
-import com.pmc.market.domain.user.entity.User;
-import com.pmc.market.model.vo.QnAResponseVo;
+import com.pmc.market.error.exception.EntityNotFoundException;
+import com.pmc.market.model.dto.QnARequestDto;
+import com.pmc.market.model.dto.QnAResponseVo;
 import com.pmc.market.repository.ProductQnARepository;
 import com.pmc.market.repository.ProductRepository;
-import com.pmc.market.security.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 
 @RequiredArgsConstructor
 @Service
@@ -25,17 +24,17 @@ public class QnAServiceImpl implements QnAService {
     private final ProductRepository productRepository;
     private final ProductQnARepository productQnARepository;
 
-    private User getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return userDetails.getUser();
-    }
+//    private User getUser() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//        return userDetails.getUser();
+//    }
 
     @Override
     public void makeQnA(QnARequestDto qnARequestDto) {
         Product product = productRepository.findById(qnARequestDto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
-        productQnARepository.save(qnARequestDto.toEntity(qnARequestDto, product, getUser()));
+//        productQnARepository.save(qnARequestDto.toEntity(qnARequestDto, product, getUser()));
     }
 
     @Override
@@ -55,8 +54,9 @@ public class QnAServiceImpl implements QnAService {
     @Transactional
     @Override
     public List<QnAResponseVo> getUserQnAList() {
-        return productQnARepository.findByUser(getUser()).stream()
-                .map(QnAResponseVo::from).collect(Collectors.toList());
+//        return productQnARepository.findByUser(getUser()).stream()
+//                .map(QnAResponseVo::from).collect(Collectors.toList());
+        return null;
     }
 
     @Transactional

@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponseVo> getUserOrderList(User user) {
-        return orderRepository.findByUserOrderByRegDateDesc(user).stream()
+        return orderRepository.findByUserOrderByCreatedDateDesc(user).stream()
                 .map(OrderResponseVo::from)
                 .collect(Collectors.toList());
     }

@@ -1,9 +1,11 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.shop.entity.ShopNotice;
+import com.pmc.market.domain.shop.repository.NoticeRepository;
+import com.pmc.market.domain.shop.repository.ShopRepository;
+import com.pmc.market.model.dto.NoticeRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,7 +36,7 @@ class NoticeRepositoryTest {
     void getNoticeList() {
         long shopId = 1L;
 
-        List<ShopNotice> notices = noticeRepository.findAllByShopIdOrderByRegDateDesc(shopId);
+        List<ShopNotice> notices = noticeRepository.findAllByShopIdOrderByCreatedDateDesc(shopId);
         assertTrue(notices.size() > 0);
     }
 
@@ -49,7 +50,6 @@ class NoticeRepositoryTest {
                 .shop(shop)
                 .title("공지사항 작성 테스트 repository ")
                 .content("공지사항 작성하기 테스트입니다-content")
-                .regDate(LocalDateTime.now())
                 .build();
 
         noticeRepository.save(shopNotice);

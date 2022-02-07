@@ -1,12 +1,11 @@
 package com.pmc.market.controller;
 
 import com.pmc.market.annotation.PageableParams;
-import com.pmc.market.model.PageRequest;
-import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.domain.product.vo.ProductCreateParamVo;
 import com.pmc.market.domain.product.vo.ProductUpdateParamVo;
 import com.pmc.market.domain.product.vo.SearchProductParam;
-import com.pmc.market.security.auth.CustomUserDetails;
+import com.pmc.market.model.PageRequest;
+import com.pmc.market.model.ResponseMessage;
 import com.pmc.market.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +13,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -63,10 +61,10 @@ public class ProductController {
         return ResponseEntity.ok(ResponseMessage.success(productService.getTodayPopularProducts(pageable)));
     }
 
-    @PatchMapping("/{productId}/like")
-    @ApiOperation("상품 좋아요")
-    public ResponseEntity<ResponseMessage> likeProduct(@PathVariable Long productId, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
-        productService.likeUpdateProduct(productId, user.getUser());
-        return ResponseEntity.ok(ResponseMessage.success());
-    }
+//    @PatchMapping("/{productId}/like")
+//    @ApiOperation("상품 좋아요")
+//    public ResponseEntity<ResponseMessage> likeProduct(@PathVariable Long productId, @AuthenticationPrincipal @ApiIgnore CustomUserDetails user) {
+//        productService.likeUpdateProduct(productId, user.getUser());
+//        return ResponseEntity.ok(ResponseMessage.success());
+//    }
 }

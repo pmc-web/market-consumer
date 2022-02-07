@@ -1,7 +1,7 @@
 package com.pmc.market.service;
 
 import com.pmc.market.model.dto.QnARequestDto;
-import com.pmc.market.model.vo.QnAResponseVo;
+import com.pmc.market.model.dto.QnAResponseVo;
 
 import java.util.List;
 

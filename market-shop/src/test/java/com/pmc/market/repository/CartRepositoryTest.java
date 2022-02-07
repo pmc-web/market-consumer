@@ -2,8 +2,10 @@ package com.pmc.market.repository;
 
 import com.pmc.market.UserApplication;
 import com.pmc.market.domain.shop.entity.Shop;
+import com.pmc.market.domain.shop.repository.CartRepository;
 import com.pmc.market.domain.user.entity.Cart;
 import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,6 @@ class CartRepositoryTest {
         User user = userRepository.findById(3L).get();
         Shop shop = user.getShops().get(0);
         Cart cart = Cart.builder()
-                .regDate(LocalDateTime.now())
                 .shop(shop)
                 .user(user)
                 .build();
@@ -54,7 +54,7 @@ class CartRepositoryTest {
     @Test
     void findByUserId() {
         long userId = 1L;
-        List<Cart> carts = cartRepository.findByUser_IdOrderByRegDateDesc(userId);
+        List<Cart> carts = cartRepository.findByUser_IdOrderByCreatedDateDesc(userId);
         assertTrue(carts.size() > 0);
     }
 

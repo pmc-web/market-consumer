@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.shop.repository.CategoryRepository;
 import com.pmc.market.model.dto.CategoryDto;
 import com.pmc.market.model.dto.CategoryRequestDto;
-import com.pmc.market.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

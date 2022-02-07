@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 @ApiModel("상품 리뷰 할 때 필요한 정보")
 @AllArgsConstructor
@@ -44,13 +43,12 @@ public class ReviewRequestDto {
         return Review.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
-                .regDate(LocalDateTime.now())
                 .build();
     }
 
     public void updateReview(Review review) {
-        review.setTitle(this.title);
-        review.setContent(this.content);
-        review.setUpdateDate(LocalDateTime.now());
+//        review.setTitle(this.title);
+//        review.setContent(this.content);
+//        review.setUpdateDate(LocalDateTime.now());
     }
 }

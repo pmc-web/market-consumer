@@ -1,3 +1,5 @@
 rootProject.name = 'market'
 
-include ':market-common', ':market-user', ':market-order', ':market-product', ':market-search', ':market-shop', ':market-document'
+include ':market-common', ':market-user', ':market-order', ':market-product', ':market-shop'
+include 'market-api'
+

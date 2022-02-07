@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final OrderProductRepository orderProductRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
-    private final GCSService gcsService;
+//    private final GCSService gcsService;
 
     @Value("${gcp.bucket:market-universe-storage2}")
     private String bucketName;
@@ -85,7 +85,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional // lazy
     @Override
     public List<ReviewResponseVo> getMyReviews(User user) {
-        return orderRepository.findByUserOrderByRegDateDesc(user).stream()
+        return orderRepository.findByUserOrderByCreatedDateDesc(user).stream()
                 .flatMap(order -> order.getProducts().stream())
                 .filter(orderProduct -> orderProduct.getReview() != null)
                 .map(orderProduct -> ReviewResponseVo.of(orderProduct.getReview()))
@@ -100,14 +100,15 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.deleteById(reviewId);
     }
 
+    // todo
     @Transactional
     public List<ReviewImage> uploadFiles(MultipartFile[] files, Review review) {
         List<ReviewImage> attachments = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
                 InputStream inputStream = file.getInputStream();
-                String path = gcsService.uploadFile(inputStream, file.getOriginalFilename());
-                attachments.add(ReviewImage.builder().path(path).review(review).build());
+//                String path = gcsService.uploadFile(inputStream, file.getOriginalFilename());
+//                attachments.add(ReviewImage.builder().path(path).review(review).build());
             } catch (IOException e) {
                 throw new BusinessException("파일 업로드중 에러가 발생했습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
             }

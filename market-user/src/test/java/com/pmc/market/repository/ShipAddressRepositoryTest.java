@@ -5,6 +5,8 @@ import com.pmc.market.domain.user.entity.Role;
 import com.pmc.market.domain.user.entity.ShipAddress;
 import com.pmc.market.domain.user.entity.Status;
 import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.ShipAddressRepository;
+import com.pmc.market.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

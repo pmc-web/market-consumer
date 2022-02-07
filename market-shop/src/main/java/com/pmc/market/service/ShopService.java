@@ -1,9 +1,9 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.PageRequest;
-import com.pmc.market.model.dto.ShopRequestDto;
-import com.pmc.market.model.dto.ShopResponseDto;
+import com.pmc.market.domain.shop.dto.ShopRequestDto;
+import com.pmc.market.domain.shop.dto.ShopResponseDto;
 import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.model.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

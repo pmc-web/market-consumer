@@ -2,6 +2,8 @@ package com.pmc.market.repository;
 
 import com.pmc.market.UserApplication;
 import com.pmc.market.domain.product.entity.Product;
+import com.pmc.market.domain.shop.repository.CartProductRepository;
+import com.pmc.market.domain.shop.repository.CartRepository;
 import com.pmc.market.domain.user.entity.Cart;
 import com.pmc.market.domain.user.entity.CartProduct;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +28,7 @@ class CartProductRepositoryTest {
     void createCartProduct() {
         long userId = 3L;
         Product product = productRepository.findById(4L).get();
-        Cart cart = cartRepository.findByUser_IdOrderByRegDateDesc(userId).get(0);
+        Cart cart = cartRepository.findByUser_IdOrderByCreatedDateDesc(userId).get(0);
         CartProduct cartProduct = CartProduct.builder()
                 .product(product)
                 .cart(cart)

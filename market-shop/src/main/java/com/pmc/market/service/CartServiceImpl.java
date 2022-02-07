@@ -1,21 +1,23 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.shop.entity.Shop;
+import com.pmc.market.domain.shop.repository.CartProductRepository;
+import com.pmc.market.domain.shop.repository.CartRepository;
+import com.pmc.market.domain.shop.repository.ShopRepository;
+import com.pmc.market.domain.user.entity.Cart;
+import com.pmc.market.domain.user.entity.CartProduct;
+import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.UserRepository;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
 import com.pmc.market.model.dto.CartProductRequestDto;
 import com.pmc.market.model.dto.CartResponseDto;
-import com.pmc.market.domain.product.entity.Product;
-import com.pmc.market.domain.shop.entity.Shop;
-import com.pmc.market.domain.user.entity.Cart;
-import com.pmc.market.domain.user.entity.CartProduct;
-import com.pmc.market.domain.user.entity.User;
-import com.pmc.market.repository.*;
+import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,7 +37,6 @@ public class CartServiceImpl implements CartService {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("해당 유저가 없습니다."));
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new EntityNotFoundException("해당 마켓이 없습니다."));
         return Cart.builder()
-                .regDate(LocalDateTime.now())
                 .user(user)
                 .shop(shop)
                 .build();
@@ -43,7 +44,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<CartResponseDto> getUserCarts(long userId) {
-        List<Cart> carts = cartRepository.findByUser_IdOrderByRegDateDesc(userId);
+        List<Cart> carts = cartRepository.findByUser_IdOrderByCreatedDateDesc(userId);
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());
     }
 
@@ -61,8 +62,8 @@ public class CartServiceImpl implements CartService {
             cart = createCart(userId, requestDto.getShopId());
             cartRepository.save(cart);
         } else cart = isCart.get();
-        Product product = productRepository.findById(requestDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다,"));
-        cartProductRepository.save(requestDto.toEntity(requestDto, cart, product));
+//        Product product = productRepository.findById(requestDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다,"));
+//        cartProductRepository.save(requestDto.toEntity(requestDto, cart, product));
     }
 
     @Override
