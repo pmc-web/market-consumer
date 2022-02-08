@@ -1,11 +1,11 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.shop.dto.ShopTagResponseDto;
+import com.pmc.market.domain.shop.dto.TagRequestDto;
+import com.pmc.market.domain.shop.dto.TagResponseDto;
 import com.pmc.market.domain.shop.repository.ShopTagRepository;
 import com.pmc.market.domain.shop.repository.TagRepository;
 import com.pmc.market.error.exception.EntityNotFoundException;
-import com.pmc.market.model.dto.ShopTagResponseDto;
-import com.pmc.market.model.dto.TagRequestDto;
-import com.pmc.market.model.dto.TagResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

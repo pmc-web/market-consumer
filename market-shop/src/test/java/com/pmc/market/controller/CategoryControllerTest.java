@@ -2,8 +2,8 @@ package com.pmc.market.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.CategoryDto;
-import com.pmc.market.model.dto.CategoryRequestDto;
+import com.pmc.market.domain.shop.dto.CategoryDto;
+import com.pmc.market.domain.shop.dto.CategoryRequestDto;
 import com.pmc.market.service.CategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

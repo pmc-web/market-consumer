@@ -1,6 +1,8 @@
 package com.pmc.market.repository;
 
 import com.pmc.market.ShopApplication;
+import com.pmc.market.domain.shop.dto.ShopRequestDto;
+import com.pmc.market.domain.shop.dto.TagIdNameDto;
 import com.pmc.market.domain.shop.entity.Category;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.shop.entity.ShopTag;
@@ -8,8 +10,6 @@ import com.pmc.market.domain.shop.entity.Tag;
 import com.pmc.market.domain.shop.repository.CategoryRepository;
 import com.pmc.market.domain.shop.repository.FavoriteRepository;
 import com.pmc.market.domain.shop.repository.ShopRepository;
-import com.pmc.market.model.dto.ShopRequestDto;
-import com.pmc.market.model.dto.TagIdNameDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

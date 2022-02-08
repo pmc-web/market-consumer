@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.dto.ShopTagResponseDto;
-import com.pmc.market.model.dto.TagRequestDto;
-import com.pmc.market.model.dto.TagResponseDto;
+import com.pmc.market.domain.shop.dto.ShopTagResponseDto;
+import com.pmc.market.domain.shop.dto.TagRequestDto;
+import com.pmc.market.domain.shop.dto.TagResponseDto;
 
 import java.util.List;
 

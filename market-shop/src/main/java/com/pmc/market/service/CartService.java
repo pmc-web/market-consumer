@@ -1,7 +1,7 @@
 package com.pmc.market.service;
 
-import com.pmc.market.model.dto.CartProductRequestDto;
-import com.pmc.market.model.dto.CartResponseDto;
+import com.pmc.market.domain.shop.dto.CartProductRequestDto;
+import com.pmc.market.domain.shop.dto.CartResponseDto;
 
 import java.util.List;
 

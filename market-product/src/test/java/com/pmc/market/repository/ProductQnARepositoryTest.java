@@ -3,6 +3,7 @@ package com.pmc.market.repository;
 import com.pmc.market.ProductApplication;
 import com.pmc.market.domain.product.entity.ProductQnA;
 import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

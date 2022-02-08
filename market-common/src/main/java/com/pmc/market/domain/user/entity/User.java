@@ -54,6 +54,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL) // ShipAddress.user
     private List<ShipAddress> shipAddresses = new ArrayList<>(); // mappedBy: 연관관계의 주인 = shipAddress
 
+    @Builder.Default
     @Column(columnDefinition = "구매 이력")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
@@ -62,22 +63,27 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Favorite> favoriteShops = new ArrayList<>();
 
+    @Builder.Default
     @Column(columnDefinition = "상품 좋아요")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<FavoriteProduct> favoriteProducts = new ArrayList<>();
 
+    @Builder.Default
     @Column(columnDefinition = "운영하는 마켓")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Shop> shops = new ArrayList<>(); // 원칙상으로는 one to one 개발환경 - one to many
 
+    @Builder.Default
     @Column(columnDefinition = "상품 문의글")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductQnA> qnAS = new ArrayList<>();
 
+    @Builder.Default
     @Column(columnDefinition = "상품 리뷰")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
     @Column(columnDefinition = "쇼핑몰별 장바구니")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Cart> carts = new ArrayList<>();
@@ -109,9 +115,6 @@ public class User extends BaseTimeEntity {
 
     // 연관 관계 메서드
     public void like(Favorite favorite) {
-        if (favoriteShops == null) {
-            favoriteShops = new ArrayList<>();
-        }
         favoriteShops.add(favorite);
     }
 

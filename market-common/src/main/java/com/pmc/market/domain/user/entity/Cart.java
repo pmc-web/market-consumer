@@ -30,6 +30,7 @@ public class Cart extends BaseTimeEntity {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartProduct> products = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class Cart extends BaseTimeEntity {
     }
 
     public void addProduct(CartProduct product) {
+
         products.add(product);
     }
 }

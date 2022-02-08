@@ -2,6 +2,7 @@ package com.pmc.market.domain.user.entity;
 
 import com.pmc.market.domain.BaseTimeEntity;
 import com.pmc.market.domain.product.entity.Product;
+import com.pmc.market.domain.shop.dto.CartProductRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,5 +50,19 @@ public class CartProduct extends BaseTimeEntity {
 
     public void updateCartProductColor(String color) {
         this.color = color;
+    }
+
+    public void updateCart(CartProductRequestDto cartProduct) {
+        this.color = cartProduct.getColor();
+        this.size = cartProduct.getSize();
+        this.quantity = cartProduct.getQuantity();
+    }
+
+    public void addCart() {
+        cart.addProduct(this);
+    }
+
+    public void removeCart() {
+        cart.removeProduct(this);
     }
 }

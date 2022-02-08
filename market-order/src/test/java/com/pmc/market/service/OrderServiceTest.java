@@ -1,18 +1,17 @@
 package com.pmc.market.service;
 
 import com.pmc.market.OrderApplication;
-import com.pmc.market.model.dto.OrderRequestDto;
-import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.domain.order.entity.Pay;
 import com.pmc.market.domain.user.entity.User;
+import com.pmc.market.domain.user.repository.UserRepository;
+import com.pmc.market.model.dto.OrderRequestDto;
+import com.pmc.market.model.dto.ProductRequestDto;
 import com.pmc.market.model.vo.OrderResponseVo;
-import com.pmc.market.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +33,7 @@ class OrderServiceTest {
 
     @DisplayName("주문하기")
     @Test
-    @WithMockUser
+//    @WithMockUser
     void makeOrder() {
         List<ProductRequestDto> products = new ArrayList<>();
         products.add(ProductRequestDto.builder()

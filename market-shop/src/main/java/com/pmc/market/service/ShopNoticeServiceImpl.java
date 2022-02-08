@@ -1,12 +1,12 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.shop.dto.NoticeRequestDto;
+import com.pmc.market.domain.shop.dto.NoticeResponseDto;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.shop.entity.ShopNotice;
 import com.pmc.market.domain.shop.repository.NoticeRepository;
 import com.pmc.market.domain.shop.repository.ShopRepository;
 import com.pmc.market.error.exception.EntityNotFoundException;
-import com.pmc.market.model.dto.NoticeRequestDto;
-import com.pmc.market.model.dto.NoticeResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;

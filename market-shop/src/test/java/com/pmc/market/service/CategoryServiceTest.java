@@ -1,8 +1,8 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.CategoryDto;
-import com.pmc.market.model.dto.CategoryRequestDto;
+import com.pmc.market.domain.shop.dto.CategoryDto;
+import com.pmc.market.domain.shop.dto.CategoryRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

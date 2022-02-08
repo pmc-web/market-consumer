@@ -1,7 +1,7 @@
 package com.pmc.market.controller;
 
+import com.pmc.market.domain.shop.dto.NoticeRequestDto;
 import com.pmc.market.model.ResponseMessage;
-import com.pmc.market.model.dto.NoticeRequestDto;
 import com.pmc.market.service.ShopNoticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

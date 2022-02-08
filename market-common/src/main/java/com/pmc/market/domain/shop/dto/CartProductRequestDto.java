@@ -37,6 +37,7 @@ public class CartProductRequestDto {
 
     @ApiModelProperty(value = "색상이나 사이즈 기타 정보")
     private String size;
+
     @ApiModelProperty(value = "색상이나 사이즈 기타 정보")
     private String color;
 

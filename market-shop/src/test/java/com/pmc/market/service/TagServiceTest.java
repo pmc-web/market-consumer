@@ -1,9 +1,9 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ShopApplication;
-import com.pmc.market.model.dto.ShopTagResponseDto;
-import com.pmc.market.model.dto.TagRequestDto;
-import com.pmc.market.model.dto.TagResponseDto;
+import com.pmc.market.domain.shop.dto.ShopTagResponseDto;
+import com.pmc.market.domain.shop.dto.TagRequestDto;
+import com.pmc.market.domain.shop.dto.TagResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

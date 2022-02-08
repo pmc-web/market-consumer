@@ -1,12 +1,12 @@
 package com.pmc.market.service;
 
 import com.pmc.market.ProductApplication;
-import com.pmc.market.error.exception.EntityNotFoundException;
-import com.pmc.market.model.dto.QnARequestDto;
 import com.pmc.market.domain.product.entity.Product;
 import com.pmc.market.domain.product.entity.QnAType;
 import com.pmc.market.domain.user.entity.User;
-import com.pmc.market.model.vo.QnAResponseVo;
+import com.pmc.market.error.exception.EntityNotFoundException;
+import com.pmc.market.model.dto.QnARequestDto;
+import com.pmc.market.model.dto.QnAResponseVo;
 import com.pmc.market.repository.ProductQnARepository;
 import com.pmc.market.repository.ProductRepository;
 import org.junit.jupiter.api.DisplayName;

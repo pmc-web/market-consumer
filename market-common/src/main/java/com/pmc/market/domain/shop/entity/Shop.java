@@ -58,29 +58,32 @@ public class Shop extends BaseTimeEntity {
     @Lob
     private String shipDescription;
 
+    @Builder.Default
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Favorite> favorites = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ShopNotice> shopNotices = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ShopTag> shopTags = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.ALL)
     private List<ShopImage> attachments = new ArrayList<>();
 
     // 연관 관계 메서드
     public void liked(Favorite favorite) {
-        if (favorites == null) {
-            favorites = new ArrayList<>();
-        }
         favorites.add(favorite);
     }
 
@@ -105,24 +108,4 @@ public class Shop extends BaseTimeEntity {
         attachments.addAll(attachments);
     }
 
-
-    public List<Favorite> getFavorites() {
-        return favorites == null ? new ArrayList<>() : favorites;
-    }
-
-    public List<ShopNotice> getShopNotices() {
-        return shopNotices == null ? new ArrayList<>() : shopNotices;
-    }
-
-    public List<ShopTag> getShopTags() {
-        return shopTags == null ? new ArrayList<>() : shopTags;
-    }
-
-    public List<Product> getProducts() {
-        return products == null ? new ArrayList<>() : products;
-    }
-
-    public List<Order> getOrders() {
-        return orders == null ? new ArrayList<>() : orders;
-    }
 }

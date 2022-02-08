@@ -35,6 +35,10 @@ public class Product extends BaseTimeEntity {
 
     private String description;
 
+    private String size;
+
+    private String color;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;

@@ -1,5 +1,7 @@
 package com.pmc.market.service;
 
+import com.pmc.market.domain.shop.dto.CartProductRequestDto;
+import com.pmc.market.domain.shop.dto.CartResponseDto;
 import com.pmc.market.domain.shop.entity.Shop;
 import com.pmc.market.domain.shop.repository.CartProductRepository;
 import com.pmc.market.domain.shop.repository.CartRepository;
@@ -11,8 +13,6 @@ import com.pmc.market.domain.user.repository.UserRepository;
 import com.pmc.market.error.exception.BusinessException;
 import com.pmc.market.error.exception.EntityNotFoundException;
 import com.pmc.market.error.exception.ErrorCode;
-import com.pmc.market.model.dto.CartProductRequestDto;
-import com.pmc.market.model.dto.CartResponseDto;
 import com.pmc.market.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<CartResponseDto> getUserCarts(long userId) {
-        List<Cart> carts = cartRepository.findByUser_IdOrderByCreatedDateDesc(userId);
+        List<Cart> carts = cartRepository.findByUser_IdOrderByUpdatedDateDesc(userId);
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());
     }
 
@@ -83,6 +83,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateCartProduct(long cartId, CartProductRequestDto cartProductRequestDto) {
         CartProduct cartProduct = cartProductRepository.findById(cartId).orElseThrow(() -> new EntityNotFoundException("해당 상품이 없습니다."));
-        cartProductRequestDto.updateCart(cartProduct);
+        cartProduct.updateCart(cartProductRequestDto);
     }
 }

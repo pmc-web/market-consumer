@@ -4,9 +4,10 @@ import com.pmc.market.domain.user.entity.Cart;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,12 +15,13 @@ import java.util.Optional;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @EntityGraph(attributePaths = "products")
-    List<Cart> findByUser_IdOrderByCreatedDateDesc(long userId);
+    List<Cart> findByUser_IdOrderByUpdatedDateDesc(long userId);
 
     @EntityGraph(attributePaths = "products")
     Optional<Cart> findByUser_IdAndShop_Id(long userId, long shopId);
 
     @Transactional
     @Modifying
-    void deleteById(long cartId);
+    @Query("delete from Cart c where c.id = :id")
+    void deleteById(long id);
 }
